@@ -2,13 +2,13 @@ package com.example.clothingstoreapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.clothingstoreapp.databinding.TrangChuLayoutBinding
+import com.example.clothingstoreapp.databinding.WelcomeAppLayoutBinding
 
 class TrangChuActivity : AppCompatActivity() {
-    private lateinit var binding: TrangChuLayoutBinding
+    private lateinit var binding: WelcomeAppLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = TrangChuLayoutBinding.inflate(layoutInflater)
+        binding = WelcomeAppLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 }

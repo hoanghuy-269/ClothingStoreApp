@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="25dp">
+
+    <ImageView
+        android:id="@+id/imageWelcome1"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/image_welcome_layout" />
+
+    <Button
+        android:id="@+id/btnWelcomeGetarted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="@color/btn_brown"
+        android:fontFamily="@font/poetsenone"
+        android:padding="15dp"
+        android:text="Let's Get Started "
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/txtWelcomeGioiThieu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poetsenone"
+        android:text=" The Fashion App That Makes You Look Your Best"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/imageWelcome1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageWelcome1"
+        app:layout_constraintTop_toBottomOf="@id/imageWelcome1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text=" Where your style speaks, your voice shines, and confidence grows "
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtWelcomeGioiThieu"
+        app:layout_constraintStart_toStartOf="@+id/txtWelcomeGioiThieu"
+        app:layout_constraintTop_toBottomOf="@+id/txtWelcomeGioiThieu" />
+
+    <TextView
+        android:id="@+id/txtWelcomeldangki"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="127dp"
+        android:layout_marginTop="20dp"
+        android:text=" Already have an account ?"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/txtWelcomeSignIn"
+        app:layout_constraintStart_toStartOf="@+id/btnWelcomeGetarted"
+        app:layout_constraintTop_toBottomOf="@+id/btnWelcomeGetarted" />
+
+    <TextView
+        android:id="@+id/txtWelcomeSignIn"
+        android:layout_width="45dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="Sign In"
+        android:textColor="@color/btn_brown"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtWelcomeldangki"
+        app:layout_constraintEnd_toEndOf="@+id/btnWelcomeGetarted"
+        app:layout_constraintStart_toEndOf="@+id/txtWelcomeldangki"
+        app:layout_constraintTop_toTopOf="@+id/txtWelcomeldangki" />
+</androidx.constraintlayout.widget.ConstraintLayout>

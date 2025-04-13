@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Back button -->
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="start"
+        android:background="@drawable/circle_bg"
+        android:contentDescription="Back"
+        android:padding="8dp"
+        android:src="@drawable/ic_back" />
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Verify Code"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Please enter the code we just sent to email"
+        android:textColor="#888888"
+        android:textSize="14sp" />
+
+    <!-- Email -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="example@email.com"
+        android:textColor="@color/brown"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <!-- OTP input fields -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/otp1"
+            style="@style/OtpBoxStyle" />
+
+        <EditText
+            android:id="@+id/otp2"
+            style="@style/OtpBoxStyle"
+            android:layout_marginStart="12dp" />
+
+        <EditText
+            android:id="@+id/otp3"
+            style="@style/OtpBoxStyle"
+            android:layout_marginStart="12dp" />
+
+        <EditText
+            android:id="@+id/otp4"
+            style="@style/OtpBoxStyle"
+            android:layout_marginStart="12dp" />
+    </LinearLayout>
+
+    <!-- Resend text -->
+    <TextView
+        android:id="@+id/tvResend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Didn’t receive OTP? Resend code"
+        android:textColor="#888888"
+        android:textSize="14sp" />
+
+    <!-- Verify Button -->
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:text="Verify"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/brown"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="24dp" />
+</LinearLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="12dp">
+
+    <!-- Timeline line -->
+    <View
+        android:id="@+id/lineTop"
+        android:layout_width="2dp"
+        android:layout_height="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:background="#CCC" />
+
+    <!-- Status Circle -->
+    <ImageView
+        android:id="@+id/statusIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:src="@drawable/tich" />
+
+    <!-- Line below icon -->
+    <View
+        android:id="@+id/lineBottom"
+        android:layout_width="2dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/statusIcon"
+        android:layout_alignStart="@id/statusIcon"
+        android:layout_marginStart="12dp"
+        android:background="#CCC" />
+
+    <!-- Status info -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/statusIcon"
+        android:layout_marginStart="16dp"
+        android:layout_alignTop="@id/statusIcon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/statusTitle"
+            android:text="Order Placed"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/statusDate"
+            android:text="23 Aug 2023, 04:25 PM"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Right icon -->
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/statusTitle"
+        android:src="@drawable/ic_check"
+        tools:ignore="NotSibling" />
+</RelativeLayout>

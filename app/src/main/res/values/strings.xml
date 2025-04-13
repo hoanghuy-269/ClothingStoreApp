@@ -14,4 +14,13 @@
     <string name="txtSignIn">Sign In</string>
     <string name="txtTieuDe1">The Fashion App That Makes You Look Your Best</string>
     <string name="txtGioiThieu1">Where your style speaks, your voice shines, and confidence grows</string>
+    <string name="sign_up">Don’t have an account? <font color='#FF0000'>Sign Up</font></string>
+    <string name="agree">Agree with <font color='#996633'>Terms Condition</font></string>
+    <string name="sign_in">Already have an account? <font color='#FF0000'>Sign In</font></string>
+    <string-array name="country_codes">
+        <item>+1</item>
+        <item>+84</item>
+        <item>+91</item>
+        <!-- thêm tùy ý -->
+    </string-array>
 </resources>

@@ -5,13 +5,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingstoreapp.Activities.TrangChuActivity
 import com.example.clothingstoreapp.R
-import com.example.clothingstoreapp.databinding.Welcome4LayoutBinding
+import com.example.clothingstoreapp.databinding.WelcomeCartLayoutBinding
 
 class WelcomeActivity4 : AppCompatActivity() {
-    private lateinit var binding: Welcome4LayoutBinding
+    private lateinit var binding: WelcomeCartLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = Welcome4LayoutBinding.inflate(layoutInflater)
+        binding = WelcomeCartLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnRight.setOnClickListener {
             val intent = Intent(this,TrangChuActivity::class.java)

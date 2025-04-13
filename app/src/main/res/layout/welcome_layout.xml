@@ -8,7 +8,7 @@
     android:padding="25dp">
 
     <ImageView
-        android:id="@+id/imageWelcome1"
+        android:id="@+id/imgageMain"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:scaleType="fitCenter"
@@ -44,10 +44,10 @@
         android:textAlignment="center"
         android:textSize="25sp"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/imageWelcome1"
+        app:layout_constraintEnd_toEndOf="@+id/imgageMain"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageWelcome1"
-        app:layout_constraintTop_toBottomOf="@id/imageWelcome1" />
+        app:layout_constraintStart_toStartOf="@+id/imgageMain"
+        app:layout_constraintTop_toBottomOf="@id/imgageMain" />
 
     <TextView
         android:id="@+id/textView"

@@ -8,21 +8,24 @@
     android:padding="24dp">
 
     <!-- Image location (anchor point for chain) -->
+
+    <!-- Title -->
     <ImageView
         android:id="@+id/location_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/circle_background"
-        android:src="@drawable/ic_location"
         android:contentDescription="Location Icon"
         android:scaleType="centerInside"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_location"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <!-- Title -->
     <TextView
         android:id="@+id/location_title"
         android:layout_width="wrap_content"

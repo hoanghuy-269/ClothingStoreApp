@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:padding="16dp">
+
+    <!-- Icon trong nền tròn -->
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_round_button"
+        android:layout_marginEnd="16dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_navigation_24" />
+    </FrameLayout>
+
+    <!-- Dòng chữ -->
+    <TextView
+        android:id="@+id/tvUseCurrentLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use my current location"
+        android:textColor="#222222"
+        android:textSize="20sp"
+         />
+</LinearLayout>

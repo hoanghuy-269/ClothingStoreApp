@@ -11,20 +11,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
-        android:text="@string/txtSkip2"
+        android:text="@string/txtSkip3"
         app:layout_constraintEnd_toEndOf="@+id/btnRight"
         app:layout_constraintStart_toStartOf="@+id/btnRight"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageWelcome1"
+        android:id="@+id/imgageMain"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_welcome_layout" />
+        app:srcCompat="@drawable/img_welcome_cart" />
 
     <TextView
         android:id="@+id/txtWelcomeGioiThieu"
@@ -32,21 +32,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poetsenone"
-        android:text="@string/txtTieuDe2"
+        android:text="@string/txtTieuDe3"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/imageWelcome1"
+        app:layout_constraintEnd_toEndOf="@+id/imgageMain"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageWelcome1"
-        app:layout_constraintTop_toBottomOf="@id/imageWelcome1" />
+        app:layout_constraintStart_toStartOf="@+id/imgageMain"
+        app:layout_constraintTop_toBottomOf="@id/imgageMain" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/txtGioithieu2"
+        android:text="@string/txtGioiThieu3"
         android:textSize="17sp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/txtWelcomeGioiThieu"
@@ -88,12 +88,12 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/around_brown" />
+            android:src="@drawable/around" />
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/around" />
+            android:src="@drawable/ic_around_brown" />
     </LinearLayout>
 
     <ImageView
@@ -102,7 +102,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:src="@drawable/right_brown"
-        app:layout_constraintEnd_toEndOf="@+id/imageWelcome1"
+        app:layout_constraintEnd_toEndOf="@+id/imgageMain"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

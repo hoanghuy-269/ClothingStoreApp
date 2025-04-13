@@ -5,15 +5,15 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingstoreapp.R
-import com.example.clothingstoreapp.databinding.Welcome2LayoutBinding
+import com.example.clothingstoreapp.databinding.WelcomeHomeLayoutBinding
 
 class WelcomeActivity2 : AppCompatActivity() {
 
-    private lateinit var binding: Welcome2LayoutBinding
+    private lateinit var binding: WelcomeHomeLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = Welcome2LayoutBinding.inflate(layoutInflater)
+        binding = WelcomeHomeLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btnRight.setOnClickListener {

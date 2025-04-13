@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:title="My Wishlist"
+        android:titleTextColor="@android:color/black"
+        app:titleCentered="true"
+        app:navigationIcon="@drawable/ic_back" />
+
+    <!-- Content -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
+
+        <!-- Danh mục tab -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:backgroundTint="@color/brown"
+            android:fillViewport="true"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:id="@+id/categoryTabs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="All" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="Jacket" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="Shirt" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="Pant" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="T-Shirt" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Danh sách sản phẩm -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

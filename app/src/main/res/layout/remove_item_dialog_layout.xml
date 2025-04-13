@@ -1,0 +1,129 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/otp_box"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Title -->
+    <TextView
+        android:text="Remove from Cart?"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Product Info Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Product Image -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/img_item_wishlist"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop" />
+
+        <!-- Info + Quantity Control -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Brown Suite"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Size: XL"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="$120"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Quantity Control -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="4dp"
+            android:layout_marginStart="8dp">
+
+            <ImageButton
+                android:id="@+id/btnDecrease"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/circle_bg"
+                android:src="@drawable/tru"
+                android:contentDescription="Decrease" />
+
+            <TextView
+                android:id="@+id/textQuantity"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:gravity="center"
+                android:text="1"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnIncrease"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/add"
+                android:background="@drawable/around_brown"
+                android:contentDescription="Increase" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/darker_gray"
+            android:textColor="@android:color/white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnRemove"
+            android:text="Yes, Remove"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#8D6E63"
+            android:textColor="@android:color/white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

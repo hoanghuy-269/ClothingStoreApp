@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+        <!-- Product Image -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/img_item_wishlist"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop" />
+
+        <!-- Info + Quantity -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Brown Suite"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Size: XL"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="$120"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Quantity Control -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="4dp"
+            android:layout_marginStart="8dp">
+
+            <ImageButton
+                android:id="@+id/btnDecrease"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/circle_bg"
+                android:backgroundTint="#E0E0E0"
+                android:src="@drawable/tru"
+                android:scaleType="centerInside"
+                android:contentDescription="Decrease" />
+
+            <TextView
+                android:id="@+id/textQuantity"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:gravity="center"
+                android:text="1"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnIncrease"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/add"
+                android:background="@drawable/around_brown"
+                android:backgroundTint="#6B3E26"
+                android:scaleType="centerInside"
+                android:contentDescription="Increase" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

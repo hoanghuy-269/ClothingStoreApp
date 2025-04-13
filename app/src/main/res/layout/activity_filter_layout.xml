@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:text="Filter"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Brands -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Brands"
+            android:textStyle="bold" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:flexWrap="wrap"
+            tools:ignore="MissingClass">
+
+            <!-- Add Chip-like Buttons -->
+            <Button
+                style="@style/FilterChip"
+                android:text="All" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Nike" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Adidas" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Puma" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Fila" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <!-- Gender -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Gender"
+            android:textStyle="bold" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:flexWrap="wrap">
+
+            <Button
+                style="@style/FilterChip"
+                android:text="All" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Men" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Women" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <!-- Sort By -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Sort by"
+            android:textStyle="bold" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:flexWrap="wrap">
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Most Recent" />
+
+            <Button
+                style="@style/FilterChipSelected"
+                android:text="Popular" />
+
+            <Button
+                style="@style/FilterChip"
+                android:text="Price High" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <!-- Pricing Range -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Pricing Range"
+            android:textStyle="bold" />
+
+        <!-- Reviews -->
+        <SeekBar
+            android:id="@+id/priceSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:max="150"
+            android:progress="100" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Reviews"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⭐ 4.5 and above" />
+
+            <RadioButton android:text="⭐ 4.0 - 4.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton android:text="⭐ 3.5 - 4.0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton android:text="⭐ 3.0 - 3.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton android:text="⭐ 2.5 - 3.0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#EEEEEE"
+                android:textColor="@color/brown"
+                android:text="Reset Filter" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:backgroundTint="#6B3E26"
+                android:text="Apply"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

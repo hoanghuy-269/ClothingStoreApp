@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Header: Back button + Title -->
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_round_button"
+            android:contentDescription="Back"
+            android:scaleType="center"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Location"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- Search field -->
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/layoutHeader"
+        android:layout_marginTop="16dp"
+        android:hint="Golden Avenue"
+        android:background="@drawable/bg_edittext_rounded"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:drawablePadding="12dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="48dp"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <!-- Clear button -->
+    <ImageButton
+        android:id="@+id/btnClear"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/baseline_clear_24"
+        android:background="@drawable/bg_round_button"
+        android:scaleType="center"
+        android:contentDescription="Clear"
+        android:layout_alignTop="@id/etSearch"
+        android:layout_alignEnd="@id/etSearch"
+        android:layout_marginEnd="8dp" />
+
+    <!-- ListView for location options -->
+    <ListView
+        android:id="@+id/locationListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etSearch"
+        android:layout_marginTop="16dp"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:paddingTop="4dp" />
+</RelativeLayout>

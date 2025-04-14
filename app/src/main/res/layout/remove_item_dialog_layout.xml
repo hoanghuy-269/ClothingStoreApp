@@ -91,7 +91,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/add"
-                android:background="@drawable/around_brown"
+                android:background="@drawable/ic_around_brown"
                 android:contentDescription="Increase" />
         </LinearLayout>
     </LinearLayout>

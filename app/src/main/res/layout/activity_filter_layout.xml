@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:padding="16dp">
 
@@ -30,10 +31,11 @@
             android:textStyle="bold" />
 
         <com.google.android.flexbox.FlexboxLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:flexWrap="wrap"
-            tools:ignore="MissingClass">
+            app:flexDirection="row"
+            app:flexWrap="wrap">
 
             <!-- Add Chip-like Buttons -->
             <Button
@@ -69,7 +71,7 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:flexWrap="wrap">
+            app:flexWrap="wrap">
 
             <Button
                 style="@style/FilterChip"
@@ -96,7 +98,7 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:flexWrap="wrap">
+            app:flexWrap="wrap">
 
             <Button
                 style="@style/FilterChip"

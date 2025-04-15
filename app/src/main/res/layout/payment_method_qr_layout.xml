@@ -33,8 +33,8 @@
                 android:textSize="20sp" />
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/right_brown" />
         </LinearLayout>
 </LinearLayout>

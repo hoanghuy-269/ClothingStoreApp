@@ -15,7 +15,7 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.Welcome.WelcomeActivity4"
+            android:name=".Activities.Welcome.WelcomeOderActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.Welcome.WelcomeActivity3"
@@ -28,7 +28,7 @@
             android:name=".Activities.TrangChuActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Welcome.WelcomeActivity"
+            android:name=".Activities.Welcome.WelcomeHomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

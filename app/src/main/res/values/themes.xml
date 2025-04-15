@@ -6,7 +6,6 @@
         <!-- Trắng cho navigation bar -->
         <item name="android:navigationBarColor">@android:color/white</item>
 
-        <!-- Icon màu tối trên thanh navigation bar -->
         <item name="android:windowLightNavigationBar">true</item>
 
         <!-- Icon màu tối trên thanh status bar (nếu dùng nền trắng) -->

@@ -3,6 +3,17 @@
     <style name="Base.Theme.ClothingStoreApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Trắng cho status bar -->
+        <item name="android:statusBarColor">@android:color/white</item>
+
+        <!-- Trắng cho navigation bar -->
+        <item name="android:navigationBarColor">@android:color/black</item>
+
+        <!-- Icon màu tối trên thanh navigation bar -->
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- Icon màu tối trên thanh status bar (nếu dùng nền trắng) -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.ClothingStoreApp" parent="Base.Theme.ClothingStoreApp" />

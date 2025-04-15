@@ -84,7 +84,7 @@
             <Button
                 style="@style/FilterChip"
                 android:text="Women" />
-        </com.google.android.flexbox.FlexboxLayout>
+        </com.google.android.flexbox.FlexboxLayout>-->
 
         <!-- Sort By -->
         <TextView

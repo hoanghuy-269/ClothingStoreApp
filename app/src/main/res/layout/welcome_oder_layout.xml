@@ -4,17 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="25dp"
     android:background="@color/white"
-    android:padding="25dp">
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:text="@string/txtSkip3"
-        app:layout_constraintEnd_toEndOf="@+id/btnRight"
-        app:layout_constraintStart_toStartOf="@+id/btnRight"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgageMain"
@@ -22,9 +15,10 @@
         android:layout_height="400dp"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_welcome_cart" />
+        app:srcCompat="@drawable/img_myoders" />
 
     <TextView
         android:id="@+id/txtWelcomeGioiThieu"
@@ -59,7 +53,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="92dp"
-        android:src="@drawable/left"
+        android:src="@drawable/left_brown"
         app:layout_constraintBottom_toBottomOf="@+id/btnRight"
         app:layout_constraintEnd_toStartOf="@+id/layoutDots"
         app:layout_constraintHorizontal_bias="0.0"
@@ -98,8 +92,8 @@
 
     <ImageView
         android:id="@+id/btnRight"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:src="@drawable/right_brown"
         app:layout_constraintEnd_toEndOf="@+id/imgageMain"

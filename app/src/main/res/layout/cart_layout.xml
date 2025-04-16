@@ -4,117 +4,136 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="5dp"
     android:layout_height="match_parent"
     android:background="#F9F9F9">
 
-    <!-- Header -->
-
-    <!-- RecyclerView cho danh sách sản phẩm -->
-
-    <!-- Khung tổng kết thanh toán -->
-
+    <!-- Nút back -->
     <ImageView
+        android:id="@+id/iv_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/circle_bg"
         android:contentDescription="Back"
         android:padding="10dp"
         android:src="@drawable/ic_back"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="47dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Tiêu đề -->
     <TextView
         android:id="@+id/tv_cart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
         android:text="My Cart"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_cart_items"
+        app:layout_constraintStart_toEndOf="@id/iv_back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="24dp" />
 
+    <!-- Danh sách sản phẩm -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cart_items"
-        android:layout_width="426dp"
-        android:layout_height="398dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@id/cart_summary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/tv_cart_title"
-        app:layout_constraintVertical_bias="0.984" />
+        app:layout_constraintBottom_toTopOf="@id/cart_summary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Tổng kết đơn hàng -->
     <LinearLayout
         android:id="@+id/cart_summary"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/edittext_bg"
         android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:background="@drawable/edittext_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
 
         <!-- Promo Code -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/edittext_bg"
-            android:padding="8dp"
             android:layout_marginBottom="8dp"
-            android:gravity="center_vertical">
+            android:background="@drawable/edittext_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <EditText
                 android:id="@+id/edt_promo_code"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Promo Code"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:padding="8dp"/>
+                android:hint="Promo Code"
+                android:padding="8dp" />
 
             <Button
                 android:id="@+id/btn_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apply"
                 android:backgroundTint="#6B3E26"
-                android:textColor="@android:color/white"/>
+                android:text="Apply"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <!-- Tổng tiền -->
         <TextView
-            android:text="Sub-Total: $407.94"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Delivery Fee: $25.00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Discount: -$35.00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Total Cost: $397.94"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
+            android:text="Sub-Total: $407.94" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivery Fee: $25.00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Discount: -$35.00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Total Cost: $397.94"
+            android:textStyle="bold" />
 
         <!-- Nút Checkout -->
         <Button
             android:id="@+id/btn_checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Proceed to Checkout"
             android:layout_marginTop="12dp"
             android:backgroundTint="#6B3E26"
-            android:textColor="@android:color/white"/>
+            android:text="Proceed to Checkout"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nav_background"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

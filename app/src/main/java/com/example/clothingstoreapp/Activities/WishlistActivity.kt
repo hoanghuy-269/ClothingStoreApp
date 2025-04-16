@@ -1,5 +1,6 @@
 package com.example.clothingstoreapp.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,5 +18,43 @@ class WishlistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = MyWishlistLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.bottomNavigation.selectedItemId = R.id.nav_favorite
+
+        setEvent()
+    }
+    private fun setEvent() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    val intent = Intent(this, HomePageActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_cart -> {
+                    val intent = Intent(this, CartActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_favorite -> {
+                    true
+                }
+
+                R.id.nav_chat -> {
+                    val intent = Intent(this, WishlistActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ class WelcomeActivity2 : AppCompatActivity() {
     private fun SetonClick()
     {
         binding.btnRight.setOnClickListener {
-            val intent = Intent(this, WelcomeActivity3::class.java)
+            val intent = Intent(this, HomePageActivity::class.java)
             startActivity(intent)
         }
 

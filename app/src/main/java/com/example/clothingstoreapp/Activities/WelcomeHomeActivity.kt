@@ -1,4 +1,4 @@
-package com.example.clothingstoreapp.Activities.Welcome
+package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ class WelcomeHomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnWelcomeGetarted.setOnClickListener {
-            val intent = Intent(this,WelcomeActivity2::class.java)
+            val intent = Intent(this, WelcomeActivity2::class.java)
             startActivity(intent)
         }
     }

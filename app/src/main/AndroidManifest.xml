@@ -15,20 +15,20 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.Welcome.WelcomeOderActivity"
+            android:name=".Activities.WelcomeOderActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Welcome.WelcomeActivity3"
+            android:name=".Activities.WelcomeActivity3"
             android:exported="false"
             android:label="@string/title_activity_welcome3" />
         <activity
-            android:name=".Activities.Welcome.WelcomeActivity2"
+            android:name=".Activities.WelcomeActivity2"
             android:exported="false" />
         <activity
             android:name=".Activities.TrangChuActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Welcome.WelcomeHomeActivity"
+            android:name=".Activities.WelcomeHomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

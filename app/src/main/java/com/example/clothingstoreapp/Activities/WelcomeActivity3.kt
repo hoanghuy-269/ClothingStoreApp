@@ -1,4 +1,4 @@
-package com.example.clothingstoreapp.Activities.Welcome
+package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,11 +13,11 @@ class WelcomeActivity3 : AppCompatActivity() {
         binding = WelcomeCategoryLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnRight.setOnClickListener {
-            val intent = Intent(this,WelcomeOderActivity::class.java)
+            val intent = Intent(this, WelcomeOderActivity::class.java)
             startActivity(intent)
         }
         binding.btnleft.setOnClickListener {
-            val intent = Intent(this,WelcomeActivity2::class.java)
+            val intent = Intent(this, WelcomeActivity2::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_out_left,R.anim.slide_in_left)
         }

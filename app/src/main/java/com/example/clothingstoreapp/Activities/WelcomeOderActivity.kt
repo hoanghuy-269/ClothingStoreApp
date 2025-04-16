@@ -1,9 +1,8 @@
-package com.example.clothingstoreapp.Activities.Welcome
+package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.clothingstoreapp.Activities.TrangChuActivity
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.WelcomeOderLayoutBinding
 
@@ -18,7 +17,7 @@ class WelcomeOderActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.btnleft.setOnClickListener {
-            val intent = Intent(this,WelcomeActivity3::class.java)
+            val intent = Intent(this, WelcomeActivity3::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_out_left,R.anim.slide_in_left)
 

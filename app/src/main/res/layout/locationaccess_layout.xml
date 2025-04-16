@@ -8,7 +8,6 @@
     android:padding="24dp">
 
     <!-- Image location (anchor point for chain) -->
-
     <!-- Title -->
     <ImageView
         android:id="@+id/location_icon"

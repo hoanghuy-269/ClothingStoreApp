@@ -2,22 +2,30 @@ package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.HomeLayoutBinding
+import com.example.clothingstoreapp.databinding.ProfileBinding
 
-class HomePageActivity : AppCompatActivity() {
-    private lateinit var binding : HomeLayoutBinding
+class ProfileActivity : AppCompatActivity() {
+    private lateinit var binding : ProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = HomeLayoutBinding.inflate(layoutInflater)
+        binding = ProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.bottomNavigation.selectedItemId = R.id.nav_profile
+
         setEvent()
     }
     private fun setEvent(){
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
+                    val intent = Intent(this, HomePageActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_cart -> {
@@ -34,8 +42,6 @@ class HomePageActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
                     true
                 }
                 else -> false

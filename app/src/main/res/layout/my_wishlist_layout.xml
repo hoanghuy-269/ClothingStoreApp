@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:background="#FAFAFA">
 
     <!-- Toolbar -->
@@ -42,23 +43,34 @@
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="All" />
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Jacket" />
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Shirt" />
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Pant" />
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="T-Shirt" />
+
             </LinearLayout>
         </HorizontalScrollView>
 

@@ -1,10 +1,9 @@
-package com.example.clothingstoreapp.Activities.Welcome
+package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.WelcomeHomeLayoutBinding
 
 class WelcomeActivity2 : AppCompatActivity() {
@@ -16,8 +15,13 @@ class WelcomeActivity2 : AppCompatActivity() {
         binding = WelcomeHomeLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        SetonClick()
+
+    }
+    private fun SetonClick()
+    {
         binding.btnRight.setOnClickListener {
-            val intent = Intent(this,WelcomeActivity3::class.java)
+            val intent = Intent(this, WelcomeActivity3::class.java)
             startActivity(intent)
         }
     }

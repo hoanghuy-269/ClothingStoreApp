@@ -25,6 +25,12 @@
             android:exported="false" />
         <activity
             android:name=".Activities.SignInActivity"
+ 	    android:exported="false" />
+	<activity
+            android:name=".Activities.WishlistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.HomePageActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.WelcomeOderActivity"
@@ -44,7 +50,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

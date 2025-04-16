@@ -15,6 +15,12 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.WishlistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.HomePageActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.WelcomeOderActivity"
             android:exported="false" />
         <activity

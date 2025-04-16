@@ -24,5 +24,6 @@ class WelcomeActivity2 : AppCompatActivity() {
             val intent = Intent(this, WelcomeActivity3::class.java)
             startActivity(intent)
         }
+
     }
 }

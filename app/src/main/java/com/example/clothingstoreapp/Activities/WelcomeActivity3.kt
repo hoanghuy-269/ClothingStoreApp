@@ -12,6 +12,9 @@ class WelcomeActivity3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = WelcomeCategoryLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+    private fun setEvent()
+    {
         binding.btnRight.setOnClickListener {
             val intent = Intent(this, WelcomeOderActivity::class.java)
             startActivity(intent)
@@ -21,6 +24,5 @@ class WelcomeActivity3 : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.slide_out_left,R.anim.slide_in_left)
         }
-
     }
 }

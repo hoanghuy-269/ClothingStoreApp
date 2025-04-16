@@ -15,6 +15,18 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.NewPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.VerityCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CreateAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.WelcomeOderActivity"
             android:exported="false" />
         <activity

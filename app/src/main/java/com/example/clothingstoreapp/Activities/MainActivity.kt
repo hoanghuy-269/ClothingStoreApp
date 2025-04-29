@@ -22,10 +22,10 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> replaceFragment(HomeActivity())
-                R.id.nav_cart -> replaceFragment(CartFragment())
-                R.id.nav_favorite -> replaceFragment(WishListFragment())
-                R.id.nav_chat -> replaceFragment(ChatFragment())
-                R.id.nav_profile -> replaceFragment(ProfileFragment())
+                R.id.nav_cart -> replaceFragment(CartActivity())
+                R.id.nav_favorite -> replaceFragment(WishListActivity())
+                R.id.nav_chat -> replaceFragment(ChatActivity())
+                R.id.nav_profile -> replaceFragment(ProfileActivity())
 
             }
             true

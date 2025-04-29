@@ -19,12 +19,6 @@
             android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.CartActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.NewPasswordActivity"
             android:exported="false" />
         <activity
@@ -37,12 +31,6 @@
             android:name=".Activities.SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.WishlistActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.HomePageActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.WelcomeOderActivity"
             android:exported="false" />
         <activity
@@ -51,9 +39,6 @@
             android:label="@string/title_activity_welcome3" />
         <activity
             android:name=".Activities.WelcomeActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.TrangChuActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.WelcomeHomeActivity"

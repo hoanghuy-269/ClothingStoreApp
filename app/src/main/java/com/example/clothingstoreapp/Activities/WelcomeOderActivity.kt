@@ -13,7 +13,7 @@ class WelcomeOderActivity : AppCompatActivity() {
         binding = WelcomeOderLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnRight.setOnClickListener {
-            val intent = Intent(this,TrangChuActivity::class.java)
+            val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
         binding.btnleft.setOnClickListener {

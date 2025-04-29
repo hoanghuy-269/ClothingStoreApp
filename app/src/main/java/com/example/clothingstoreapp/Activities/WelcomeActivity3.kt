@@ -12,6 +12,7 @@ class WelcomeActivity3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = WelcomeCategoryLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setEvent()
     }
     private fun setEvent()
     {

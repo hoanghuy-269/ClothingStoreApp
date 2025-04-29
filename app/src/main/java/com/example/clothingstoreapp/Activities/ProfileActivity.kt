@@ -1,52 +1,20 @@
 package com.example.clothingstoreapp.Activities
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.example.clothingstoreapp.R
-import com.example.clothingstoreapp.databinding.HomeLayoutBinding
-import com.example.clothingstoreapp.databinding.ProfileBinding
 
-class ProfileActivity : AppCompatActivity() {
-    private lateinit var binding : ProfileBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ProfileBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.bottomNavigation.selectedItemId = R.id.nav_profile
+class ProfileActivity : Fragment() {
 
-        setEvent()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.profile, container, false)
     }
-    private fun setEvent(){
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    val intent = Intent(this, HomePageActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_cart -> {
-                    val intent = Intent(this, CartActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_favorite -> {
-                    val intent = Intent(this, WishlistActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_chat -> {
-                    true
-                }
-                R.id.nav_profile -> {
-                    true
-                }
-                else -> false
-            }
-        }
 
-    }
 }

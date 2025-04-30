@@ -244,8 +244,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_products"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
+        android:layout_height="211dp"
+        android:layout_marginBottom="70dp"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="8dp" />

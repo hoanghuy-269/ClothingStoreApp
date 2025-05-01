@@ -11,13 +11,15 @@ import com.example.clothingstoreapp.databinding.ItemProductBinding
 import com.example.clothingstoreapp.model.Product
 
 class ProductAdapter(
-    private val productList: List<Product>,
+    private val originalList: List<Product>,
     private val onItemClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
-    inner class ProductViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    private var filteredList: MutableList<Product> = originalList.toMutableList()
+
+    inner class ProductViewHolder(private val binding: ItemProductBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
-            // Gán dữ liệu vào các view bằng binding
             binding.txtName.text = product.name
             binding.txtPrice.text = "${product.price} đ"
             binding.txtRating.text = "${product.rating}"
@@ -26,9 +28,8 @@ class ProductAdapter(
                 .load(product.images?.trim())
                 .error(R.drawable.img_item_wishlist)
                 .into(binding.imgProduct)
-            Log.d("ImageURL", product.images.toString())
 
-            binding.imgFavorite.setImageResource(R.drawable.ic_heart) // Hoặc ic_heart_filled nếu được yêu thích
+            binding.imgFavorite.setImageResource(R.drawable.ic_heart)
 
             binding.root.setOnClickListener {
                 onItemClick(product)
@@ -42,9 +43,26 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = productList[position]
-        holder.bind(product)
+        holder.bind(filteredList[position])
     }
 
-    override fun getItemCount(): Int = productList.size
+    override fun getItemCount(): Int = filteredList.size
+
+    fun filter(query: String) {
+        filteredList = if (query.isEmpty()) {
+            originalList.toMutableList()
+        } else {
+            originalList.filter {
+                it.name.contains(query, ignoreCase = true)
+            }.toMutableList()
+        }
+        notifyDataSetChanged()
+    }
+
+    fun updateData(newList: List<Product>) {
+        filteredList = newList.toMutableList()
+        notifyDataSetChanged()
+    }
 }
+
+

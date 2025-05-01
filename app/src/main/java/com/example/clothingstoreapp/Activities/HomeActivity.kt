@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +28,8 @@ class HomeActivity : Fragment() {
     private lateinit var bannerViewPager: ViewPager2
     private val bannerHandler = Handler(Looper.getMainLooper())
     private var bannerIndex = 0
+    private lateinit var productAdapter: ProductAdapter
+    private lateinit var originalList: List<Product>
     private val banners = listOf(
         R.drawable.thonggay,
         R.drawable.tunggay,
@@ -33,7 +37,8 @@ class HomeActivity : Fragment() {
         R.drawable.thonggay,
         R.drawable.tunggay,
 
-    )
+        )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,22 +62,57 @@ class HomeActivity : Fragment() {
                 bannerHandler.postDelayed(this, 5000)
             }
         }
-
         bannerHandler.postDelayed(runnable, 3000)
-        // Lấy danh sách sản phẩm từ repository và thiết lập RecyclerView
+
+        // Ẩn search & kết quả trước khi có dữ liệu
+        binding.edtSearch.isEnabled = false
+        binding.txtNoResult.visibility = View.GONE
+
+        // Load dữ liệu sản phẩm
         ProductRepository.getAllProducts(
             onSuccess = { productList ->
+                originalList = productList
                 binding.rvProducts.layoutManager = GridLayoutManager(context, 2)
-                binding.rvProducts.adapter = ProductAdapter(productList) { product ->
+                productAdapter = ProductAdapter(originalList) { product ->
                     val intent = Intent(requireContext(), SignInActivity::class.java)
                     startActivity(intent)
                 }
+                binding.rvProducts.adapter = productAdapter
+
+                // Sau khi gán adapter, mới cho phép search
+                binding.edtSearch.isEnabled = true
+                binding.edtSearch.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                        val query = s.toString().trim()
+                        productAdapter.filter(query)
+
+                        binding.txtNoResult.visibility =
+                            if (productAdapter.itemCount == 0) View.VISIBLE else View.GONE
+                    }
+
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                    }
+                })
             },
             onFailure = { e ->
                 Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         )
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

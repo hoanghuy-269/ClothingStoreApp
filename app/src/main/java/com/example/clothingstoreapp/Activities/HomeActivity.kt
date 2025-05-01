@@ -2,13 +2,18 @@ package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.clothingstoreapp.adapter.ProductAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.example.clothingstoreapp.Adapter.BannerAdapter
+import com.example.clothingstoreapp.R
+import com.example.clothingstoreapp.Adapter.ProductAdapter
 import com.example.clothingstoreapp.databinding.HomeLayoutBinding
 import com.example.clothingstoreapp.model.Product
 import com.example.clothingstoreapp.repository.ProductRepository
@@ -18,7 +23,17 @@ class HomeActivity : Fragment() {
 
     private var _binding: HomeLayoutBinding? = null
     private val binding get() = _binding!!
+    private lateinit var bannerViewPager: ViewPager2
+    private val bannerHandler = Handler(Looper.getMainLooper())
+    private var bannerIndex = 0
+    private val banners = listOf(
+        R.drawable.thonggay,
+        R.drawable.tunggay,
+        R.drawable.huy,
+        R.drawable.thonggay,
+        R.drawable.tunggay,
 
+    )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,32 +46,19 @@ class HomeActivity : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Xử lý sự kiện khi nhấn vào banner
-        binding.imgBanner.setOnClickListener {
-            // Thay đổi nội dung text
-            val newProduct = Product(
-                name = "Áo Thun Nam 2",
-                description = "Áo thun cotton chất lượng cao",
-                price = 200000,
-                stock = 50,
-                categoryId = "1",  // Ví dụ: Mã danh mục
-                images = "a",
-                createdAt = Timestamp.now(),
-                rating = 0f
-            )
+        // banner
+        bannerViewPager = view.findViewById(R.id.bannerViewPager)
+        bannerViewPager.adapter = BannerAdapter(banners)
 
-            ProductRepository.addProduct(newProduct,
-                onSuccess = {
-                    // Hiển thị thông báo thành công
-                    Toast.makeText(context, "Sản phẩm đã được thêm thành công!", Toast.LENGTH_SHORT).show()
-                },
-                onFailure = { e ->
-                    // Hiển thị thông báo lỗi
-                    Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            )
+        val runnable = object : Runnable {
+            override fun run() {
+                bannerIndex = (bannerIndex + 1) % banners.size
+                bannerViewPager.setCurrentItem(bannerIndex, true)
+                bannerHandler.postDelayed(this, 5000)
+            }
         }
 
+        bannerHandler.postDelayed(runnable, 3000)
         // Lấy danh sách sản phẩm từ repository và thiết lập RecyclerView
         ProductRepository.getAllProducts(
             onSuccess = { productList ->

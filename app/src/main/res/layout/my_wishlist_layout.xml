@@ -1,35 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:background="#FAFAFA">
 
     <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@android:color/white"
         android:elevation="4dp"
-        android:title="My Wishlist"
-        android:titleTextColor="@android:color/black"
-        app:titleCentered="true"
-        app:navigationIcon="@drawable/ic_back" />
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-    <!-- Content -->
+        <!-- Nút back -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back" />
+
+        <!-- Tiêu đề chính giữa -->
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="My Wishlist"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <!-- Nội dung chính -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp">
+        android:layout_marginTop="56dp"
+        android:orientation="vertical">
 
         <!-- Danh mục tab -->
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="92dp"
+            android:layout_height="90dp"
             android:backgroundTint="@color/brown"
             android:fillViewport="true"
             android:padding="8dp">
@@ -38,41 +56,52 @@
                 android:id="@+id/categoryTabs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="All" />
+                    android:backgroundTint="#DBD0D0"
+                    android:text="All"
+                    android:textColor="@color/black" />
 
                 <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jacket" />
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="#DBD0D0"
+                    android:text="Jacket"
+                    android:textColor="@color/black" />
 
                 <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shirt" />
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="#DBD0D0"
+                    android:text="Shirt"
+                    android:textColor="@color/black" />
 
                 <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pant" />
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="#DBD0D0"
+                    android:text="Pant"
+                    android:textColor="@color/black" />
 
                 <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="T-Shirt" />
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="#DBD0D0"
+                    android:text="T-Shirt"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
         </HorizontalScrollView>
+
 
         <!-- Danh sách sản phẩm -->
         <androidx.recyclerview.widget.RecyclerView
@@ -80,8 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="8dp"
             android:clipToPadding="false"
+            android:padding="8dp"
             android:scrollbars="vertical" />
 
     </LinearLayout>

@@ -27,10 +27,10 @@
 
             <ImageView
                 android:id="@+id/imgFavorite"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:background="@drawable/circle_bg"
+                android:background="@drawable/circle_heart"
                 android:layout_gravity="end|top"
                 android:src="@drawable/ic_heart"
                 android:contentDescription="Favorite" />

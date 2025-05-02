@@ -33,21 +33,21 @@ class ProductAdapter(
                 .error(R.drawable.img_item_wishlist)
                 .into(binding.imgProduct)
 
-            // Xử lý trạng thái yêu thích
-            var isFavorite = favoriteIds.contains(product.id)
+            // Kiểm tra trạng thái yêu thích
+            val isFavorite = favoriteIds.contains(product.id)
             binding.imgFavorite.setImageResource(
                 if (isFavorite) R.drawable.ic_heart_red else R.drawable.ic_heart
             )
 
             // Xử lý khi click vào trái tim
             binding.imgFavorite.setOnClickListener {
-                isFavorite = !isFavorite
-                if (isFavorite) {
+                val newFavoriteStatus = !isFavorite
+                if (newFavoriteStatus) {
                     onAddFavorite(product.id)
-                    (favoriteIds as MutableSet).add(product.id)
+                    favoriteIds.add(product.id)
                 } else {
                     onRemoveFavorite(product.id)
-                    (favoriteIds as MutableSet).remove(product.id)
+                    favoriteIds.remove(product.id)
                 }
                 // Cập nhật lại icon
                 notifyItemChanged(adapterPosition)
@@ -58,7 +58,6 @@ class ProductAdapter(
             }
         }
     }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

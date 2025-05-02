@@ -2,6 +2,7 @@ package com.example.clothingstoreapp.repository
 
 import android.util.Log
 import com.example.clothingstoreapp.model.Product
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
 object ProductRepository {
@@ -54,4 +55,28 @@ object ProductRepository {
                 onFailure(e)
             }
     }
+    fun getProductsByIds(ids: Set<String>, onSuccess: (List<Product>) -> Unit, onFailure: (Exception) -> Unit) {
+        val products = mutableListOf<Product>()
+        val db = FirebaseFirestore.getInstance()
+
+        // Lặp qua các ID và lấy sản phẩm tương ứng
+        for (id in ids) {
+            db.collection("products").document(id).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val product = document.toObject(Product::class.java)
+                        product?.let { products.add(it) }
+
+                        // Kiểm tra xem đã lấy đủ sản phẩm chưa
+                        if (products.size == ids.size) {
+                            onSuccess(products)
+                        }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    onFailure(e)
+                }
+        }
+    }
 }
+

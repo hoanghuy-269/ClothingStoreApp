@@ -30,6 +30,7 @@ class HomeActivity : Fragment() {
     private var bannerIndex = 0
     private lateinit var productAdapter: ProductAdapter
     private lateinit var originalList: List<Product>
+    private val userFavoriteIds = mutableSetOf<String>()
     private val banners = listOf(
         R.drawable.thonggay,
         R.drawable.tunggay,
@@ -73,10 +74,24 @@ class HomeActivity : Fragment() {
             onSuccess = { productList ->
                 originalList = productList
                 binding.rvProducts.layoutManager = GridLayoutManager(context, 2)
-                productAdapter = ProductAdapter(originalList) { product ->
-                    val intent = Intent(requireContext(), SignInActivity::class.java)
-                    startActivity(intent)
-                }
+                productAdapter = ProductAdapter(
+                    originalList,
+                    userFavoriteIds,
+                    onItemClick = { product ->
+                        // Xử lý khi click vào sản phẩm
+                        val intent = Intent(requireContext(), SignInActivity::class.java)
+                        startActivity(intent)
+                    },
+                    onAddFavorite = { productId ->
+                        // Ví dụ: thêm sản phẩm vào danh sách yêu thích
+                        Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
+                    },
+                    onRemoveFavorite = { productId ->
+                        // Ví dụ: xóa sản phẩm khỏi danh sách yêu thích
+                        Toast.makeText(requireContext(), "Đã xóa yêu thích", Toast.LENGTH_SHORT).show()
+                    }
+                )
+
                 binding.rvProducts.adapter = productAdapter
 
                 // Sau khi gán adapter, mới cho phép search
@@ -85,9 +100,7 @@ class HomeActivity : Fragment() {
                     override fun afterTextChanged(s: Editable?) {
                         val query = s.toString().trim()
                         productAdapter.filter(query)
-
-                        binding.txtNoResult.visibility =
-                            if (productAdapter.itemCount == 0) View.VISIBLE else View.GONE
+                        
                     }
 
                     override fun beforeTextChanged(

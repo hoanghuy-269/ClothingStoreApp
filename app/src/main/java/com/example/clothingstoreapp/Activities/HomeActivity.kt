@@ -52,8 +52,8 @@ class HomeActivity : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // banner
-        bannerViewPager = view.findViewById(R.id.bannerViewPager)
+        // Sử dụng binding để truy cập view
+        bannerViewPager = binding.bannerViewPager // Truy cập thông qua binding
         bannerViewPager.adapter = BannerAdapter(banners)
 
         val runnable = object : Runnable {
@@ -65,11 +65,11 @@ class HomeActivity : Fragment() {
         }
         bannerHandler.postDelayed(runnable, 3000)
 
-        // Ẩn search & kết quả trước khi có dữ liệu
+        // Khởi tạo tìm kiếm và hiển thị kết quả
         binding.edtSearch.isEnabled = false
         binding.txtNoResult.visibility = View.GONE
 
-        // Load dữ liệu sản phẩm
+        // Tải dữ liệu sản phẩm
         ProductRepository.getAllProducts(
             onSuccess = { productList ->
                 originalList = productList
@@ -78,46 +78,30 @@ class HomeActivity : Fragment() {
                     originalList,
                     userFavoriteIds,
                     onItemClick = { product ->
-                        // Xử lý khi click vào sản phẩm
-                        val intent = Intent(requireContext(), SignInActivity::class.java)
+                        val intent = Intent(requireContext(), ProductDetailActivity::class.java)
                         startActivity(intent)
                     },
                     onAddFavorite = { productId ->
-                        // Ví dụ: thêm sản phẩm vào danh sách yêu thích
                         Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
                     },
                     onRemoveFavorite = { productId ->
-                        // Ví dụ: xóa sản phẩm khỏi danh sách yêu thích
                         Toast.makeText(requireContext(), "Đã xóa yêu thích", Toast.LENGTH_SHORT).show()
                     }
                 )
 
                 binding.rvProducts.adapter = productAdapter
 
-                // Sau khi gán adapter, mới cho phép search
+                // Bật tìm kiếm sau khi gán adapter
                 binding.edtSearch.isEnabled = true
                 binding.edtSearch.addTextChangedListener(object : TextWatcher {
                     override fun afterTextChanged(s: Editable?) {
                         val query = s.toString().trim()
                         productAdapter.filter(query)
-                        
                     }
 
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 })
             },
             onFailure = { e ->

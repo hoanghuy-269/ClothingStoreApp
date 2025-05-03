@@ -27,9 +27,9 @@ class ProductAdapter(
             binding.txtName.text = product.name
             binding.txtPrice.text = "${product.price} đ"
             binding.txtRating.text = "${product.rating}"
-
+            Log.d("ProductAdapter", "Image URL: ${product.images}")
             Glide.with(binding.root.context)
-                .load(product.images.firstOrNull())
+                .load(product.images)
                 .error(R.drawable.img_item_wishlist)
                 .into(binding.imgProduct)
 
@@ -72,20 +72,16 @@ class ProductAdapter(
     override fun getItemCount(): Int = filteredList.size
 
     fun filter(query: String) {
-        filteredList = if (query.isEmpty()) {
-            originalList.toMutableList()
-        } else {
-            originalList.filter {
+        filteredList = when {
+            query.isEmpty() -> originalList.toMutableList()
+            else -> originalList.filter {
                 it.name.contains(query, ignoreCase = true)
             }.toMutableList()
         }
+
         notifyDataSetChanged()
     }
 
-    fun updateData(newList: List<Product>) {
-        filteredList = newList.toMutableList()
-        notifyDataSetChanged()
-    }
 }
 
 

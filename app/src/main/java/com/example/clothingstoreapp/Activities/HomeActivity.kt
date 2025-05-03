@@ -56,7 +56,6 @@ class HomeActivity : Fragment() {
             loadProducts()
         }
         setupBanner()
-        setupSearch()
         loadProducts()
     }
 
@@ -74,10 +73,6 @@ class HomeActivity : Fragment() {
         bannerHandler.postDelayed(runnable, 3000)
     }
 
-    private fun setupSearch() {
-        binding.edtSearch.isEnabled = false
-        binding.txtNoResult.visibility = View.GONE
-    }
 
     private fun loadProducts() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid

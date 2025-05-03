@@ -58,8 +58,6 @@ object ProductRepository {
     fun getProductsByIds(ids: Set<String>, onSuccess: (List<Product>) -> Unit, onFailure: (Exception) -> Unit) {
         val products = mutableListOf<Product>()
         val db = FirebaseFirestore.getInstance()
-
-        // Lặp qua các ID và lấy sản phẩm tương ứng
         for (id in ids) {
             db.collection("products").document(id).get()
                 .addOnSuccessListener { document ->
@@ -67,7 +65,6 @@ object ProductRepository {
                         val product = document.toObject(Product::class.java)
                         product?.let { products.add(it) }
 
-                        // Kiểm tra xem đã lấy đủ sản phẩm chưa
                         if (products.size == ids.size) {
                             onSuccess(products)
                         }

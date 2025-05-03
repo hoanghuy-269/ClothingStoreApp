@@ -1,6 +1,8 @@
 package com.example.clothingstoreapp.Activities
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,13 +35,14 @@ class WishListActivity : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setOnClickButtonCategory() // Gọi tại đây
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
 
         if (userId != null) {
             loadFavoriteProducts()
         } else {
-            Toast.makeText(context, "Vui lòng đăng nhập để xem danh sách yêu thích", Toast.LENGTH_SHORT).show()
+            showToast("Vui lòng đăng nhập để xem danh sách yêu thích")
         }
     }
 
@@ -50,7 +53,7 @@ class WishListActivity : Fragment() {
                 favoriteIds.addAll(ids)
                 loadProductDetails(favoriteIds)
             }, { e ->
-                Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                showToast("Lỗi: ${e.message}")
             })
         }
     }
@@ -58,16 +61,15 @@ class WishListActivity : Fragment() {
     private fun loadProductDetails(ids: Set<String>) {
         ProductRepository.getProductsByIds(ids, { productList ->
             wishListAdapter = WishListAdapter(productList,
-                onRemoveFavorite = { productId ->
-                onRemoveFavorite(productId)
-            }, onItemClick = { product ->
-                // Xử lý sự kiện khi nhấn vào sản phẩm
-                Toast.makeText(context, "Đã chọn: ${product.name}", Toast.LENGTH_SHORT).show()
-            })
+                onRemoveFavorite = { productId -> onRemoveFavorite(productId) },
+                onItemClick = { product -> showToast("Đã chọn: ${product.name}") }
+            )
             binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
             binding.recyclerView.adapter = wishListAdapter
+            binding.edtSearch.isEnabled = true
+            searchFavoriteProduct()
         }, { e ->
-            Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+            showToast("Lỗi: ${e.message}")
         })
     }
 
@@ -76,8 +78,46 @@ class WishListActivity : Fragment() {
             favoriteIds.remove(productId)
             loadFavoriteProducts()
         }, { e ->
-            Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+            showToast("Lỗi: ${e.message}")
         })
+    }
+    private fun searchFavoriteProduct(){
+        binding.edtSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().trim()
+                wishListAdapter.filter(query)
+            }
+        })
+
+
+
+    }
+    private fun setOnClickButtonCategory() {
+        binding.btnAll.setOnClickListener { loadFavoriteProducts() }
+        binding.btnShirt.setOnClickListener { loadProductByCategory("1") }
+        binding.btnJacket.setOnClickListener { loadProductByCategory("2") }
+        binding.btnPant.setOnClickListener { loadProductByCategory("3") }
+        binding.btnTShirt.setOnClickListener { loadProductByCategory("4") }
+    }
+
+    private fun loadProductByCategory(category: String?) {
+        if (category != null) {
+            WishListRepository.getFavoriteProductsByCategory(userId!!, category, onSuccess = { productList ->
+                loadProductDetails(productList.map { it.id }.toSet())
+            }, onFailure = { exception ->
+                showToast("Lỗi: ${exception.message}")
+            })
+        } else {
+            showToast("Danh mục không hợp lệ")
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

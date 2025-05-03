@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothingstoreapp.Adapter.WishListAdapter
 import com.example.clothingstoreapp.databinding.MyWishlistLayoutBinding
@@ -45,7 +46,7 @@ class WishListActivity : Fragment() {
     private fun loadFavoriteProducts() {
         if (userId != null) {
             WishListRepository.getFavoriteProductIds(userId, { ids ->
-                favoriteIds.clear() // Xóa danh sách cũ
+                favoriteIds.clear()
                 favoriteIds.addAll(ids)
                 loadProductDetails(favoriteIds)
             }, { e ->
@@ -63,7 +64,7 @@ class WishListActivity : Fragment() {
                 // Xử lý sự kiện khi nhấn vào sản phẩm
                 Toast.makeText(context, "Đã chọn: ${product.name}", Toast.LENGTH_SHORT).show()
             })
-
+            binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
             binding.recyclerView.adapter = wishListAdapter
         }, { e ->
             Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -81,6 +82,6 @@ class WishListActivity : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Giải phóng binding để tránh rò rỉ bộ nhớ
+        _binding = null
     }
 }

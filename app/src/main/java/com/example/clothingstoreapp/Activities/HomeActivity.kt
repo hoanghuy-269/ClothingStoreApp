@@ -52,8 +52,8 @@ class HomeActivity : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
-            checkAndCreateUserDocument(userId) // Gọi để kiểm tra và tạo tài liệu người dùng
-            loadProducts() // Tiếp tục tải sản phẩm hoặc thực hiện các hành động khác
+            checkAndCreateUserDocument(userId)
+            loadProducts()
         }
         setupBanner()
         setupSearch()
@@ -100,24 +100,24 @@ class HomeActivity : Fragment() {
                         userFavoriteIds,
                         onItemClick = { product ->
                             val intent = Intent(requireContext(), ProductDetailActivity::class.java)
-                            intent.putExtra("PRODUCT_ID", product.id) // Chuyển ID sản phẩm
+                            intent.putExtra("PRODUCT_ID", product.id)
                             startActivity(intent)
                         },
                         onAddFavorite = { productId ->
                             WishListRepository.addFavorite(userId, productId, {
                                 Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
-                                userFavoriteIds.add(productId) // Cập nhật danh sách yêu thích cục bộ
-                                productAdapter.notifyDataSetChanged() // Cập nhật giao diện
+                                userFavoriteIds.add(productId)
+                                productAdapter.notifyDataSetChanged()
                             }, { e ->
                                 Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
-                                Log.e("AddFavoriteError", e.message ?: "Không rõ lỗi") // Ghi log lỗi
+                                Log.e("AddFavoriteError", e.message ?: "Không rõ lỗi")
                             })
                         },
                     onRemoveFavorite = { productId ->
                         WishListRepository.removeFavorite(userId, productId, {
                             Toast.makeText(requireContext(), "Đã xóa yêu thích", Toast.LENGTH_SHORT).show()
-                            userFavoriteIds.remove(productId) // Cập nhật danh sách yêu thích cục bộ
-                            productAdapter.notifyDataSetChanged() // Cập nhật giao diện
+                            userFavoriteIds.remove(productId)
+                            productAdapter.notifyDataSetChanged()
                         }, { e ->
                             Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
                         })

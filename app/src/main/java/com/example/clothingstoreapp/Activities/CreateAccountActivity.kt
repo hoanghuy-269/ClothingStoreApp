@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.clothingstoreapp.Model.User
 import com.example.clothingstoreapp.databinding.CreateAccoutLayoutBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,13 +37,14 @@ class CreateAccountActivity : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val uid = auth.currentUser?.uid
-                        val userMap = hashMapOf(
-                            "name" to name,
-                            "phone" to phone,
-                            "email" to email
+                        val user = User(
+                            uid = uid!!,
+                            name = name,
+                            phone = phone,
+                            email = email
                         )
-                        db.collection("users").document(uid!!)
-                            .set(userMap)
+
+                        db.collection("users").document(uid).set(user)
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
                                 startActivity(Intent(this, SignInActivity::class.java))
@@ -55,6 +57,7 @@ class CreateAccountActivity : AppCompatActivity() {
                         Toast.makeText(this, "Lỗi đăng ký: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
+
         }
     }
 }

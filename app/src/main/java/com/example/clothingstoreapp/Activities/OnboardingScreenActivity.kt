@@ -1,5 +1,6 @@
 package com.example.clothingstoreapp.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -8,10 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothingstoreapp.Adapter.SlideAdapter
 import com.example.clothingstoreapp.Model.Slides
+
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.OnboardingScreenLayoutBinding
 
-class OnboardingScreenLayout : AppCompatActivity() {
+class OnboardingScreenActivity : AppCompatActivity() {
 
 
     private lateinit var binding : OnboardingScreenLayoutBinding
@@ -63,6 +65,11 @@ class OnboardingScreenLayout : AppCompatActivity() {
                 val layoutManager = binding.recyclerView.layoutManager as? LinearLayoutManager
                 layoutManager?.scrollToPosition(currentIndex)
                 selectDot(currentIndex)
+            }
+            else
+            {
+                val intent = Intent(this,MainActivity::class.java)
+                startActivity(intent)
             }
         }
     }

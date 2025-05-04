@@ -22,12 +22,18 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
         SetEvent()
         mAuth = FirebaseAuth.getInstance()
+        val emailFromIntent = intent.getStringExtra("email")
+        val phoneFromIntent = intent.getStringExtra("phone")
+
+        emailFromIntent?.let { binding.edtEmail.setText(it) }
+        phoneFromIntent?.let { binding.txtPhone.setText(it) }
+
     }
 
     private fun SetEvent()
     {
         binding.btnSignIn.setOnClickListener {
-            val phone = binding.edtPhone.text.toString().trim()
+            val phone = binding.txtPhone.text.toString().trim()
             val email = binding.edtEmail.text.toString().trim()
             val password = binding.edtPassword.text.toString().trim()
             if( TextUtils.isEmpty(phone) ||TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
@@ -54,14 +60,16 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.txtForgotPassword.setOnClickListener {
-            val phone = binding.edtPhone.text.toString().trim()
-            if(TextUtils.isEmpty(phone))
+            val phone = binding.txtPhone.text.toString().trim()
+            val email = binding.edtEmail.text.toString().trim()
+            if(TextUtils.isEmpty(phone) || TextUtils.isEmpty(email))
             {
-                Toast.makeText(this,"Vui Lòng Nhập vào trường Điện thoại ",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Vui Lòng Nhập vào trường Điện thoại và email  ",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val intent = Intent(this,VerityCodeActivity::class.java)
             intent.putExtra("Phone_number",phone)
+            intent.putExtra("email",email)
             startActivity(intent)
         }
     }

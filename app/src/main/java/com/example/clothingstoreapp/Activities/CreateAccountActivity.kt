@@ -13,12 +13,10 @@ class CreateAccountActivity : AppCompatActivity() {
     private lateinit var binding: CreateAccoutLayoutBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CreateAccoutLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
@@ -32,7 +30,6 @@ class CreateAccountActivity : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -43,7 +40,6 @@ class CreateAccountActivity : AppCompatActivity() {
                             phone = phone,
                             email = email
                         )
-
                         db.collection("users").document(uid).set(user)
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
@@ -57,7 +53,6 @@ class CreateAccountActivity : AppCompatActivity() {
                         Toast.makeText(this, "Lỗi đăng ký: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
-
         }
     }
 }

@@ -37,15 +37,25 @@
         android:textSize="14sp" />
 
     <!-- Email -->
-    <TextView
-        android:id="@+id/txtPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="+84 97 114 5573"
-        android:textColor="@color/brown"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+84 97 114 5573"
+            android:textColor="@color/brown"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="email"
+            android:textColor="@color/brown"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     <!-- OTP input fields -->
     <LinearLayout

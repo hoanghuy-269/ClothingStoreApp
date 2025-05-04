@@ -34,17 +34,7 @@
             android:name=".Activities.SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.WelcomeOderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.WelcomeActivity3"
-            android:exported="false"
-            android:label="@string/title_activity_welcome3" />
-        <activity
-            android:name=".Activities.WelcomeActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.WelcomeHomeActivity"
+            android:name=".Activities.OnboardingScreenLayout"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

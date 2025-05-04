@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.clothingstoreapp.Activities.NewPasswordActivity
 import com.example.clothingstoreapp.databinding.VerifyCodeLayoutBinding
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
@@ -30,8 +29,11 @@ class VerityCodeActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        val phoneNumber = intent.getStringExtra("Phone_number") ?: "Không có số"
-        binding.txtPhone.text = phoneNumber
+        val phoneNumber = intent.getStringExtra("Phone_number") ?: ""
+        binding.txtPhone.setText(phoneNumber)
+        val email = intent.getStringExtra("email") ?: ""
+        binding.txtemail.setText(email)
+
 
         setEventListeners()
         checkAndRequestSmsPermission()
@@ -111,16 +113,37 @@ class VerityCodeActivity : AppCompatActivity() {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Chuyển sang màn hình tiếp theo (NewPasswordActivity)
-                    val intent = Intent(this, NewPasswordActivity::class.java)
-                    startActivity(intent)
-                    finish()  // Đảm bảo đóng màn hình hiện tại sau khi chuyển màn hình mới
+                    val email = intent.getStringExtra("email") ?: ""
+                    val phone = intent.getStringExtra("Phone_number") ?: ""
+
+                    // Gửi email đặt lại mật khẩu
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                        .addOnCompleteListener { resetTask ->
+                            if (resetTask.isSuccessful) {
+                                Toast.makeText(
+                                    this,
+                                    "Đã gửi email đặt lại mật khẩu đến $email",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                                // Quay về màn hình đăng nhập hoặc trang chính
+                                val intent = Intent(this, SignInActivity::class.java).apply {
+                                    putExtra("email", email)
+                                    putExtra("phone", phone)
+                                }
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                val errorMsg = resetTask.exception?.message ?: "Gửi email thất bại"
+                                Toast.makeText(this, "Lỗi: $errorMsg", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 } else {
-                    // Xử lý nếu đăng nhập thất bại
-                    Toast.makeText(this, "Lỗi đăng nhập", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Lỗi xác thực OTP", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
 
     // Lấy mã OTP từ các trường nhập liệu
     private fun getOtpFromEditText(): String? {

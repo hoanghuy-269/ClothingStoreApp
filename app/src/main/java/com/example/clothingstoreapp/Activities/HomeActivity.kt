@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.clothingstoreapp.Adapter.BannerAdapter
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.Adapter.ProductAdapter
+import com.example.clothingstoreapp.repository.WishListRepository
 import com.example.clothingstoreapp.databinding.HomeLayoutBinding
 import com.example.clothingstoreapp.model.Product
 import com.example.clothingstoreapp.repository.ProductRepository
-import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : Fragment() {
 
@@ -34,26 +37,30 @@ class HomeActivity : Fragment() {
     private val banners = listOf(
         R.drawable.thonggay,
         R.drawable.tunggay,
-        R.drawable.huy,
-        R.drawable.thonggay,
-        R.drawable.tunggay,
-
-        )
+        R.drawable.huy
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Khởi tạo ViewBinding
         _binding = HomeLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            checkAndCreateUserDocument(userId)
+            loadProducts()
+        }
+        setupBanner()
+        loadProducts()
+    }
 
-        // banner
-        bannerViewPager = view.findViewById(R.id.bannerViewPager)
+    private fun setupBanner() {
+        bannerViewPager = binding.bannerViewPager
         bannerViewPager.adapter = BannerAdapter(banners)
 
         val runnable = object : Runnable {
@@ -64,72 +71,101 @@ class HomeActivity : Fragment() {
             }
         }
         bannerHandler.postDelayed(runnable, 3000)
-
-        // Ẩn search & kết quả trước khi có dữ liệu
-        binding.edtSearch.isEnabled = false
-        binding.txtNoResult.visibility = View.GONE
-
-        // Load dữ liệu sản phẩm
-        ProductRepository.getAllProducts(
-            onSuccess = { productList ->
-                originalList = productList
-                binding.rvProducts.layoutManager = GridLayoutManager(context, 2)
-                productAdapter = ProductAdapter(
-                    originalList,
-                    userFavoriteIds,
-                    onItemClick = { product ->
-                        // Xử lý khi click vào sản phẩm
-                        val intent = Intent(requireContext(), SignInActivity::class.java)
-                        startActivity(intent)
-                    },
-                    onAddFavorite = { productId ->
-                        // Ví dụ: thêm sản phẩm vào danh sách yêu thích
-                        Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
-                    },
-                    onRemoveFavorite = { productId ->
-                        // Ví dụ: xóa sản phẩm khỏi danh sách yêu thích
-                        Toast.makeText(requireContext(), "Đã xóa yêu thích", Toast.LENGTH_SHORT).show()
-                    }
-                )
-
-                binding.rvProducts.adapter = productAdapter
-
-                // Sau khi gán adapter, mới cho phép search
-                binding.edtSearch.isEnabled = true
-                binding.edtSearch.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(s: Editable?) {
-                        val query = s.toString().trim()
-                        productAdapter.filter(query)
-                        
-                    }
-
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-                })
-            },
-            onFailure = { e ->
-                Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        )
     }
 
 
+    private fun loadProducts() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId == null) {
+            Toast.makeText(requireContext(), "Vui lòng đăng nhập để sử dụng tính năng yêu thích", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        WishListRepository.getFavoriteProductIds(userId, { favoriteIds ->
+            userFavoriteIds.clear()
+            userFavoriteIds.addAll(favoriteIds)
+
+            ProductRepository.getAllProducts(
+                onSuccess = { productList ->
+                    originalList = productList
+                    binding.rvProducts.layoutManager = GridLayoutManager(context, 2)
+                    productAdapter = ProductAdapter(
+                        originalList,
+                        userFavoriteIds,
+                        onItemClick = { product ->
+                            val intent = Intent(requireContext(), ProductDetailActivity::class.java)
+                            intent.putExtra("PRODUCT_ID", product.id)
+                            startActivity(intent)
+                        },
+                        onAddFavorite = { productId ->
+                            WishListRepository.addFavorite(userId, productId, {
+                                Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
+                                userFavoriteIds.add(productId)
+                                productAdapter.notifyDataSetChanged()
+                            }, { e ->
+                                Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                                Log.e("AddFavoriteError", e.message ?: "Không rõ lỗi")
+                            })
+                        },
+                    onRemoveFavorite = { productId ->
+                        WishListRepository.removeFavorite(userId, productId, {
+                            Toast.makeText(requireContext(), "Đã xóa yêu thích", Toast.LENGTH_SHORT).show()
+                            userFavoriteIds.remove(productId)
+                            productAdapter.notifyDataSetChanged()
+                        }, { e ->
+                            Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                        })
+                    }
+                )
+
+                    binding.rvProducts.adapter = productAdapter
+                    binding.edtSearch.isEnabled = true
+                    setupSearchListener()
+                },
+                onFailure = { e ->
+                    Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }, { e ->
+            Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+        })
+    }
+    private fun setupSearchListener() {
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().trim()
+                productAdapter.filter(query)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+    }
+    private fun checkAndCreateUserDocument(userId: String) {
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+
+        userRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                // Tài liệu đã tồn tại, có thể tiến hành cập nhật ở đây
+                Log.d("Firestore", "Tài liệu người dùng đã tồn tại.")
+            } else {
+                // Tạo tài liệu mới nếu không tồn tại
+                userRef.set(mapOf("favorites" to emptyList<String>())) // Hoặc các trường khác mà bạn cần
+                    .addOnSuccessListener {
+                        Log.d("Firestore", "Tài liệu người dùng đã được tạo thành công.")
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
-        // Tránh memory leak, gỡ binding khi view bị hủy
         _binding = null
     }
 }

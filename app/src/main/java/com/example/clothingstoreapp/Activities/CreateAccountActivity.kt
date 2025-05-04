@@ -2,66 +2,57 @@ package com.example.clothingstoreapp.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.CreateAccoutLayoutBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateAccountActivity : AppCompatActivity() {
-    private lateinit var binding : CreateAccoutLayoutBinding
-    private lateinit var mAuth : FirebaseAuth
+    private lateinit var binding: CreateAccoutLayoutBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = CreateAccoutLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // khởi tạo
-        mAuth = FirebaseAuth.getInstance()
-        setEvent()
-    }
-    private fun setEvent()
-    {
+
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         binding.btnSignUp.setOnClickListener {
+            val name = binding.edtName.text.toString().trim()
+            val phone = binding.edtPhone.text.toString().trim()
             val email = binding.edtEmail.text.toString().trim()
             val password = binding.edtPassword.text.toString().trim()
-            val name = binding.edtName.text.toString().trim()
-            if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
-            {
-                Toast.makeText(this, " Vui lòng điền đầy dủ các thông tin ",Toast.LENGTH_LONG).show()
+
+            if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this){task ->
 
-                    if (task.isSuccessful)
-                    {
-                        val user = mAuth.currentUser
-
-                        // cập nhat them name
-                        val profile = user?.let {
-                            com.google.firebase.auth.UserProfileChangeRequest.Builder()
-                                .setDisplayName(name)
-                                .build()
-                        }
-                        user?.updateProfile(profile!!)
-                            ?.addOnCompleteListener { updateTask ->
-                                if(updateTask.isSuccessful)
-                                {
-                                    Toast.makeText(this," Đăng kí thành công",Toast.LENGTH_LONG).show()
-                                    val intent = Intent(this,SignInActivity::class.java)
-                                    startActivity(intent)
-                                }
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val uid = auth.currentUser?.uid
+                        val userMap = hashMapOf(
+                            "name" to name,
+                            "phone" to phone,
+                            "email" to email
+                        )
+                        db.collection("users").document(uid!!)
+                            .set(userMap)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, SignInActivity::class.java))
+                                finish()
                             }
-
-                    }
-                    else
-                    {
-                        Toast.makeText(this, "Đăng kí thất bại: ${task.exception?.message}",Toast.LENGTH_LONG).show()
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Lỗi lưu dữ liệu: ${it.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        Toast.makeText(this, "Lỗi đăng ký: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
         }

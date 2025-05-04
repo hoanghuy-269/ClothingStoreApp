@@ -62,7 +62,10 @@ class WishListActivity : Fragment() {
         ProductRepository.getProductsByIds(ids, { productList ->
             wishListAdapter = WishListAdapter(productList,
                 onRemoveFavorite = { productId -> onRemoveFavorite(productId) },
-                onItemClick = { product -> showToast("Đã chọn: ${product.name}") }
+                onItemClick = { product ->
+                    showToast("Đã chọn: ${product.name}")
+                }
+
             )
             binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
             binding.recyclerView.adapter = wishListAdapter

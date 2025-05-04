@@ -20,6 +20,7 @@ import com.example.clothingstoreapp.Adapter.ProductAdapter
 import com.example.clothingstoreapp.repository.WishListRepository
 import com.example.clothingstoreapp.databinding.HomeLayoutBinding
 import com.example.clothingstoreapp.model.Product
+
 import com.example.clothingstoreapp.repository.ProductRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -94,8 +95,8 @@ class HomeActivity : Fragment() {
                         originalList,
                         userFavoriteIds,
                         onItemClick = { product ->
-                            val intent = Intent(requireContext(), ProductDetailActivity::class.java)
-                            intent.putExtra("PRODUCT_ID", product.id)
+                            val intent = Intent(requireContext(), ProductdetailsMainActivity::class.java)
+                            intent.putExtra("PRODUCT_ID", product.id)  // Truyền productId
                             startActivity(intent)
                         },
                         onAddFavorite = { productId ->

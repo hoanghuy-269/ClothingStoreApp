@@ -13,7 +13,7 @@ class WelcomeOderActivity : AppCompatActivity() {
         binding = WelcomeOderLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnRight.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this,SignInActivity::class.java)
             startActivity(intent)
         }
         binding.btnleft.setOnClickListener {
@@ -22,6 +22,5 @@ class WelcomeOderActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_out_left,R.anim.slide_in_left)
 
         }
-
     }
 }

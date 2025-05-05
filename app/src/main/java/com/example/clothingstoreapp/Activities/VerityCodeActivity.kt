@@ -34,7 +34,6 @@ class VerityCodeActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email") ?: ""
         binding.txtemail.setText(email)
 
-
         setEventListeners()
         checkAndRequestSmsPermission()
     }
@@ -43,7 +42,11 @@ class VerityCodeActivity : AppCompatActivity() {
         // Gửi mã OTP khi nhấn "Send"
         binding.btnSend.setOnClickListener {
             val phoneNumber = binding.txtPhone.text.toString()
-            sendOtpToPhone(phoneNumber)
+            if (phoneNumber.isNotEmpty()) {
+                sendOtpToPhone(phoneNumber)
+            } else {
+                Toast.makeText(this, "Vui lòng nhập số điện thoại", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Xác minh OTP khi nhấn "Verify"
@@ -70,7 +73,6 @@ class VerityCodeActivity : AppCompatActivity() {
         }
     }
 
-    // Gửi OTP đến số điện thoại
     private fun sendOtpToPhone(phoneNumber: String) {
         val options = PhoneAuthOptions.newBuilder(mAuth)
             .setPhoneNumber(phoneNumber)       // Số điện thoại của người dùng
@@ -78,7 +80,7 @@ class VerityCodeActivity : AppCompatActivity() {
             .setActivity(this)                  // Context của Activity
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-
+                    // Xác thực thành công mà không cần OTP
                     signInWithPhoneAuthCredential(phoneAuthCredential)
                 }
 
@@ -86,9 +88,12 @@ class VerityCodeActivity : AppCompatActivity() {
                     // Xử lý nếu xác minh OTP thất bại
                     if (e is FirebaseAuthInvalidCredentialsException) {
                         Toast.makeText(this@VerityCodeActivity, "Mã OTP không hợp lệ", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@VerityCodeActivity, "Lỗi xác thực: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                     Log.e("OTP", "Verification failed: ${e.message}")
                 }
+
                 override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
                     // Lưu lại verificationId khi mã OTP được gửi
                     this@VerityCodeActivity.verificationId = verificationId
@@ -97,18 +102,15 @@ class VerityCodeActivity : AppCompatActivity() {
             })
             .build()
 
-        // Gọi phương thức verifyPhoneNumber với PhoneAuthOptions
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    // Xử lý khi xác nhận mã OTP
     private fun verifyOtp(otp: String) {
         val verificationId = verificationId ?: return
         val credential = PhoneAuthProvider.getCredential(verificationId, otp)
         signInWithPhoneAuthCredential(credential)
     }
 
-    // Đăng nhập với PhoneAuthCredential (sau khi xác nhận OTP)
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
@@ -117,35 +119,37 @@ class VerityCodeActivity : AppCompatActivity() {
                     val phone = intent.getStringExtra("Phone_number") ?: ""
 
                     // Gửi email đặt lại mật khẩu
-                    FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                        .addOnCompleteListener { resetTask ->
-                            if (resetTask.isSuccessful) {
-                                Toast.makeText(
-                                    this,
-                                    "Đã gửi email đặt lại mật khẩu đến $email",
-                                    Toast.LENGTH_LONG
-                                ).show()
-
-                                // Quay về màn hình đăng nhập hoặc trang chính
-                                val intent = Intent(this, SignInActivity::class.java).apply {
-                                    putExtra("email", email)
-                                    putExtra("phone", phone)
-                                }
-                                startActivity(intent)
-                                finish()
-                            } else {
-                                val errorMsg = resetTask.exception?.message ?: "Gửi email thất bại"
-                                Toast.makeText(this, "Lỗi: $errorMsg", Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                    sendPasswordResetEmail(email, phone)
                 } else {
                     Toast.makeText(this, "Lỗi xác thực OTP", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
+    private fun sendPasswordResetEmail(email: String, phone: String) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+            .addOnCompleteListener { resetTask ->
+                if (resetTask.isSuccessful) {
+                    Toast.makeText(
+                        this,
+                        "Đã gửi email đặt lại mật khẩu đến $email",
+                        Toast.LENGTH_LONG
+                    ).show()
 
-    // Lấy mã OTP từ các trường nhập liệu
+                    // Quay về màn hình đăng nhập hoặc trang chính
+                    val intent = Intent(this, SignInActivity::class.java).apply {
+                        putExtra("email", email)
+                        putExtra("phone", phone)
+                    }
+                    startActivity(intent)
+                    finish()
+                } else {
+                    val errorMsg = resetTask.exception?.message ?: "Gửi email thất bại"
+                    Toast.makeText(this, "Lỗi: $errorMsg", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     private fun getOtpFromEditText(): String? {
         val otp = StringBuilder()
         otp.append(binding.otp1.text.toString())

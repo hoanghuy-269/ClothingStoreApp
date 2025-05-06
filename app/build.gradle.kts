@@ -70,12 +70,10 @@ dependencies {
     // thư viện lưu trữ anh
     implementation ("com.cloudinary:cloudinary-android:2.5.0")
 
-    // thư viên facebook và goggle
-    // Google Sign-In SDK
-    implementation ("com.google.android.gms:play-services-auth:20.0.1")
 
-    // Facebook SDK
-    implementation ("com.facebook.android:facebook-login:12.1.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+
+    implementation ("com.google.firebase:firebase-database:21.0.0")
 
 
 

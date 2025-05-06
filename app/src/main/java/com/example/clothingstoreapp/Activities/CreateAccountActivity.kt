@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateAccountActivity : AppCompatActivity() {
+
     private lateinit var binding: CreateAccoutLayoutBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
@@ -36,38 +37,46 @@ class CreateAccountActivity : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            binding.progressBar.visibility = View.VISIBLE
+            
+            if (password.length < 6) {
+                Toast.makeText(this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            showLoading(true)
 
             auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val uid = auth.currentUser?.uid ?: ""
-                        val user = User(
-                            uid = uid,
-                            name = name,
-                            phone = phone,
-                            email = email,
-                            gender = null,
-                            avatarURI = null
-                        )
+                .addOnSuccessListener {
+                    val uid = auth.currentUser?.uid ?: ""
+                    val user = User(
+                        uid = uid,
+                        name = name,
+                        phone = phone,
+                        email = email,
+                        gender = null,
+                        avatarURI = null
+                    )
 
-                        db.collection("users").document(uid).set(user)
-                            .addOnSuccessListener {
-                                binding.progressBar.visibility = View.GONE
-                                Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this, SignInActivity::class.java))
-                                finish()
-                            }
-                            .addOnFailureListener {
-                                binding.progressBar.visibility = View.GONE
-                                Toast.makeText(this, "Lỗi lưu dữ liệu: ${it.message}", Toast.LENGTH_SHORT).show()
-                            }
-                    } else {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(this, "Lỗi đăng ký: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                    }
+                    db.collection("users").document(uid).set(user)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, SignInActivity::class.java))
+                            finish()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Lỗi lưu dữ liệu: ${it.message}", Toast.LENGTH_SHORT).show()
+                            showLoading(false)
+                        }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Lỗi đăng ký: ${it.message}", Toast.LENGTH_SHORT).show()
+                    showLoading(false)
                 }
         }
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.btnSignUp.isEnabled = !isLoading
+    }
 }

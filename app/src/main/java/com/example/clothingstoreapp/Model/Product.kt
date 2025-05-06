@@ -13,8 +13,4 @@ data class Product(
     val createdAt: Timestamp = Timestamp.now(),
     val rating: Float = 0f,
     val sizes: List<String>? = null // Đảm bảo tham số này có giá trị mặc định là null
-) {
-    // Constructor không đối số cần thiết cho Firestore
-    constructor() : this("", "", "", 0, 0, "", "", Timestamp.now(), 0f, null)
-}
-
+)

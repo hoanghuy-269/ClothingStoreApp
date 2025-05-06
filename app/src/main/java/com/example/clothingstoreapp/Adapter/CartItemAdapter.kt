@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothingstoreapp.R
-import com.example.clothingstoreapp.model.OrderItem
+import com.example.clothingstoreapp.Model.OrderItem
 
 class CartItemAdapter(
     private val itemList: MutableList<OrderItem>

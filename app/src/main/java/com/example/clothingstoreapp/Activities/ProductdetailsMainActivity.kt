@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.clothingstoreapp.databinding.ActivityProductdetailsMainBinding
-import com.example.clothingstoreapp.model.Product
-import com.example.clothingstoreapp.model.OrderItem
 import com.google.firebase.firestore.FirebaseFirestore
 import android.content.Intent
+import com.example.clothingstoreapp.Model.OrderItem
+import com.example.clothingstoreapp.model.Product
 
 class ProductdetailsMainActivity : AppCompatActivity() {
 
@@ -60,7 +60,7 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                 orderRef.get().addOnSuccessListener { snapshot ->
                     if (snapshot.exists()) {
                         val existingOrder =
-                            snapshot.toObject(com.example.clothingstoreapp.model.Order::class.java)
+                            snapshot.toObject(com.example.clothingstoreapp.Model.Order::class.java)
                         val items = existingOrder?.items?.toMutableList() ?: mutableListOf()
 
                         // Kiểm tra nếu sản phẩm đã có trong giỏ hàng (cùng size)
@@ -80,17 +80,14 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                                 Toast.makeText(this, "Đã cập nhật giỏ hàng", Toast.LENGTH_SHORT)
                                     .show()
                                 // Chuyển màn hình sang CartActivity
-                                startActivity(
-                                    Intent(
-                                        this,
-                                        CartActivity::class.java
-                                    )
-                                ) // Chuyển sang màn hình giỏ hàng
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.putExtra("SHOW_CART_FRAGMENT", true) // Đặt flag để MainActivity biết rằng phải hiển thị CartFragment
+                                startActivity(intent)// Chuyển sang màn hình giỏ hàng
                             }
 
                     } else {
                         // Tạo mới giỏ hàng nếu chưa có
-                        val newOrder = com.example.clothingstoreapp.model.Order(
+                        val newOrder = com.example.clothingstoreapp.Model.Order(
                             userId = "user_01", // Hoặc lấy từ FirebaseAuth
                             orderDate = System.currentTimeMillis().toString(),
                             status = "pending",

@@ -16,8 +16,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Hiển thị Fragment mặc định
-        replaceFragment(HomeActivity())
-
+        if (intent.getBooleanExtra("SHOW_CART_FRAGMENT", false)) {
+            replaceFragment(CartActivity()) // Hiển thị CartFragment nếu cần
+        } else {
+            replaceFragment(HomeActivity()) // Hiển thị HomeFragment nếu không
+        }
         // Xử lý khi chọn bottom nav item
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {

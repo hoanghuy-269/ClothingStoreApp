@@ -48,10 +48,8 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                 // Tạo đối tượng OrderItem với thông tin sản phẩm đã có
                 val orderItem = OrderItem(
                     productId = product?.id ?: "", // Dùng id sản phẩm đã tải về
-                    productName = product?.name ?: "", // Tên sản phẩm
                     price = product?.price?.toDouble() ?: 0.0, // Giá sản phẩm
-                    quantity = 1,
-                    size = sizeToAdd // Sử dụng size mặc định hoặc size đã chọn
+                    quantity = 1
                 )
 
                 val db = FirebaseFirestore.getInstance()
@@ -65,7 +63,7 @@ class ProductdetailsMainActivity : AppCompatActivity() {
 
                         // Kiểm tra nếu sản phẩm đã có trong giỏ hàng (cùng size)
                         val matchedIndex = items.indexOfFirst {
-                            it.productId == orderItem.productId && it.size == orderItem.size
+                            it.productId == orderItem.productId
                         }
 
                         if (matchedIndex != -1) {

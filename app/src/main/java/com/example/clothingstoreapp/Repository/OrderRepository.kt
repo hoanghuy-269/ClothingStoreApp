@@ -25,7 +25,7 @@ object OrderRepository {
     fun getOrder(orderId: String, onResult: (Order?) -> Unit) {
         ordersCollection.document(orderId).get()
             .addOnSuccessListener { snapshot ->
-                val order = snapshot.toObject<Order>()
+                val order = snapshot.toObject<Order>()?.copy(id = orderId) // Gán ID tài liệu
                 onResult(order)
             }
             .addOnFailureListener { e ->

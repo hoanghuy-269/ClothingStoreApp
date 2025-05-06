@@ -10,6 +10,7 @@ import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.ItemProductBinding
 import com.example.clothingstoreapp.model.Product
 
+
 class ProductAdapter(
     private val originalList: List<Product>,
     private val favoriteIds: MutableSet<String>,

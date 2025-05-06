@@ -37,7 +37,7 @@ class CreateAccountActivity : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            
+
             if (password.length < 6) {
                 Toast.makeText(this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

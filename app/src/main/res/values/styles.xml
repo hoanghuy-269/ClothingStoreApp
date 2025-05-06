@@ -33,5 +33,10 @@
         <item name="backgroundTint">#6B3E26</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+    <style name="CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">40%</item>
+    </style>
+
 
 </resources>

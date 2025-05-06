@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingstoreapp.databinding.WelcomeLayoutBinding
 
-class WelcomeHomeActivity : AppCompatActivity() {
+class WelcomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: WelcomeLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,7 @@ class WelcomeHomeActivity : AppCompatActivity() {
     private fun setEvent()
     {
         binding.btnWelcomeGetarted.setOnClickListener {
-            val intent = Intent(this, WelcomeActivity2::class.java)
+            val intent = Intent(this, OnboardingScreenActivity::class.java)
             startActivity(intent)
         }
         binding.txtWelcomeSignIn.setOnClickListener {
@@ -26,4 +26,5 @@ class WelcomeHomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 }

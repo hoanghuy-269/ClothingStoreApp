@@ -1,4 +1,4 @@
-package com.example.clothingstoreapp.model
+package com.example.clothingstoreapp.Model
 
 data class OrderItem(
     val productId: String = "",

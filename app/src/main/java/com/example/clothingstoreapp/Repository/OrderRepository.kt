@@ -1,7 +1,7 @@
 package com.example.clothingstoreapp.Repository
 
 import android.util.Log
-import com.example.clothingstoreapp.model.Order
+import com.example.clothingstoreapp.Model.Order
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 

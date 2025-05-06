@@ -19,9 +19,6 @@
             android:name=".Activities.ProductdetailsMainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ProductDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity

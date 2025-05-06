@@ -136,7 +136,7 @@ class VerityCodeActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    // Quay về màn hình đăng nhập hoặc trang chính
+                    // Quay về màn hình SignIn
                     val intent = Intent(this, SignInActivity::class.java).apply {
                         putExtra("email", email)
                         putExtra("phone", phone)

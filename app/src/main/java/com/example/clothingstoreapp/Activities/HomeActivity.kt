@@ -51,13 +51,15 @@ class HomeActivity : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Kiểm tra và tạo tài liệu người dùng nếu chưa tồn tại
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             checkAndCreateUserDocument(userId)
-            loadProducts()
+            loadProducts(userId)  // Chỉ gọi hàm loadProducts một lần
         }
+
         setupBanner()
-        loadProducts()
     }
 
     private fun setupBanner() {
@@ -74,15 +76,7 @@ class HomeActivity : Fragment() {
         bannerHandler.postDelayed(runnable, 3000)
     }
 
-
-    private fun loadProducts() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-
-        if (userId == null) {
-            Toast.makeText(requireContext(), "Vui lòng đăng nhập để sử dụng tính năng yêu thích", Toast.LENGTH_SHORT).show()
-            return
-        }
-
+    private fun loadProducts(userId: String) {
         WishListRepository.getFavoriteProductIds(userId, { favoriteIds ->
             userFavoriteIds.clear()
             userFavoriteIds.addAll(favoriteIds)
@@ -96,33 +90,32 @@ class HomeActivity : Fragment() {
                         userFavoriteIds,
                         onItemClick = { product ->
                             val intent = Intent(requireContext(), ProductdetailsMainActivity::class.java)
-                            intent.putExtra("PRODUCT_ID", product.id)  // Truyền productId
+                            intent.putExtra("PRODUCT_ID", product.id)
                             startActivity(intent)
                         },
+                        // Chỉ thêm vào yêu thích, không xóa
                         onAddFavorite = { productId ->
-                            WishListRepository.addFavorite(userId, productId, {
-                                Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
-                                userFavoriteIds.add(productId)
-                                productAdapter.notifyDataSetChanged()
-                            }, { e ->
-                                Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
-                                Log.e("AddFavoriteError", e.message ?: "Không rõ lỗi")
-                            })
+                            if (!userFavoriteIds.contains(productId)) {
+                                WishListRepository.addFavorite(userId, productId, {
+                                    Toast.makeText(requireContext(), "Đã thêm yêu thích", Toast.LENGTH_SHORT).show()
+                                    userFavoriteIds.add(productId)
+                                    productAdapter.notifyDataSetChanged()
+                                }, { e ->
+                                    Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                                    Log.e("AddFavoriteError", e.message ?: "Không rõ lỗi")
+                                })
+                            } else {
+                                Toast.makeText(requireContext(), "Sản phẩm đã là yêu thích", Toast.LENGTH_SHORT).show()
+                            }
                         },
-                    onRemoveFavorite = { productId ->
-                        WishListRepository.removeFavorite(userId, productId, {
-                            Toast.makeText(requireContext(), "Đã xóa yêu thích", Toast.LENGTH_SHORT).show()
-                            userFavoriteIds.remove(productId)
-                            productAdapter.notifyDataSetChanged()
-                        }, { e ->
-                            Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
-                        })
-                    }
-                )
+                        // Xóa RemoveFavorite sẽ không sử dụng nữa
+                        onRemoveFavorite = { _ -> }
+                    )
 
                     binding.rvProducts.adapter = productAdapter
                     binding.edtSearch.isEnabled = true
                     setupSearchListener()
+
                 },
                 onFailure = { e ->
                     Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -132,6 +125,8 @@ class HomeActivity : Fragment() {
             Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
         })
     }
+
+
     private fun setupSearchListener() {
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -144,16 +139,15 @@ class HomeActivity : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
+
     private fun checkAndCreateUserDocument(userId: String) {
         val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
 
         userRef.get().addOnSuccessListener { document ->
             if (document.exists()) {
-                // Tài liệu đã tồn tại, có thể tiến hành cập nhật ở đây
                 Log.d("Firestore", "Tài liệu người dùng đã tồn tại.")
             } else {
-                // Tạo tài liệu mới nếu không tồn tại
-                userRef.set(mapOf("favorites" to emptyList<String>())) // Hoặc các trường khác mà bạn cần
+                userRef.set(mapOf("favorites" to emptyList<String>()))
                     .addOnSuccessListener {
                         Log.d("Firestore", "Tài liệu người dùng đã được tạo thành công.")
                     }
@@ -165,6 +159,7 @@ class HomeActivity : Fragment() {
             Toast.makeText(context, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

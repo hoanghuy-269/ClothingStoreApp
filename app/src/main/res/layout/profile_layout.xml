@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="24dp"
     android:background="@android:color/white">
 
@@ -12,13 +13,14 @@
 
         <!-- Nút quay lại -->
         <ImageView
+            android:id="@+id/imgBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_back"
             android:background="@drawable/circle_bg"
             android:padding="10dp"
             android:layout_gravity="start"
-            android:contentDescription="Back" />
+             />
 
         <!-- Tiêu đề -->
         <TextView
@@ -46,12 +48,13 @@
             android:layout_height="120dp"
             android:layout_marginTop="24dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/profile"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:background="@drawable/circle_bg_gray" />
+                android:src="@drawable/profile"
+                app:shapeAppearanceOverlay="@style/CircleImageView" />
 
             <ImageView
                 android:id="@+id/imgEdit"
@@ -72,6 +75,7 @@
             android:textSize="15dp"
             />
         <EditText
+            android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Name"
@@ -95,19 +99,8 @@
             android:background="@drawable/edittext_bg"
             android:gravity="center_vertical"
             android:paddingHorizontal="8dp">
-
-            <Spinner
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:entries="@array/country_codes" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="8dp"
-                android:background="#CCCCCC" />
-
             <EditText
+                android:id="@+id/edtPhone"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -126,6 +119,7 @@
             android:layout_marginTop="15dp"
             />
         <Spinner
+            android:id="@+id/spnGender"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
@@ -134,6 +128,7 @@
 
         <!-- Nút Complete -->
         <Button
+            android:id="@+id/btnComplete"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Complete Profile"

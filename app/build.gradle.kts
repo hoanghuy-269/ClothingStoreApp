@@ -15,7 +15,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -67,6 +66,19 @@ dependencies {
 
     implementation(libs.firebase.auth.ktx)
     implementation(libs.flexbox)
+
+    // thư viện lưu trữ anh
+    implementation ("com.cloudinary:cloudinary-android:2.5.0")
+
+    // thư viên facebook và goggle
+    // Google Sign-In SDK
+    implementation ("com.google.android.gms:play-services-auth:20.0.1")
+
+    // Facebook SDK
+    implementation ("com.facebook.android:facebook-login:12.1.0")
+
+
+
 
 }
 

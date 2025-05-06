@@ -1,4 +1,4 @@
-package com.example.clothingstoreapp.model
+package com.example.clothingstoreapp.Model
 
 import com.google.firebase.Timestamp
 

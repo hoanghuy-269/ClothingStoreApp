@@ -126,7 +126,7 @@ class VerityCodeActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String): Boolean {
             val email = params[0]
             val otp = params[1]
-            val apiKey = "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"
+            val apiKey = ""
             val client = OkHttpClient()
 
             val json = JSONObject().apply {

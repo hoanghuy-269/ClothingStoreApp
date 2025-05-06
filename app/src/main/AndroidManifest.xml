@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.clothingstoreapp">
 
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Dành cho Android ≤ 12 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Dành cho Android 13+ -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.ProductDetailActivity"
+            android:name=".Activities.ProducggtDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"

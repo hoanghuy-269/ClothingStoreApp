@@ -12,7 +12,7 @@ import com.example.clothingstoreapp.databinding.ActivityProductdetailsMainBindin
 import com.google.firebase.firestore.FirebaseFirestore
 import android.content.Intent
 import com.example.clothingstoreapp.Model.OrderItem
-import com.example.clothingstoreapp.model.Product
+import com.example.clothingstoreapp.Model.Product
 
 class ProductdetailsMainActivity : AppCompatActivity() {
 

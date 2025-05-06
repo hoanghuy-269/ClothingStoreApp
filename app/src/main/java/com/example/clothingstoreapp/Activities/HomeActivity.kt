@@ -17,9 +17,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.clothingstoreapp.Adapter.BannerAdapter
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.Adapter.ProductAdapter
-import com.example.clothingstoreapp.repository.WishListRepository
+import com.example.clothingstoreapp.Model.Product
+import com.example.clothingstoreapp.Repository.WishListRepository
 import com.example.clothingstoreapp.databinding.HomeLayoutBinding
-import com.example.clothingstoreapp.model.Product
 
 import com.example.clothingstoreapp.repository.ProductRepository
 import com.google.firebase.auth.FirebaseAuth

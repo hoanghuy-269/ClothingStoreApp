@@ -20,6 +20,7 @@
         <activity
             android:name=".Activities.ProductdetailsMainActivity"
             android:exported="false" />
+
         <activity
             android:name=".Activities.ProfileDetalActivity"
             android:exported="true" />
@@ -32,6 +33,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
+
         <activity
             android:name=".Activities.MainActivity"
             android:exported="false" />
@@ -45,7 +51,13 @@
             android:name=".Activities.SignInActivity"
             android:exported="false" />
         <activity
+
             android:name=".Activities.OnboardingScreenActivity"
             android:exported="false"/>
+
+
+
+
+            git
     </application>
 </manifest>

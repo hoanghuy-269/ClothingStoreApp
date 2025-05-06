@@ -16,7 +16,12 @@
         android:contentDescription="Back"
         android:padding="8dp"
         android:src="@drawable/ic_back" />
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
@@ -32,19 +37,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Please enter the code we just sent to email"
+        android:text="Please enter the code we just sent to phone"
         android:textColor="#888888"
         android:textSize="14sp" />
 
     <!-- Email -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="example@email.com"
-        android:textColor="@color/brown"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+84 97 114 5573"
+            android:textColor="@color/brown"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="email"
+            android:textColor="@color/brown"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     <!-- OTP input fields -->
     <LinearLayout
@@ -71,6 +87,15 @@
             android:id="@+id/otp4"
             style="@style/OtpBoxStyle"
             android:layout_marginStart="12dp" />
+        <EditText
+            android:id="@+id/otp5"
+            style="@style/OtpBoxStyle"
+            android:layout_marginStart="12dp" />
+
+        <EditText
+            android:id="@+id/otp6"
+            style="@style/OtpBoxStyle"
+            android:layout_marginStart="12dp" />
     </LinearLayout>
 
     <!-- Resend text -->
@@ -84,14 +109,33 @@
         android:textSize="14sp" />
 
     <!-- Verify Button -->
-    <Button
-        android:id="@+id/btnVerify"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="32dp"
-        android:text="Verify"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/brown"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="24dp" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       >
+       <Button
+           android:id="@+id/btnSend"
+           android:layout_width="match_parent"
+           android:layout_height="48dp"
+           android:layout_marginTop="32dp"
+           android:layout_weight="1"
+           android:text="Send"
+           android:textAllCaps="false"
+           android:backgroundTint="@color/brown"
+           android:textColor="#FFFFFF"
+           app:cornerRadius="24dp" />
+
+       <Button
+           android:id="@+id/btnVerify"
+           android:layout_width="match_parent"
+           android:layout_height="48dp"
+           android:layout_marginTop="32dp"
+           android:layout_weight="1"
+           android:text="Verify"
+           android:textAllCaps="false"
+           android:backgroundTint="@color/brown"
+           android:textColor="#FFFFFF"
+           app:cornerRadius="24dp" />
+
+   </LinearLayout>
 </LinearLayout>

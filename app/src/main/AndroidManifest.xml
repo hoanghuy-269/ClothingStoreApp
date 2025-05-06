@@ -4,6 +4,8 @@
     package="com.example.clothingstoreapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:allowBackup="true"
@@ -19,13 +21,19 @@
             android:name=".Activities.ProductdetailsMainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ProductDetailActivity"
-            android:exported="false" />
+            android:name=".Activities.ProfileDetalActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.WelcomeScreenActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.NewPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.VerityCodeActivity"
@@ -37,24 +45,7 @@
             android:name=".Activities.SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.WelcomeOderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.WelcomeActivity3"
-            android:exported="false"
-            android:label="@string/title_activity_welcome3" />
-        <activity
-            android:name=".Activities.WelcomeActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.WelcomeHomeActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".Activities.OnboardingScreenActivity"
+            android:exported="false"/>
     </application>
-
 </manifest>

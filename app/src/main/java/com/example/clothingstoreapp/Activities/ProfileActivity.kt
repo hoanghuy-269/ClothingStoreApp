@@ -10,9 +10,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.cloudinary.android.MediaManager
-import com.cloudinary.android.callback.ErrorInfo
-import com.cloudinary.android.callback.UploadCallback
 import com.example.clothingstoreapp.Cloudinary.CloudinaryConfig
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.ProfileBinding

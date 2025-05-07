@@ -1,7 +1,7 @@
 package com.example.clothingstoreapp.repository
 
 import android.util.Log
-import com.example.clothingstoreapp.model.Product
+import com.example.clothingstoreapp.Model.Product
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 

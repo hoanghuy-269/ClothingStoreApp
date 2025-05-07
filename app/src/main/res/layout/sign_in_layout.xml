@@ -32,25 +32,6 @@
             android:textSize="14sp" />
 
         <!-- Phone -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Phone"
-            android:textSize="15dp" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            style="@style/RoundedTextInput"
-            android:layout_height="wrap_content"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:text="+84 " />
-        </com.google.android.material.textfield.TextInputLayout>
-
 
         <!-- Email -->
         <TextView

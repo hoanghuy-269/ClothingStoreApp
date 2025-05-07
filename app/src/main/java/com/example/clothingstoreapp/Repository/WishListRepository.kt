@@ -1,6 +1,6 @@
-package com.example.clothingstoreapp.repository
+package com.example.clothingstoreapp.Repository
 
-import com.example.clothingstoreapp.model.Product
+import com.example.clothingstoreapp.Model.Product
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore

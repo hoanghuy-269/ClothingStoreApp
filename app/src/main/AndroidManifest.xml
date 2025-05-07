@@ -35,9 +35,6 @@
         </activity>
 
 
-
-
-
         <activity
             android:name=".Activities.MainActivity"
             android:exported="false" />
@@ -54,10 +51,5 @@
 
             android:name=".Activities.OnboardingScreenActivity"
             android:exported="false"/>
-
-
-
-
-
     </application>
 </manifest>

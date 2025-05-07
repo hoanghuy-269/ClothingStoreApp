@@ -1,7 +1,7 @@
 package com.example.clothingstoreapp.Repository
 
 import android.util.Log
-import com.example.clothingstoreapp.model.Order
+import com.example.clothingstoreapp.Model.Order
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 
@@ -25,7 +25,7 @@ object OrderRepository {
     fun getOrder(orderId: String, onResult: (Order?) -> Unit) {
         ordersCollection.document(orderId).get()
             .addOnSuccessListener { snapshot ->
-                val order = snapshot.toObject<Order>()
+                val order = snapshot.toObject<Order>()?.copy(id = orderId) // Gán ID tài liệu
                 onResult(order)
             }
             .addOnFailureListener { e ->

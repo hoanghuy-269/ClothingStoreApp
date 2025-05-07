@@ -2,7 +2,11 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
+<<<<<<< HEAD
       <SelectionState runConfigName="WelcomeHomeActivity">
+=======
+      <SelectionState runConfigName="app">
+>>>>>>> 14a3423bf7827c07b3b98217eb5aec8073355844
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.ItemWishlistLayoutBinding
-import com.example.clothingstoreapp.model.Product
+import com.example.clothingstoreapp.Model.Product
 import com.google.firebase.firestore.Query
 
 class WishListAdapter(

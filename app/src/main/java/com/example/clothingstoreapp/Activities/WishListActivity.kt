@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothingstoreapp.Adapter.WishListAdapter
 import com.example.clothingstoreapp.databinding.MyWishlistLayoutBinding
 import com.example.clothingstoreapp.repository.ProductRepository
-import com.example.clothingstoreapp.repository.WishListRepository
+import com.example.clothingstoreapp.Repository.WishListRepository
 import com.google.firebase.auth.FirebaseAuth
 
 class WishListActivity : Fragment() {

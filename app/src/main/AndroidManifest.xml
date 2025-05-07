@@ -17,9 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31" >
+
         <activity
             android:name=".Activities.ProductdetailsMainActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name=".Activities.ProfileDetalActivity"
@@ -37,7 +38,7 @@
 
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Activities.VerityCodeActivity"
             android:exported="false" />

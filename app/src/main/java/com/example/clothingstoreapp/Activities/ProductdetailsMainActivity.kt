@@ -1,174 +1,190 @@
 package com.example.clothingstoreapp.Activities
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.ViewGroup
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.clothingstoreapp.databinding.ActivityProductdetailsMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
-import com.example.clothingstoreapp.Model.OrderItem
+import androidx.fragment.app.Fragment
+import com.example.clothingstoreapp.Model.CartItem
 import com.example.clothingstoreapp.Model.Product
+import com.example.clothingstoreapp.Model.Cart
+import com.example.clothingstoreapp.R
+import com.google.android.material.snackbar.Snackbar
 
 class ProductdetailsMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProductdetailsMainBinding
-    private var selectedSize: String? = null // Lưu trữ size đã chọn
-    private var product: Product? = null // Lưu trữ thông tin sản phẩm
+    private var selectedSize: String? = null
+    private var product: Product? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductdetailsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Quay lại màn hình trước
         binding.btnBack.setOnClickListener {
             finish()
         }
 
-        // Lấy ID sản phẩm từ Intent
         val productId = intent.getStringExtra("PRODUCT_ID")
         if (productId != null) {
             loadProductDetails(productId)
         } else {
             Toast.makeText(this, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show()
         }
-
+        binding.btnBuyNow.setOnClickListener {
+            val intent = Intent(this, OrderActivity::class.java).apply {
+                putExtra("productId", product?.id)
+                putExtra("productName", product?.name)
+                putExtra("productPrice", product?.price)
+                putExtra("selectedSize", "M")
+                putExtra("quantity", 1) // Giả sử mua 1 sản phẩm
+            }
+            startActivity(intent)
+//            if (product != null && selectedSize != null) {
+//
+//            } else {
+//                Toast.makeText(this, "Vui lòng chọn kích thước và sản phẩm.", Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+        }
         binding.btnAddToCart.setOnClickListener {
-            // Sử dụng size mặc định nếu không có size được chọn
-            val sizeToAdd = selectedSize ?: "M"  // Mặc định chọn size "M" nếu không có size
-
+            val sizeToAdd = selectedSize ?: "M"
             if (product != null) {
-                // Tạo đối tượng OrderItem với thông tin sản phẩm đã có
-                val orderItem = OrderItem(
-                    productId = product?.id ?: "", // Dùng id sản phẩm đã tải về
-                    price = product?.price?.toDouble() ?: 0.0, // Giá sản phẩm
+                val cartItem = CartItem(
+                    productId = product?.id ?: "",
+                    name = product?.name ?: "",
+                    price = product?.price?.toDouble() ?: 0.0,
+                    imageUrl = product?.images ?: "",
+                    selectedSize = sizeToAdd,
                     quantity = 1
                 )
 
-                val db = FirebaseFirestore.getInstance()
-                val orderRef = db.collection("orders").document("current_cart")
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+                if (userId != null) {
+                    val db = FirebaseFirestore.getInstance()
+                    val cartRef = db.collection("carts").document(userId)
 
-                orderRef.get().addOnSuccessListener { snapshot ->
-                    if (snapshot.exists()) {
-                        val existingOrder =
-                            snapshot.toObject(com.example.clothingstoreapp.Model.Order::class.java)
-                        val items = existingOrder?.items?.toMutableList() ?: mutableListOf()
+                    cartRef.get().addOnSuccessListener { snapshot ->
+                        if (snapshot.exists()) {
+                            val existingCart = snapshot.toObject(Cart::class.java)
+                            val items = existingCart?.items?.toMutableList() ?: mutableListOf()
 
-                        // Kiểm tra nếu sản phẩm đã có trong giỏ hàng (cùng size)
-                        val matchedIndex = items.indexOfFirst {
-                            it.productId == orderItem.productId
-                        }
-
-                        if (matchedIndex != -1) {
-                            items[matchedIndex].quantity += 1 // Nếu có thì cộng thêm 1 vào quantity
-                        } else {
-                            items.add(orderItem) // Nếu chưa có, thêm mới
-                        }
-
-                        // Cập nhật giỏ hàng trong Firestore
-                        orderRef.update("items", items)
-                            .addOnSuccessListener {
-                                Toast.makeText(this, "Đã cập nhật giỏ hàng", Toast.LENGTH_SHORT)
-                                    .show()
-                                // Chuyển màn hình sang CartActivity
-                               // Chuyển sang màn hình giỏ hàng
+                            val matchedIndex = items.indexOfFirst {
+                                it.productId == cartItem.productId && it.selectedSize == cartItem.selectedSize
                             }
 
-                    } else {
-                        // Tạo mới giỏ hàng nếu chưa có
-                        val newOrder = com.example.clothingstoreapp.Model.Order(
-                            userId = "user_01", // Hoặc lấy từ FirebaseAuth
-                            orderDate = System.currentTimeMillis().toString(),
-                            status = "pending",
-                            totalAmount = orderItem.price,
-                            items = listOf(orderItem)
-                        )
+                            if (matchedIndex != -1) {
+                                items[matchedIndex].quantity += 1
+                            } else {
+                                items.add(cartItem)
+                            }
 
-                        // Lưu giỏ hàng mới vào Firestore
-                        orderRef.set(newOrder)
-                            .addOnSuccessListener {
-                                Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT)
-                                    .show()
-                                // Chuyển màn hình sang CartActivity
-                                startActivity(
-                                    Intent(
+                            cartRef.update("items", items)
+                                .addOnSuccessListener {
+                                    showSnackbar("Thêm sản phẩm thành công")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("CartActivity", "Error updating cart: ${e.message}")
+                                    Toast.makeText(
                                         this,
-                                        CartActivity::class.java
-                                    )
-                                ) // Chuyển sang màn hình giỏ hàng
-                            }
+                                        "Lỗi cập nhật: ${e.message}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                        } else {
+                            val newCart = Cart(
+                                userId = userId,
+                                createdDate = System.currentTimeMillis().toString(),
+                                items = listOf(cartItem)
+                            )
+
+                            cartRef.set(newCart)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT)
+                                        .show()
+                                    // Chuyển tới CartFragment thay vì Activity
+                                    replaceFragment(CartActivity())
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("CartActivity", "Error creating cart: ${e.message}")
+                                    Toast.makeText(
+                                        this,
+                                        "Lỗi tạo giỏ hàng: ${e.message}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                        }
                     }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-        binding.btnBuyNow.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("SHOW_CART_FRAGMENT", true) // Đặt flag để MainActivity biết rằng phải hiển thị CartFragment
-            startActivity(intent)
-        }
     }
 
-        private fun loadProductDetails(productId: String) {
-        // Lấy thông tin sản phẩm từ Firestore
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.frame_layout,
+            fragment
+        ) // R.id.fragment_container là ID của container nơi bạn thêm Fragment
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun loadProductDetails(productId: String) {
         val db = FirebaseFirestore.getInstance()
         val productRef = db.collection("products").document(productId)
 
         productRef.get().addOnSuccessListener { document ->
             if (document.exists()) {
-                val product = document.toObject(Product::class.java)
-                if (product != null) {
-                    this.product = product // Lưu thông tin sản phẩm vào biến product
-                    binding.tvProductName.text = product.name
-                    binding.tvDescription.text = product.description
-                    binding.tvPrice.text = "${product.price} đ"
-                    binding.tvStock.text = "Stock: ${product.stock}"
-                    binding.tvRating.text = "⭐ ${product.rating}"
+                product = document.toObject(Product::class.java)
+                binding.tvProductName.text = product?.name
+                binding.tvPrice.text = "${product?.price} đ"
+                binding.tvDescription.text = product?.description
+                Glide.with(this).load(product?.images).into(binding.imageProduct)
 
-                    Glide.with(this)
-                        .load(product.images)
-                        .into(binding.imageProduct)
-
-                    // Hiển thị các nút chọn size (kiểm tra nếu sizes không null)
-                    binding.sizeContainer.removeAllViews()
-                    product.sizes?.forEach { size ->
-                        val button = Button(this).apply {
-                            text = size
-                            setTextColor(ContextCompat.getColor(context, android.R.color.white))
-                            setBackgroundColor(Color.parseColor("#6F4E37"))
-                            textSize = 14f
-                            layoutParams = ViewGroup.MarginLayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            ).apply {
-                                setMargins(16, 8, 16, 8)
-                            }
+                // Thiết lập kích thước sản phẩm
+                binding.sizeContainer.removeAllViews()
+                product?.sizes?.forEach { size ->
+                    val button = Button(this).apply {
+                        text = size
+                        setOnClickListener {
+                            selectedSize = size
+                            Toast.makeText(
+                                this@ProductdetailsMainActivity,
+                                "Đã chọn kích thước: $size",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-
-                        button.setOnClickListener {
-                            selectedSize = size // Lưu lại size đã chọn
-                            Toast.makeText(this, "Đã chọn size: $size", Toast.LENGTH_SHORT).show()
-                        }
-
-                        binding.sizeContainer.addView(button)
                     }
-
-                } else {
-                    // Sản phẩm không tồn tại trong cơ sở dữ liệu
-                    Toast.makeText(this, "Không tìm thấy sản phẩm trong cơ sở dữ liệu", Toast.LENGTH_SHORT).show()
+                    binding.sizeContainer.addView(button)
                 }
             } else {
-                // Nếu không tìm thấy tài liệu
-                Toast.makeText(this, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Không tìm thấy sản phẩm trong cơ sở dữ liệu",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }.addOnFailureListener { e ->
-            // Nếu có lỗi khi gọi Firestore
             Toast.makeText(this, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-    }
 
+    }
 }

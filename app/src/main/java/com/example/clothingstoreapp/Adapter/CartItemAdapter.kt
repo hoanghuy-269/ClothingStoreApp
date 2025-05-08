@@ -3,40 +3,46 @@ package com.example.clothingstoreapp.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clothingstoreapp.Model.OrderItem
-import com.example.clothingstoreapp.R
+import com.example.clothingstoreapp.Model.CartItem
 import com.example.clothingstoreapp.databinding.CartItemLayoutBinding
 
 class CartItemAdapter(
-    private var itemList: MutableList<OrderItem>,
-    private val updateCartCallback: (OrderItem) -> Unit, // Callback để cập nhật Firestore
-    private val removeItemCallback: (OrderItem) -> Unit // Callback để xóa sản phẩm khỏi giỏ hàng
+    private var itemList: MutableList<CartItem>,
+    private val updateCartCallback: (CartItem) -> Unit,
+    private val removeItemCallback: (CartItem) -> Unit,
+    private val onCheckboxChanged: (CartItem) -> Unit
 ) : RecyclerView.Adapter<CartItemAdapter.CartViewHolder>() {
 
     inner class CartViewHolder(private val binding: CartItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: OrderItem) {
-            binding.productName.text = item.productId
+        fun bind(item: CartItem) {
+            binding.productName.text = item.name
             binding.productPrice.text = "$${item.price * item.quantity}"
             binding.textQuantity.text = item.quantity.toString()
 
+            binding.cbSelect.setOnCheckedChangeListener(null) // Để tránh kích hoạt listener không mong muốn
+            binding.cbSelect.isChecked = item.isSelected // Gán trạng thái checkbox
+
+            binding.cbSelect.setOnCheckedChangeListener { _, isChecked ->
+                item.isSelected = isChecked // Cập nhật trạng thái khi checkbox thay đổi
+                onCheckboxChanged(item) // Gọi callback để thông báo cho Fragment
+            }
+
             // Lắng nghe sự kiện tăng số lượng
             binding.btnIncrease.setOnClickListener {
-                item.quantity++ // Tăng số lượng sản phẩm
-                notifyItemChanged(adapterPosition) // Cập nhật lại giao diện
-                updateCartCallback(item) // Gọi callback để cập nhật Firestore
+                item.quantity++
+                notifyItemChanged(adapterPosition)
+                updateCartCallback(item)
             }
 
             // Lắng nghe sự kiện giảm số lượng
             binding.btnDecrease.setOnClickListener {
                 if (item.quantity > 1) {
-                    item.quantity-- // Giảm số lượng sản phẩm
-                    notifyItemChanged(adapterPosition) // Cập nhật lại giao diện
-                    updateCartCallback(item) // Gọi callback để cập nhật Firestore
-                } else if (item.quantity == 1) {
-                    // Nếu số lượng sản phẩm là 1, khi nhấn "-" thì xóa sản phẩm khỏi giỏ hàng
-                    removeItemCallback(item) // Gọi callback để xóa sản phẩm khỏi giỏ hàng
-                    itemList.remove(item) // Xóa sản phẩm khỏi danh sách trong RecyclerView
-                    notifyDataSetChanged() // Cập nhật lại RecyclerView sau khi xóa
+                    item.quantity--
+                    notifyItemChanged(adapterPosition)
+                    updateCartCallback(item)
+                } else {
+                    removeItemCallback(item)
+                    removeItem(adapterPosition)
                 }
             }
         }
@@ -50,14 +56,28 @@ class CartItemAdapter(
 
     // Gán dữ liệu cho từng item trong RecyclerView
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        val item = itemList[position]
+        holder.bind(item)
     }
 
     // Trả về số lượng items trong RecyclerView
     override fun getItemCount(): Int = itemList.size
 
+    // Phương thức để xóa item
+    fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    // Phương thức để cập nhật danh sách items
+    fun updateItems(newItems: MutableList<CartItem>) {
+        itemList.clear()
+        itemList.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
     // Phương thức getItems() để lấy danh sách item từ adapter
-    fun getItems(): MutableList<OrderItem> {
+    fun getItems(): MutableList<CartItem> {
         return itemList
     }
 }

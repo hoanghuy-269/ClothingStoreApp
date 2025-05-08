@@ -15,12 +15,6 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         tools:ignore="MissingConstraints">
-
-        <CheckBox
-            android:id="@+id/cbSelect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <!-- Product Image -->
         <ImageView
             android:id="@+id/imageProduct"
             android:layout_width="100dp"

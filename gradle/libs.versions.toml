@@ -16,6 +16,7 @@ lifecycleViewmodelKtx = "2.6.1"
 flexbox = "3.0.0"
 firebaseFirestoreKtx = "25.1.4"
 firebaseAuthKtx = "23.2.0"
+recyclerview = "1.4.0"
 
 
 [libraries]
@@ -37,6 +38,7 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 
 
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

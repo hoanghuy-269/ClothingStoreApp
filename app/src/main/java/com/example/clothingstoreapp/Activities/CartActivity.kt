@@ -248,6 +248,6 @@ class CartActivity : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Giải phóng binding để tránh rò rỉ bộ nhớ
+        _binding = null
     }
 }

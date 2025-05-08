@@ -178,13 +178,27 @@
           android:textSize="18sp"
           android:textStyle="bold" />
     </LinearLayout>
+<!--    Add to cart-->
+    <Button
+        android:id="@+id/btnAddToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:text="Add To Cart"
 
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:backgroundTint="#C8BFBA"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:drawableStart="@drawable/baseline_shopping_bag_24"
+        android:drawablePadding="8dp" />
     <!-- Add to Cart -->
     <Button
-        android:id="@+id/addToCartButton"
+        android:id="@+id/btnBuyNow"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:text="Add to Cart"
+        android:layout_height="50dp"
+        android:text="Buy Now"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:backgroundTint="#6F4E37"

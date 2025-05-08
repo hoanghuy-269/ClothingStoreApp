@@ -38,9 +38,7 @@ class ProductdetailsMainActivity : AppCompatActivity() {
             Toast.makeText(this, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show()
         }
 
-        // Xử lý khi nhấn nút "Add to Cart"
-        // Xử lý khi nhấn nút "Add to Cart"
-        binding.addToCartButton.setOnClickListener {
+        binding.btnAddToCart.setOnClickListener {
             // Sử dụng size mặc định nếu không có size được chọn
             val sizeToAdd = selectedSize ?: "M"  // Mặc định chọn size "M" nếu không có size
 
@@ -78,9 +76,7 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                                 Toast.makeText(this, "Đã cập nhật giỏ hàng", Toast.LENGTH_SHORT)
                                     .show()
                                 // Chuyển màn hình sang CartActivity
-                                val intent = Intent(this, MainActivity::class.java)
-                                intent.putExtra("SHOW_CART_FRAGMENT", true) // Đặt flag để MainActivity biết rằng phải hiển thị CartFragment
-                                startActivity(intent)// Chuyển sang màn hình giỏ hàng
+                               // Chuyển sang màn hình giỏ hàng
                             }
 
                     } else {
@@ -109,6 +105,11 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        binding.btnBuyNow.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("SHOW_CART_FRAGMENT", true) // Đặt flag để MainActivity biết rằng phải hiển thị CartFragment
+            startActivity(intent)
         }
     }
 

@@ -4,11 +4,11 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class OrderItem(
-    val productId: String,
-    val name: String,
-    val price: Double,
-    val selectedSize: String,
-    val quantity: Int,
+data class Order(
+    val orderId: String,
+    val userId: String,
+    val items: List<OrderItem>,
+    val totalPrice: Double,
+    val orderDate: Long,
     var status: String
 ) : Parcelable

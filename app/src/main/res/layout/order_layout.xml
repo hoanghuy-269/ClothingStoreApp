@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_gravity="center_vertical" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/seller_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoàng Huy"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/seller_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(+84) 0934 567 890"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/seller_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123 Đường số 1, Quận 1, Thành phố Hồ Chí Minh"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginVertical="8dp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_products"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingVertical="8dp"/>
+    <TextView
+        android:id="@+id/delivery_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phí giao hàng: 20.000 VNĐ"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/total_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tổng tiền: 148.500 VNĐ"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginVertical="8dp" />
+    <RadioGroup
+        android:id="@+id/radio_group_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thanh toán khi nhận hàng" />
+        <RadioButton
+            android:id="@+id/radio_zalopay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zalopay" />
+
+        <RadioButton
+            android:id="@+id/radio_momo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Momo" />
+    </RadioGroup>
+    <Button
+        android:id="@+id/btn_confirm_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xác nhận đơn hàng"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

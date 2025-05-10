@@ -6,7 +6,7 @@ data class Product(
     var id: String = "",  // thêm dòng này
     val name: String = "",
     val description: String = "",
-    val price: Int = 0,
+    val price: Double = 0.0,
     val stock: Int = 0,
     val categoryId: String = "",
     val images: String = "",

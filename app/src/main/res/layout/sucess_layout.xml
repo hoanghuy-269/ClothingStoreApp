@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/text_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"/>
+
+    <ImageView
+        android:id="@+id/image_success"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_below="@id/text_payment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_check_circle" />
+
+    <TextView
+        android:id="@+id/text_successful"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Successful!"
+        android:textSize="20sp"
+        android:layout_below="@id/image_success"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/text_thank_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you for your purchase."
+        android:textSize="16sp"
+        android:layout_below="@id/text_successful"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/button_view_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Order"
+        android:layout_below="@id/text_thank_you"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/button_view_receipt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View E-Receipt"
+        android:layout_below="@id/button_view_order"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/brown"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.SucessOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.OrderActivity"
             android:exported="false" />
         <activity

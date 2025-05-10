@@ -69,7 +69,10 @@ class CartActivity : Fragment() {
 
         if (selectedItems.isNotEmpty()) {
             val intent = Intent(requireContext(), OrderActivity::class.java)
-            intent.putParcelableArrayListExtra("selectedItems", ArrayList(selectedItems)) // Chuyển danh sách sản phẩm đã chọn
+            intent.putParcelableArrayListExtra(
+                "selectedItems",
+                ArrayList(selectedItems)
+            ) // Chuyển danh sách sản phẩm đã chọn
             startActivity(intent)
         } else {
             showSnackbar("Vui lòng chọn ít nhất một sản phẩm để thanh toán.")

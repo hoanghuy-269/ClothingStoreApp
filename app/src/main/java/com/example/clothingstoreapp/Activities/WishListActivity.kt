@@ -46,17 +46,6 @@ class WishListActivity : Fragment() {
         }
     }
 
-    private fun loadFavoriteProducts() {
-        if (userId != null) {
-            WishListRepository.getFavoriteProductIds(userId, { ids ->
-                favoriteIds.clear()
-                favoriteIds.addAll(ids)
-                loadProductDetails(favoriteIds)
-            }, { e ->
-                showToast("Lỗi: ${e.message}")
-            })
-        }
-    }
 
     private fun loadProductDetails(ids: Set<String>) {
         ProductRepository.getProductsByIds(ids, { productList ->
@@ -76,14 +65,7 @@ class WishListActivity : Fragment() {
         })
     }
 
-    private fun onRemoveFavorite(productId: String) {
-        WishListRepository.removeFavorite(userId!!, productId, {
-            favoriteIds.remove(productId)
-            loadFavoriteProducts()
-        }, { e ->
-            showToast("Lỗi: ${e.message}")
-        })
-    }
+
     private fun searchFavoriteProduct(){
         binding.edtSearch.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -107,9 +89,28 @@ class WishListActivity : Fragment() {
         binding.btnTShirt.setOnClickListener { loadProductByCategory("4") }
     }
 
+    private fun loadFavoriteProducts() {
+        WishListRepository.getFavoriteProductIds({ ids ->
+            favoriteIds.clear()
+            favoriteIds.addAll(ids)
+            loadProductDetails(favoriteIds)
+        }, { e ->
+            showToast("Lỗi: ${e.message}")
+        })
+    }
+
+    private fun onRemoveFavorite(productId: String) {
+        WishListRepository.removeFavorite(productId, {
+            favoriteIds.remove(productId)
+            loadFavoriteProducts()
+        }, { e ->
+            showToast("Lỗi: ${e.message}")
+        })
+    }
+
     private fun loadProductByCategory(category: String?) {
         if (category != null) {
-            WishListRepository.getFavoriteProductsByCategory(userId!!, category, onSuccess = { productList ->
+            WishListRepository.getFavoriteProductsByCategory(category, onSuccess = { productList ->
                 loadProductDetails(productList.map { it.id }.toSet())
             }, onFailure = { exception ->
                 showToast("Lỗi: ${exception.message}")
@@ -118,6 +119,7 @@ class WishListActivity : Fragment() {
             showToast("Danh mục không hợp lệ")
         }
     }
+
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

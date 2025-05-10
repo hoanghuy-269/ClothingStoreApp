@@ -4,16 +4,35 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothingstoreapp.Model.CartItem
-import com.example.clothingstoreapp.databinding.CartItemLayoutBinding
 import com.example.clothingstoreapp.databinding.OrderItemLayoutBinding
 
-class OrderItemAdapter(private val itemList: List<CartItem>) : RecyclerView.Adapter<OrderItemAdapter.OrderViewHolder>() {
+class OrderItemAdapter(private val itemList: MutableList<CartItem>,
+    private val updateQuantity : (CartItem) ->Unit,
+    private val removeQuantity : (CartItem) ->Unit
+
+) : RecyclerView.Adapter<OrderItemAdapter.OrderViewHolder>() {
 
     inner class OrderViewHolder(private val binding: OrderItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CartItem) {
             binding.productName.text = item.name
-            binding.productPrice.text = "${item.price * item.quantity} đ"
+            binding.productPrice.text = "$${item.price * item.quantity}"
             binding.textQuantity.text = "${item.quantity}"
+
+            binding.btnIncrease.setOnClickListener{
+                item.quantity++
+                notifyItemChanged(adapterPosition)
+                updateQuantity(item)
+            }
+            binding.btnDecrease.setOnClickListener{
+               if(item.quantity>1){
+                   item.quantity--
+                   notifyItemChanged(adapterPosition)
+                   updateQuantity(item)
+               }else{
+                   removeQuantity(item)
+                   removeItem(adapterPosition)
+               }
+            }
         }
     }
 
@@ -28,4 +47,9 @@ class OrderItemAdapter(private val itemList: List<CartItem>) : RecyclerView.Adap
     }
 
     override fun getItemCount(): Int = itemList.size
+
+    fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 }

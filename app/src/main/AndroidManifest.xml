@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.OrderdetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activities.SucessOrderActivity"
             android:exported="false" />
         <activity
@@ -50,7 +53,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.SignInActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Activities.OnboardingScreenActivity"
             android:exported="false" />

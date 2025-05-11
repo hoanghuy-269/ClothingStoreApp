@@ -154,9 +154,9 @@
                 <ImageView
                     android:id="@+id/imgMyOder"
                     android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:text="CHANGE"
-                    android:src="@drawable/right_brown" />
+                    android:layout_height="match_parent"
+                    android:src="@drawable/right_brown"
+                    android:text="CHANGE" />
             </LinearLayout>
 
             <!-- Gạch ngang -->

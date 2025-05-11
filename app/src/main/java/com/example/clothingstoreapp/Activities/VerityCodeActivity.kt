@@ -54,7 +54,6 @@ class VerityCodeActivity : AppCompatActivity() {
             }
         }
     }
-
     // Lưu OTP vào Firebase
     private fun saveOtpToFirebase(email: String, otp: String) {
         val database = FirebaseDatabase.getInstance().getReference("otps")

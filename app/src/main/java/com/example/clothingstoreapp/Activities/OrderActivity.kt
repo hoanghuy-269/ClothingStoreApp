@@ -33,7 +33,6 @@ class OrderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = OrderLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.btnBack.setOnClickListener {
             finish()
         }
@@ -133,7 +132,8 @@ class OrderActivity : AppCompatActivity() {
                 items = orderItems,
                 totalPrice = totalPrice,
                 orderDate = System.currentTimeMillis(),
-                status = "Đang chờ"
+                status = "Đang chờ",
+
             )
 
             // Gọi phương thức addOrder

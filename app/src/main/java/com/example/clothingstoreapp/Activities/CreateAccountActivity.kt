@@ -54,7 +54,9 @@ class CreateAccountActivity : AppCompatActivity() {
                         phone = phone,
                         email = email,
                         gender = null,
-                        avatarURI = null
+                        avatarURI = null,
+                        address = ""
+
                     )
 
                     db.collection("users").document(uid).set(user)

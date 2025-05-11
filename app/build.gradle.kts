@@ -75,6 +75,9 @@ dependencies {
 
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
 
+    implementation (libs.retrofit2.converter.gson)
+
+
     implementation ("com.google.firebase:firebase-database:21.0.0")
 
 

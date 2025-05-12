@@ -18,15 +18,16 @@ class CartItemAdapter(
     inner class CartViewHolder(private val binding: CartItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CartItem) {
             binding.productName.text = item.name
+            binding.productSize.text = "Size: ${item.selectedSize}"
             binding.productPrice.text = "$${item.price * item.quantity}"
             binding.textQuantity.text = item.quantity.toString()
 
-            binding.cbSelect.setOnCheckedChangeListener(null) // Để tránh kích hoạt listener không mong muốn
-            binding.cbSelect.isChecked = item.isSelected // Gán trạng thái checkbox
+            binding.cbSelect.setOnCheckedChangeListener(null)
+            binding.cbSelect.isChecked = item.isSelected
 
             binding.cbSelect.setOnCheckedChangeListener { _, isChecked ->
-                item.isSelected = isChecked // Cập nhật trạng thái khi checkbox thay đổi
-                onCheckboxChanged(item) // Gọi callback để thông báo cho Fragment
+                item.isSelected = isChecked
+                onCheckboxChanged(item)
             }
             Glide.with(binding.root.context)
                 .load(item.imageUrl)

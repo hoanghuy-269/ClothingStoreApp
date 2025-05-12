@@ -11,5 +11,6 @@ data class Order(
     val items: List<OrderItem>,
     val totalPrice: Double,
     val orderDate: Long,
-    var status: String
+    var status: String,
+    var address : String
 ) : Parcelable

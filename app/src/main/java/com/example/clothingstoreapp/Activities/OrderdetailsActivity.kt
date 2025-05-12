@@ -15,25 +15,26 @@ import com.google.firebase.firestore.FirebaseFirestore
 class OrderdetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderdetailsBinding
     private lateinit var firestore: FirebaseFirestore
-    private var allOrdersList = mutableListOf<OrderItem>()  // Lưu trữ tất cả đơn hàng
-    private var filteredOrdersList = mutableListOf<OrderItem>()  // Lưu trữ đơn hàng đã lọc theo trạng thái
+    private var allOrdersList = mutableListOf<OrderItem>()
+    private var filteredOrdersList = mutableListOf<OrderItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderdetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBack.setOnClickListener {
+            super.onBackPressed()
+        }
         firestore = FirebaseFirestore.getInstance()
 
-        // Lấy userId từ Firebase Authentication
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-        userId?.let {
-            fetchOrderDetails(it)  // Gọi hàm fetchOrderDetails để lấy tất cả đơn hàng của người dùng
-        } ?: run {
+        if (userId != null) {
+            fetchOrderDetails(userId)
+        } else {
             Toast.makeText(this, "Không tìm thấy người dùng.", Toast.LENGTH_SHORT).show()
         }
 
-        // Thiết lập các nút trạng thái
         setupStatusButtons()
     }
 
@@ -45,28 +46,28 @@ class OrderdetailsActivity : AppCompatActivity() {
         binding.btnCancelled.setOnClickListener { filterOrdersByStatus("Cancelled") }
     }
 
-    // Lọc đơn hàng theo trạng thái được chọn
     private fun filterOrdersByStatus(status: String) {
         filteredOrdersList.clear()
-        when (status) {
-            "Pending" -> filteredOrdersList.addAll(allOrdersList.filter { it.status == "Pending" })
-            "Shipping" -> filteredOrdersList.addAll(allOrdersList.filter { it.status == "Shipping" })
-            "Completed" -> filteredOrdersList.addAll(allOrdersList.filter { it.status == "Completed" })
-            "Cancelled" -> filteredOrdersList.addAll(allOrdersList.filter { it.status == "Cancelled" })
-            else -> filteredOrdersList.addAll(allOrdersList)  // "All"
-        }
-
-        updateRecyclerView()  // Cập nhật RecyclerView với dữ liệu đã lọc
+        filteredOrdersList.addAll(
+            when (status) {
+                "Pending" -> allOrdersList.filter { it.status == "Pending" }
+                "Shipping" -> allOrdersList.filter { it.status == "Shipping" }
+                "Completed" -> allOrdersList.filter { it.status == "Completed" }
+                "Cancelled" -> allOrdersList.filter { it.status == "Cancelled" }
+                else -> allOrdersList
+            }
+        )
+        updateRecyclerView()
     }
 
     private fun updateRecyclerView() {
         if (filteredOrdersList.isEmpty()) {
             binding.recyclerViewOrders.visibility = View.GONE
-            binding.noOrdersMessage.visibility = View.VISIBLE  // Hiển thị thông báo nếu không có đơn hàng
+            binding.noOrdersMessage.visibility = View.VISIBLE
         } else {
             binding.recyclerViewOrders.visibility = View.VISIBLE
             binding.noOrdersMessage.visibility = View.GONE
-            val orderAdapter = OrderAdapter(filteredOrdersList)  // Cập nhật RecyclerView với dữ liệu đã lọc
+            val orderAdapter = OrderAdapter(filteredOrdersList)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(this)
             binding.recyclerViewOrders.adapter = orderAdapter
         }
@@ -78,44 +79,51 @@ class OrderdetailsActivity : AppCompatActivity() {
             .collection("userOrders")
             .get()
             .addOnSuccessListener { documents ->
+                allOrdersList.clear()
                 if (documents.isEmpty) {
                     binding.noOrdersMessage.visibility = View.VISIBLE
                 } else {
-                    documents.forEach { document ->
-                        val orderItems = document.get("items") as? List<Map<String, Any>>
-                        orderItems?.forEach { item ->
-                            // Log item để kiểm tra
-                            Log.d("OrderItem", item.toString())
+                    for (document in documents) {
+                        val orderItems = document.get("items")
+                        if (orderItems is List<*>) {
+                            for (rawItem in orderItems) {
+                                if (rawItem is Map<*, *>) {
+                                    try {
+                                        val productId = rawItem["productId"] as? String ?: ""
+                                        val image = rawItem["image"] as? String ?: ""
+                                        val name = rawItem["name"] as? String ?: ""
+                                        val price = (rawItem["price"] as? Number)?.toDouble() ?: 0.0
+                                        val quantity = (rawItem["quantity"] as? Number)?.toInt() ?: 0
+                                        val selectedSize = rawItem["selectedSize"] as? String ?: "M"
+                                        val status = rawItem["status"] as? String ?: ""
 
-                            val productId = item["productId"] as? String ?: ""
-                            val image = item["image"] as? String ?: ""
-                            val name = item["name"] as? String ?: ""
-                            val price = (item["price"] as? Number)?.toDouble() ?: 0.0
-                            val quantity = (item["quantity"] as? Number)?.toInt() ?: 0
-                            val selectedSize = item["selectedSize"] as? String ?: "M"
-                            val status = item["status"] as? String ?: ""
+                                        val order = OrderItem(
+                                            productId = productId,
+                                            image = image,
+                                            name = name,
+                                            price = price,
+                                            selectedSize = selectedSize,
+                                            quantity = quantity,
+                                            status = status
+                                        )
 
-                            // Tạo OrderItem
-                            val order = OrderItem(
-                                productId = productId,
-                                image = image,
-                                name = name,
-                                price = price,
-                                selectedSize = selectedSize,
-                                quantity = quantity,
-                                status = status
-                            )
-
-                            allOrdersList.add(order)
-                            Log.d("OrderAdded", order.toString())  // Log để kiểm tra đã thêm vào danh sách
+                                        allOrdersList.add(order)
+                                        Log.d("OrderAdded", order.toString())
+                                    } catch (e: Exception) {
+                                        Log.e("ParseError", "Lỗi chuyển đổi đơn hàng: ${e.message}")
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.e("DataError", "Dữ liệu 'items' không đúng định dạng: $orderItems")
                         }
                     }
-                    updateRecyclerView()  // Cập nhật RecyclerView với dữ liệu đã lấy
+                    filterOrdersByStatus("All") // Hiển thị tất cả khi load xong
                 }
             }
             .addOnFailureListener { e ->
-                Log.e("OrderdetailsActivity", "Error fetching orders: ", e)
-                Toast.makeText(this, "Cannot fetch order data.", Toast.LENGTH_SHORT).show()
+                Log.e("OrderdetailsActivity", "Lỗi khi lấy dữ liệu đơn hàng: ", e)
+                Toast.makeText(this, "Không thể tải đơn hàng.", Toast.LENGTH_SHORT).show()
             }
     }
 }

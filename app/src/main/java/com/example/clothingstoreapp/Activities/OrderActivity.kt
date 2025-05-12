@@ -141,7 +141,7 @@ class OrderActivity : AppCompatActivity() {
 
             val orderId = UUID.randomUUID().toString()
             val totalPrice = orderItems.sumOf { it.price * it.quantity }
-
+            val address = binding.txtAddress.text.toString()
             // Tạo đối tượng Order
             val newOrder = Order(
                 orderId = orderId,
@@ -150,7 +150,7 @@ class OrderActivity : AppCompatActivity() {
                 totalPrice = totalPrice,
                 orderDate = System.currentTimeMillis(),
                 status = "Đang chờ",
-
+                address = address
             )
 
             // Gọi phương thức addOrder

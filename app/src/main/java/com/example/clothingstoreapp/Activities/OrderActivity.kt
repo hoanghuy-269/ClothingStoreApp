@@ -42,15 +42,17 @@ class OrderActivity : AppCompatActivity() {
 
         val productId = intent.getStringExtra("productId")
         val productName = intent.getStringExtra("productName")
+        val productImage = intent.getStringExtra("productImage")
         val productPrice = intent.getDoubleExtra("productPrice", 0.0)
         val selectedSize = intent.getStringExtra("selectedSize") ?: "Không chọn size"
         val quantity = intent.getIntExtra("quantity", 1)
 
         // Thêm sản phẩm vào danh sách
-        if (productId != null && productName != null && selectedSize != null) {
+        if (productId != null && productName != null && selectedSize != null&&productImage!=null) {
             val cartItem = CartItem(
                 productId = productId,
                 name = productName,
+                imageUrl = productImage,
                 price = productPrice,
                 selectedSize = selectedSize,
                 quantity = quantity
@@ -80,6 +82,7 @@ class OrderActivity : AppCompatActivity() {
             OrderItem(
                 productId = cartItem.productId,
                 name = cartItem.name,
+                image = cartItem.imageUrl,
                 price = cartItem.price,
                 selectedSize = cartItem.selectedSize,
                 quantity = cartItem.quantity,

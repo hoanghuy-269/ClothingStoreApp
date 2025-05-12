@@ -64,7 +64,12 @@ class ProfileActivity : Fragment() {
                 .setNegativeButton("Không", null)
                 .show()
         }
+        binding.imgMyOder.setOnClickListener {
+            val intent = Intent(requireContext(), OrderdetailsActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     private fun loadAvatar(uid: String) {
         if (!isAdded) return  // Dừng lại nếu Fragment chưa được gắn vào Activity

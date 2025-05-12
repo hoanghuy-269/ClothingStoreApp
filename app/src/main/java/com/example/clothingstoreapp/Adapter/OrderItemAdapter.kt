@@ -3,7 +3,9 @@ package com.example.clothingstoreapp.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.clothingstoreapp.Model.CartItem
+import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.OrderItemLayoutBinding
 
 class OrderItemAdapter(private val itemList: MutableList<CartItem>,
@@ -17,7 +19,10 @@ class OrderItemAdapter(private val itemList: MutableList<CartItem>,
             binding.productName.text = item.name
             binding.productPrice.text = "$${item.price * item.quantity}"
             binding.textQuantity.text = "${item.quantity}"
-
+            Glide.with(binding.root.context)
+                .load(item.imageUrl)
+                .error(R.drawable.img_item_wishlist)
+                .into(binding.imageProduct)
             binding.btnIncrease.setOnClickListener{
                 item.quantity++
                 notifyItemChanged(adapterPosition)

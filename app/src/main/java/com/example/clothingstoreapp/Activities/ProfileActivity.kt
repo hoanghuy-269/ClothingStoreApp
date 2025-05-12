@@ -45,6 +45,10 @@ class ProfileActivity : Fragment() {
             val intent = Intent(requireContext(), ProfileDetalActivity::class.java)
             startActivity(intent)
         }
+        binding.imgMyOder.setOnClickListener {
+            val intent = Intent(requireContext(), OrderActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.imgLogOut.setOnClickListener {
             AlertDialog.Builder(requireContext())

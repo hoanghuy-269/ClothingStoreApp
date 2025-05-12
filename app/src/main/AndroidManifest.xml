@@ -19,6 +19,8 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.AddressActivity"
+            android:exported="false" />
             android:name=".Activities.OrderdetailsActivity"
             android:exported="true" />
         <activity
@@ -26,7 +28,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.OrderActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Activities.ProductdetailsMainActivity"
             android:exported="true" />

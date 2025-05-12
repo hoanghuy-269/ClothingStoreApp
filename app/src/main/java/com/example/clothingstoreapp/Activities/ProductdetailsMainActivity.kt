@@ -10,7 +10,9 @@ import com.example.clothingstoreapp.databinding.ActivityProductdetailsMainBindin
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
-import androidx.fragment.app.Fragment
+import android.graphics.Color
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import com.example.clothingstoreapp.Model.CartItem
 import com.example.clothingstoreapp.Model.Product
 import com.example.clothingstoreapp.Model.Cart
@@ -40,6 +42,7 @@ class ProductdetailsMainActivity : AppCompatActivity() {
         }
 
         binding.btnBuyNow.setOnClickListener {
+            Log.d("DEBUG", "Selected size: $selectedSize")
             if (product != null && selectedSize != null) {
                 val intent = Intent(this, OrderActivity::class.java).apply {
                     putExtra("productId", product?.id)
@@ -47,16 +50,17 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                     putExtra("productImage", product?.images)
                     putExtra("productPrice", product?.price)
                     putExtra("selectedSize", selectedSize)
-                    putExtra("quantity", 1) // Giả sử mua 1 sản phẩm
+                    putExtra("quantity", 1)
                 }
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Vui lòng chọn kích thước và sản phẩm.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Vui lòng chọn kích thước và sản phẩm.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
         binding.btnAddToCart.setOnClickListener {
-            val sizeToAdd = selectedSize ?: "M"
+            val sizeToAdd = selectedSize ?: "M" // Mặc định là M nếu không có kích thước đã chọn
             if (product != null) {
                 val cartItem = CartItem(
                     productId = product?.id ?: "",
@@ -73,16 +77,18 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                     val cartRef = db.collection("carts").document(userId)
 
                     cartRef.get().addOnSuccessListener { snapshot ->
-                        val items = snapshot.toObject(Cart::class.java)?.items?.toMutableList() ?: mutableListOf()
+                        val items = snapshot.toObject(Cart::class.java)?.items?.toMutableList()
+                            ?: mutableListOf()
 
+                        // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
                         val matchedIndex = items.indexOfFirst {
                             it.productId == cartItem.productId && it.selectedSize == cartItem.selectedSize
                         }
 
                         if (matchedIndex != -1) {
-                            items[matchedIndex].quantity += 1
+                            items[matchedIndex].quantity += 1 // Tăng số lượng nếu đã có
                         } else {
-                            items.add(cartItem)
+                            items.add(cartItem) // Thêm sản phẩm mới
                         }
 
                         cartRef.update("items", items)
@@ -91,24 +97,26 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                             }
                             .addOnFailureListener { e ->
                                 Log.e("CartActivity", "Error updating cart: ${e.message}")
-                                Toast.makeText(this, "Lỗi cập nhật: ${e.message}", Toast.LENGTH_LONG).show()
+                                Toast.makeText(
+                                    this,
+                                    "Lỗi cập nhật: ${e.message}",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                     }.addOnFailureListener { e ->
                         Log.e("CartActivity", "Error fetching cart: ${e.message}")
-                        Toast.makeText(this, "Lỗi lấy giỏ hàng: ${e.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Lỗi lấy giỏ hàng: ${e.message}", Toast.LENGTH_LONG)
+                            .show()
                     }
                 } else {
-                    Toast.makeText(this, "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
     private fun showSnackbar(message: String) {
@@ -127,16 +135,28 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                 binding.tvDescription.text = product?.description
                 Glide.with(this).load(product?.images).into(binding.imageProduct)
 
-                // Thiết lập kích thước sản phẩm
+                // Xóa các nút cũ trước khi thêm mới
                 binding.sizeContainer.removeAllViews()
+
+                // Thêm các nút kích cỡ
                 product?.sizes?.forEach { size ->
                     val button = Button(this).apply {
                         text = size
+                        setBackgroundColor(ContextCompat.getColor(context, R.color.brown))
+                        setTextColor(Color.WHITE) // nếu nền tối
                         setOnClickListener {
                             selectedSize = size
                             Toast.makeText(this@ProductdetailsMainActivity, "Đã chọn kích thước: $size", Toast.LENGTH_SHORT).show()
                         }
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(16, 0, 16, 0) // khoảng cách trái và phải 16dp
+                        layoutParams = params
                     }
+
                     binding.sizeContainer.addView(button)
                 }
             } else {

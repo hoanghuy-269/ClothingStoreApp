@@ -38,22 +38,23 @@ class ProductdetailsMainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show()
         }
+
         binding.btnBuyNow.setOnClickListener {
-            val intent = Intent(this, OrderActivity::class.java).apply {
-                putExtra("productId", product?.id)
-                putExtra("productName", product?.name)
-                putExtra("productPrice", product?.price)
-                putExtra("selectedSize", "M")
-                putExtra("quantity", 1) // Giả sử mua 1 sản phẩm
+            if (product != null && selectedSize != null) {
+                val intent = Intent(this, OrderActivity::class.java).apply {
+                    putExtra("productId", product?.id)
+                    putExtra("productName", product?.name)
+                    putExtra("productImage", product?.images)
+                    putExtra("productPrice", product?.price)
+                    putExtra("selectedSize", selectedSize)
+                    putExtra("quantity", 1) // Giả sử mua 1 sản phẩm
+                }
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Vui lòng chọn kích thước và sản phẩm.", Toast.LENGTH_SHORT).show()
             }
-            startActivity(intent)
-//            if (product != null && selectedSize != null) {
-//
-//            } else {
-//                Toast.makeText(this, "Vui lòng chọn kích thước và sản phẩm.", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
         }
+
         binding.btnAddToCart.setOnClickListener {
             val sizeToAdd = selectedSize ?: "M"
             if (product != null) {
@@ -72,62 +73,32 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                     val cartRef = db.collection("carts").document(userId)
 
                     cartRef.get().addOnSuccessListener { snapshot ->
-                        if (snapshot.exists()) {
-                            val existingCart = snapshot.toObject(Cart::class.java)
-                            val items = existingCart?.items?.toMutableList() ?: mutableListOf()
+                        val items = snapshot.toObject(Cart::class.java)?.items?.toMutableList() ?: mutableListOf()
 
-                            val matchedIndex = items.indexOfFirst {
-                                it.productId == cartItem.productId && it.selectedSize == cartItem.selectedSize
-                            }
-
-                            if (matchedIndex != -1) {
-                                items[matchedIndex].quantity += 1
-                            } else {
-                                items.add(cartItem)
-                            }
-
-                            cartRef.update("items", items)
-                                .addOnSuccessListener {
-                                    showSnackbar("Thêm sản phẩm thành công")
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.e("CartActivity", "Error updating cart: ${e.message}")
-                                    Toast.makeText(
-                                        this,
-                                        "Lỗi cập nhật: ${e.message}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                        } else {
-                            val newCart = Cart(
-                                userId = userId,
-                                createdDate = System.currentTimeMillis().toString(),
-                                items = listOf(cartItem)
-                            )
-
-                            cartRef.set(newCart)
-                                .addOnSuccessListener {
-                                    Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT)
-                                        .show()
-                                    // Chuyển tới CartFragment thay vì Activity
-                                    replaceFragment(CartActivity())
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.e("CartActivity", "Error creating cart: ${e.message}")
-                                    Toast.makeText(
-                                        this,
-                                        "Lỗi tạo giỏ hàng: ${e.message}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                        val matchedIndex = items.indexOfFirst {
+                            it.productId == cartItem.productId && it.selectedSize == cartItem.selectedSize
                         }
+
+                        if (matchedIndex != -1) {
+                            items[matchedIndex].quantity += 1
+                        } else {
+                            items.add(cartItem)
+                        }
+
+                        cartRef.update("items", items)
+                            .addOnSuccessListener {
+                                showSnackbar("Thêm sản phẩm thành công")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("CartActivity", "Error updating cart: ${e.message}")
+                                Toast.makeText(this, "Lỗi cập nhật: ${e.message}", Toast.LENGTH_LONG).show()
+                            }
+                    }.addOnFailureListener { e ->
+                        Log.e("CartActivity", "Error fetching cart: ${e.message}")
+                        Toast.makeText(this, "Lỗi lấy giỏ hàng: ${e.message}", Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Toast.makeText(
-                        this,
-                        "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -135,10 +106,7 @@ class ProductdetailsMainActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.frame_layout,
-            fragment
-        ) // R.id.fragment_container là ID của container nơi bạn thêm Fragment
+        transaction.replace(R.id.frame_layout, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -166,25 +134,16 @@ class ProductdetailsMainActivity : AppCompatActivity() {
                         text = size
                         setOnClickListener {
                             selectedSize = size
-                            Toast.makeText(
-                                this@ProductdetailsMainActivity,
-                                "Đã chọn kích thước: $size",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@ProductdetailsMainActivity, "Đã chọn kích thước: $size", Toast.LENGTH_SHORT).show()
                         }
                     }
                     binding.sizeContainer.addView(button)
                 }
             } else {
-                Toast.makeText(
-                    this,
-                    "Không tìm thấy sản phẩm trong cơ sở dữ liệu",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Không tìm thấy sản phẩm trong cơ sở dữ liệu", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-
     }
 }

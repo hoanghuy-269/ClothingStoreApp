@@ -162,6 +162,7 @@ class OrderActivity : AppCompatActivity() {
             )
         }
     }
+
     private fun loadProfile()
     {
         val  uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -184,14 +185,24 @@ class OrderActivity : AppCompatActivity() {
     // 1. Khai báo launcher ở đầu class
     private val addressLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result-> if (result.resultCode ==Activity.RESULT_OK){
-            val address = result.data?.getStringExtra("selectedAddress")
-        binding.txtAddress.text = address
+            val fullAddress = result.data?.getStringExtra("selectedAddress")
+            val detail = result.data?.getStringExtra("detailAddress")
+
+        val hienthi = if(detail.isNullOrEmpty()){
+            "$detail,$fullAddress"
+        }
+        else
+        {
+            fullAddress
+        }
+        binding.txtAddress.text = hienthi
+
         val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if(uid != null && address != null)
+        if(uid != null && fullAddress != null)
         {
             val db = FirebaseFirestore.getInstance()
             db.collection("users").document(uid)
-                .update("address",address)
+                .update("address",fullAddress)
                 .addOnSuccessListener {
                     Toast.makeText(this," cập nhật địa chỉ thành công",Toast.LENGTH_SHORT).show()
                 }

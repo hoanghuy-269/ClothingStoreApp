@@ -1,11 +1,13 @@
 package com.example.clothingstoreapp.Activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,15 +29,19 @@ class OrderActivity : AppCompatActivity() {
 
     private lateinit var binding: OrderLayoutBinding
     private lateinit var selectedItems: MutableList<CartItem>
+    private val db = FirebaseFirestore.getInstance()
+    private val ADDRESS_REQUEST_CODE = 999
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = OrderLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loadProfile()
         binding.btnBack.setOnClickListener {
             finish()
         }
+        setContent()
 
         selectedItems = intent.getParcelableArrayListExtra("selectedItems", CartItem::class.java)
             ?.toMutableList() ?: mutableListOf()
@@ -58,11 +64,19 @@ class OrderActivity : AppCompatActivity() {
                 quantity = quantity
             )
             selectedItems.add(cartItem)
+
         }
 
         // Hiển thị danh sách sản phẩm trong RecyclerView
         displayOrderItems()
         onProcessToCheckout()
+        loadAddressFromFirebase()
+    }
+    private fun setContent()
+    {
+        binding.linearlayoutProfile.setOnClickListener {
+           openAddressScreen()
+        }
     }
 
     private fun displayOrderItems() {
@@ -153,4 +167,79 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadProfile()
+    {
+        val  uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid == null)
+        {
+            Toast.makeText(this," Đăng nhập người dùng để hiển thị",Toast.LENGTH_SHORT).show()
+            return
+        }
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { document ->
+                val phone = document.getString("phone") ?: ""
+                val name = document.getString("name") ?: ""
+                binding.txtName.setText(name)
+                binding.txtSDT.setText(phone)
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Không thể tải dữ liệu: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+    // 1. Khai báo launcher ở đầu class
+    private val addressLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        result-> if (result.resultCode ==Activity.RESULT_OK){
+            val fullAddress = result.data?.getStringExtra("selectedAddress")
+            val detail = result.data?.getStringExtra("detailAddress")
+
+        val hienthi = if(detail.isNullOrEmpty()){
+            "$detail,$fullAddress"
+        }
+        else
+        {
+            fullAddress
+        }
+        binding.txtAddress.text = hienthi
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if(uid != null && fullAddress != null)
+        {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users").document(uid)
+                .update("address",fullAddress)
+                .addOnSuccessListener {
+                    Toast.makeText(this," cập nhật địa chỉ thành công",Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Log.e("update","Lỗi khi cập nhât ${it.message}")
+                }
+        }
+    }
+    }
+    // 2. Gọi mở màn hình địa chỉ
+    private fun openAddressScreen() {
+        val intent = Intent(this, AddressActivity::class.java)
+        addressLauncher.launch(intent)
+    }
+    private fun loadAddressFromFirebase() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(uid)
+            userRef.get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val address = document.getString("address")
+                        // Hiển thị địa chỉ lên giao diện
+                        binding.txtAddress.text = address ?: "Chưa có địa chỉ"
+                    } else {
+                        binding.txtAddress.text = "Chưa có địa chỉ"
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Lỗi khi tải địa chỉ: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

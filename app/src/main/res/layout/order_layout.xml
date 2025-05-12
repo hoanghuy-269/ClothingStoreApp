@@ -11,39 +11,47 @@
         android:src="@drawable/baseline_arrow_back_24"
         android:layout_gravity="center_vertical" />
     <LinearLayout
+        android:id="@+id/linearlayoutProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:backgroundTint="#FFFFFF">
 
         <TextView
-            android:id="@+id/seller_name"
+            android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hoàng Huy"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
 
         <TextView
-            android:id="@+id/seller_contact"
+            android:id="@+id/txtSDT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="(+84) 0934 567 890"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="2dp" />
 
         <TextView
-            android:id="@+id/seller_address"
+            android:id="@+id/txtAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123 Đường số 1, Quận 1, Thành phố Hồ Chí Minh"
-            android:textSize="14sp" />
+            android:text="123 Đường số 1, Quận 1, TP.HCM"
+            android:textSize="14sp"
+            android:textColor="#666666" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#CCCCCC"
-            android:layout_marginVertical="8dp" />
+            android:background="#DDDDDD"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp" />
     </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_products"

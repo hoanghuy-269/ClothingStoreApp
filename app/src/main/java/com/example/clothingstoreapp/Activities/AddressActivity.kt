@@ -43,6 +43,7 @@ class AddressActivity : AppCompatActivity() {
         val cityAPI = retrofit.create(CityAPI::class.java)
         loadCities(cityAPI)
         setContent()
+
     }
     private fun setContent()
     {
@@ -50,11 +51,11 @@ class AddressActivity : AppCompatActivity() {
          val ward = binding.spinnerWard.selectedItem?.toString()?:" "
          val district = binding.spinnerDistrict.selectedItem?.toString()?:" "
          val city = binding.spinnerCity.selectedItem?.toString()?:" "
-
-         val fullAdress = "$ward , $district, $city"
-
+         val detail = binding.edtDetailAddress.text.toString().trim()
+         val fullAdress = "$ward , $district, $city ,$detail"
          val ketqua = Intent()
          ketqua.putExtra("selectedAddress",fullAdress)
+         ketqua.putExtra("detailAddress",detail)
          setResult(Activity.RESULT_OK,ketqua)
          finish()
      }

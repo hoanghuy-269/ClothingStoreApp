@@ -56,6 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
 
+    <EditText
+        android:id="@+id/edtDetailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập địa chỉ cụ thể (số nhà, tên đường)"
+        />
     <Button
         android:id="@+id/btn_capNhat"
         android:layout_width="match_parent"

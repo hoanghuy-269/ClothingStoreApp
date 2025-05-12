@@ -1,13 +1,14 @@
 package com.example.clothingstoreapp.Adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.clothingstoreapp.Model.Orderdetails
+import com.example.clothingstoreapp.Model.OrderItem
 import com.example.clothingstoreapp.databinding.ItemOrderdetailsaLayoutBinding
 
-class OrderAdapter(private val orders: List<Orderdetails>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+class OrderAdapter(private val orders: List<OrderItem>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding = ItemOrderdetailsaLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,20 +23,19 @@ class OrderAdapter(private val orders: List<Orderdetails>) : RecyclerView.Adapte
     override fun getItemCount(): Int = orders.size
 
     class OrderViewHolder(private val binding: ItemOrderdetailsaLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(order: Orderdetails) {
-            // Liên kết dữ liệu với các view
-            binding.txtProductName.text = order.productName
-            binding.txtProductSize.text = "Size: ${order.size}"
-            binding.txtReturnPolicy.text = order.returnPolicy
+        fun bind(order: OrderItem) {
+            binding.txtProductName.text = order.name
+            binding.txtProductSize.text = "Size: ${order.selectedSize}"
+            binding.txtStatus.text = order.status
             binding.txtProductPrice.text = "${order.price} đ"
-            binding.txtQuantity.text = "x${order.quantity}"
-            binding.txtTotalPrice.text = "Tổng cộng: ${order.totalPrice} đ"  // Hiển thị totalPrice đã chuyển thành Double
+            binding.txtQuantity.text = "x${order.quantity}"  // Hiển thị số lượng
+            binding.txtTotalPrice.text = "Tổng cộng: ${order.price * order.quantity} đ"  // Tính tổng tiền
 
-            // Sử dụng Glide để tải ảnh sản phẩm từ URL (hoặc Firebase Storage)
+            Log.d("OrderViewHolder", "Binding order: $order")  // Log để kiểm tra dữ liệu
+
             Glide.with(binding.imgProduct.context)
-                .load(order.productImage)
+                .load(order.image)
                 .into(binding.imgProduct)
         }
     }
-
 }

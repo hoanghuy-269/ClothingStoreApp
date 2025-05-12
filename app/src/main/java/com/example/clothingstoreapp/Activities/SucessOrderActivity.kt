@@ -17,6 +17,9 @@ class SucessOrderActivity : AppCompatActivity() {
         binding = SucessLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.buttonViewOrder.setOnClickListener {
+            startActivity(Intent(this, OrderdetailsActivity::class.java))
+        }
         binding.buttonViewReceipt.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }

@@ -21,7 +21,7 @@
         <activity
             android:name=".Activities.AddressActivity"
             android:exported="false" />
-            android:name=".Activities.OrderdetailsActivity"
+        <activity  android:name=".Activities.OrderdetailsActivity"
             android:exported="true" />
         <activity
             android:name=".Activities.SucessOrderActivity"

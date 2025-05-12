@@ -17,6 +17,7 @@ class OrderItemAdapter(private val itemList: MutableList<CartItem>,
     inner class OrderViewHolder(private val binding: OrderItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CartItem) {
             binding.productName.text = item.name
+            binding.productSize.text = "Size: ${item.selectedSize}"
             binding.productPrice.text = "$${item.price * item.quantity}"
             binding.textQuantity.text = "${item.quantity}"
             Glide.with(binding.root.context)

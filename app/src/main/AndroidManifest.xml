@@ -19,24 +19,24 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.AddressActivity"
+            android:name=".activities.AddressActivity"
             android:exported="false" />
-        <activity  android:name=".Activities.OrderdetailsActivity"
+        <activity  android:name=".activities.OrderdetailsActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.SucessOrderActivity"
+            android:name=".activities.SucessOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.OrderActivity"
+            android:name=".activities.OrderActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.ProductdetailsMainActivity"
+            android:name=".activities.ProductdetailsMainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.ProfileDetailActivity"
+            android:name=".activities.ProfileDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.WelcomeScreenActivity"
+            android:name=".activities.WelcomeScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,19 +45,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.VerityCodeActivity"
+            android:name=".activities.VerityCodeActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.CreateAccountActivity"
+            android:name=".activities.CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SignInActivity"
+            android:name=".activities.SignInActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.OnboardingScreenActivity"
+            android:name=".activities.OnboardingScreenActivity"
             android:exported="false" />
     </application>
 

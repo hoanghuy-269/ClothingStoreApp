@@ -40,6 +40,7 @@
                 android:id="@+id/edtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
         <TextView
@@ -58,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
+                android:textColor="@color/black"
                 android:text="+84 " />
         </com.google.android.material.textfield.TextInputLayout>
         <ProgressBar
@@ -85,6 +87,7 @@
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,6 +103,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             style="@style/RoundedTextInput"
+            app:endIconTint="@color/brown"
             app:endIconMode="password_toggle"
             >
 
@@ -107,6 +111,7 @@
                 android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 

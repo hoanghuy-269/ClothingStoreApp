@@ -31,7 +31,7 @@
             android:name=".Activities.ProductdetailsMainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.ProfileDetalActivity"
+            android:name=".Activities.ProfileDetailActivity"
             android:exported="true" />
         <activity
             android:name=".Activities.WelcomeScreenActivity"

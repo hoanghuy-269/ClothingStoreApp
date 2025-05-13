@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <!-- Nền -->
-    <solid android:color="#4B0A0914" />
+    <solid android:color="@color/white" />
 
     <!-- Bo góc trên -->
     <corners android:radius="30dp"/>

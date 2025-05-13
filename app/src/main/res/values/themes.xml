@@ -1,6 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.ClothingStoreApp" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Màu nền chính -->
+        <item name="colorSurface">@color/white</item> <!-- Đặt màu nền của các thành phần như CardView, EditText -->
+        <!--        <item name="android:background">@color/white</item> &lt;!&ndash; Đặt nền cho toàn bộ màn hình &ndash;&gt;-->
+
+        <!-- Thanh trạng thái -->
+        <item name="android:statusBarColor">@color/white</item> <!-- Màu thanh trạng thái -->
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Màu chữ -->
+        <item name="android:textColor">@color/black</item> <!-- Màu chữ mặc định -->
+
+        <!-- Thanh điều hướng -->
+        <item name="android:navigationBarColor">@color/black</item> <!-- Màu thanh điều hướng -->
 
     </style>
+
+    <style name="Theme.ClothingStoreApp" parent="Base.Theme.ClothingStoreApp" />
 </resources>

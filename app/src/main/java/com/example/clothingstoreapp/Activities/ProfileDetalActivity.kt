@@ -47,7 +47,6 @@ class ProfileDetalActivity : AppCompatActivity() {
     private fun setupListeners() {
         binding.imgBack.setOnClickListener {
             super.onBackPressed()
-
         }
         binding.btnComplete.setOnClickListener {
             updateUserProfile()

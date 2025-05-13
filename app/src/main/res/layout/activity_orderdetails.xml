@@ -1,0 +1,134 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <!-- Toolbar with Back button and title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Orders"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+
+    <!-- Search bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_search"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Search..."
+            android:background="@null"
+            android:paddingStart="8dp"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <!-- Replace buttons with order status -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/brown"
+        android:fillViewport="true"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/statusTabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#DBD0D0"
+                android:text="All"
+                android:textColor="@color/black" />
+            <Button
+                android:id="@+id/btnPending"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#DBD0D0"
+                android:text="Pending"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#DBD0D0"
+                android:text="Shipping"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#DBD0D0"
+                android:text="Completed"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnCancelled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#DBD0D0"
+                android:text="Cancelled"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- RecyclerView for displaying orders -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOrders"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="8dp"/>
+
+    <!-- Message for no orders -->
+    <TextView
+        android:id="@+id/noOrdersMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No products in the order."
+        android:visibility="gone"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

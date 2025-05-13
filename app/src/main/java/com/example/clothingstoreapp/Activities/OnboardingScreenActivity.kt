@@ -15,13 +15,14 @@ import com.example.clothingstoreapp.databinding.OnboardingScreenLayoutBinding
 
 class OnboardingScreenActivity : AppCompatActivity() {
 
-
     private lateinit var binding : OnboardingScreenLayoutBinding
+    private lateinit var layoutManager: LinearLayoutManager
     private val slides = listOf(
-        Slides(R.drawable.img_welcome_home,"Seamles Shopping Experience" ,"Shop easy, fast, and hassle-free"),
-        Slides(R.drawable.img_item_wishlist,"Wishlist : Where Fashion Dreams Begin","Start your style journey with Wishlist"),
-        Slides(R.drawable.img_welcome_cart,"Swift and Reliable Delivery","Fast, secure, and always on time")
+        Slides(R.drawable.img_modelcart,"Welcome to ClothingStore" ,"Shop fashion easily, quickly, and hassle-free"),
+        Slides(R.drawable.img_welcome_home,"Your Fashion Wishlist ","Save your favorite items and never miss a trend!"),
+        Slides(R.drawable.img_shoppingonline,"Fast & Reliable Delivery","One-tap checkout, doorstep delivery!")
     )
+
     private var currentIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,80 +30,72 @@ class OnboardingScreenActivity : AppCompatActivity() {
         binding = OnboardingScreenLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        setupDots()
-        selectDot(currentIndex)
-
-        // adapter
-        val adapter = SlideAdapter(slides)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerView.adapter = adapter
-
-
+        thietLapRecycleView()
+        thietLapDieuHuong()
+        thietlapDots()
+        capnhatDots(currentIndex)
+    }
+    private fun thietLapRecycleView(){
+        layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = SlideAdapter(slides)
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            // hàm gọi cuộn theo trục dx ,dy
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
-                // trả về chỉ số index của item đầu tiên
-                val layoutManager = recyclerView.layoutManager as? androidx.recyclerview.widget.LinearLayoutManager
-                currentIndex = layoutManager?.findFirstVisibleItemPosition() ?: 0
-                selectDot(currentIndex)
+                currentIndex = layoutManager.findFirstVisibleItemPosition()
+                capnhatDots(currentIndex)
             }
         })
-        binding.btnLeft.setOnClickListener {
-            if (currentIndex > 0) {
-                currentIndex -= 1
-                val layoutManager = binding.recyclerView.layoutManager as? LinearLayoutManager
-                layoutManager?.scrollToPosition(currentIndex)
-                selectDot(currentIndex)
-            }
-        }
 
-        binding.btnRight.setOnClickListener {
-            if (currentIndex < slides.size - 1) {
-                currentIndex += 1
-                val layoutManager = binding.recyclerView.layoutManager as? LinearLayoutManager
-                layoutManager?.scrollToPosition(currentIndex)
-                selectDot(currentIndex)
-            }
-            else
-            {
-                val intent = Intent(this,MainActivity::class.java)
-                startActivity(intent)
-            }
+    }
+    private fun thietLapDieuHuong(){
+        binding.btnLeft.setOnClickListener{backSlide()}
+        binding.btnRight.setOnClickListener { nextSlide() }
+    }
+
+    private fun backSlide()
+    {
+        if(currentIndex > 0)
+        {
+            currentIndex --
+            binding.recyclerView.smoothScrollToPosition(currentIndex)
+            capnhatDots(currentIndex)
         }
     }
-    private fun setupDots() {
-        // b1 : tạo đối tượng chứa các silde
-        val dots = slides.size
-        // b2 : loại bỏ các viewcon
+    private fun nextSlide()
+    {
+        if(currentIndex < slides.size - 1)
+        {
+            currentIndex ++
+            binding.recyclerView.smoothScrollToPosition(currentIndex)
+            capnhatDots(currentIndex)
+        }else
+        {
+            startActivity(Intent(this,SignInActivity::class.java))
+            finish()
+        }
+    }
+    private fun thietlapDots()
+    {
         binding.layoutDots.removeAllViews()
-        //b3 : khởi tạo vòng lập for chạy tương ứng với slide
-        for (i in 0 until dots) {
-            // khởi tọa một imagvew mới
+        slides.forEach { _->
             val dot = ImageView(this).apply {
-                setImageResource(R.drawable.around) // trường hợp mặc định
-
-                // tạo đối tượng dot tương ứng với ảnh
-                val params = LinearLayout.LayoutParams(30, 30)
-                params.setMargins(8, 0, 8, 0)
-                layoutParams = params
+                setImageResource(R.drawable.around)
+                layoutParams = LinearLayout.LayoutParams(30,30).apply {
+                    setMargins(8,0,8,0)
+                }
             }
-            binding.layoutDots.addView(dot)
         }
     }
-
-    // đổi màu các dấu dot
-    private fun selectDot(index: Int) {
-        // childcout thuộc tính viewGroup dùng để số view con
-        for (i in 0 until binding.layoutDots.childCount) {
+    private fun capnhatDots(selectedIndex:Int)
+    {
+        for(i in 0 until binding.layoutDots.childCount)
+        {
             val dot = binding.layoutDots.getChildAt(i) as ImageView
-            if (i == index) {
-                dot.setImageResource(R.drawable.ic_around_brown) // selected
-            } else {
-                dot.setImageResource(R.drawable.around) // unselected
-            }
+            dot.setImageResource(
+                if(i == selectedIndex) R.drawable.ic_around_brown else R.drawable.around
+            )
         }
     }
+
 }

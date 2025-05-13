@@ -1,6 +1,5 @@
 package com.example.clothingstoreapp.Activities
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -19,11 +18,12 @@ import com.google.firebase.firestore.SetOptions
 import java.io.File
 import java.io.FileOutputStream
 
-class ProfileDetalActivity : AppCompatActivity() {
+class ProfileDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ProfileLayoutBinding
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let { uploadToCloudinary(it) }
     }
@@ -35,40 +35,32 @@ class ProfileDetalActivity : AppCompatActivity() {
         CloudinaryConfig.init(this)
 
         auth.currentUser?.uid?.let { uid ->
-            loadAvatar(uid)
             setupImagePicker()
-            loadUserProfile(uid)
+            loadFullUserData(uid)
         } ?: run {
             Toast.makeText(this, "Không tìm thấy người dùng.", Toast.LENGTH_SHORT).show()
         }
+
         setupListeners()
     }
 
     private fun setupListeners() {
         binding.imgBack.setOnClickListener {
             super.onBackPressed()
-
         }
+
         binding.btnComplete.setOnClickListener {
             updateUserProfile()
         }
     }
+
     private fun setupImagePicker() {
         binding.imgLogo.setOnClickListener {
             pickImageLauncher.launch("image/*")
         }
     }
 
-    private fun loadAvatar(uid: String) {
-        db.collection("users").document(uid).get()
-            .addOnSuccessListener { doc ->
-                val avatarUrl = doc.getString("avatarURL")
-                if (!avatarUrl.isNullOrEmpty()) {
-                    Glide.with(this).load(avatarUrl).into(binding.imgLogo)
-                }
-            }
-    }
-    private fun loadUserProfile(uid: String) {
+    private fun loadFullUserData(uid: String) {
         val genders = listOf("Male", "Female", "Other")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genders).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -76,16 +68,23 @@ class ProfileDetalActivity : AppCompatActivity() {
         binding.spnGender.adapter = adapter
 
         db.collection("users").document(uid).get()
-            .addOnSuccessListener { document ->
-                val gender = document.getString("gender") ?: ""
-                val phone = document.getString("phone") ?: ""
-                val name = document.getString("name") ?: ""
+            .addOnSuccessListener { doc ->
+                val avatarUrl = doc.getString("avatarURL")
+                val name = doc.getString("name") ?: ""
+                val phone = doc.getString("phone") ?: ""
+                val gender = doc.getString("gender") ?: ""
+
+                if (!avatarUrl.isNullOrEmpty()) {
+                    Glide.with(this).load(avatarUrl).into(binding.imgLogo)
+                }
 
                 binding.edtName.setText(name)
                 binding.edtPhone.setText(phone)
 
                 val index = genders.indexOf(gender)
-                if (index != -1) binding.spnGender.setSelection(index)
+                if (index != -1) {
+                    binding.spnGender.setSelection(index)
+                }
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Không thể tải dữ liệu: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -98,6 +97,11 @@ class ProfileDetalActivity : AppCompatActivity() {
         val gender = binding.spnGender.selectedItem.toString()
         val uid = auth.currentUser?.uid ?: return
 
+        if (name.isBlank() || phone.isBlank()) {
+            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val updates = mapOf(
             "name" to name,
             "phone" to phone,
@@ -108,7 +112,7 @@ class ProfileDetalActivity : AppCompatActivity() {
             .update(updates)
             .addOnSuccessListener {
                 Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
-            super.onBackPressed()
+                super.onBackPressed()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Lỗi cập nhật: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -116,18 +120,22 @@ class ProfileDetalActivity : AppCompatActivity() {
     }
 
     private fun uploadToCloudinary(uri: Uri) {
-        val inputStream = contentResolver.openInputStream(uri)
         val file = File(cacheDir, "temp_avatar_${System.currentTimeMillis()}.jpg")
-        val outputStream = FileOutputStream(file)
-
-        inputStream?.copyTo(outputStream)
-        inputStream?.close()
-        outputStream.close()
+        try {
+            contentResolver.openInputStream(uri)?.use { input ->
+                FileOutputStream(file).use { output ->
+                    input.copyTo(output)
+                }
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Lỗi xử lý ảnh: ${e.message}", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         MediaManager.get().upload(file.path)
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String?) {
-                    Toast.makeText(this@ProfileDetalActivity, "Đang tải ảnh lên...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProfileDetailActivity, "Đang tải ảnh lên...", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {}
@@ -136,12 +144,12 @@ class ProfileDetalActivity : AppCompatActivity() {
                     val url = resultData?.get("secure_url") as? String
                     if (!url.isNullOrEmpty()) {
                         saveImageUrlToFirestore(url)
-                        Glide.with(this@ProfileDetalActivity).load(url).into(binding.imgLogo)
+                        Glide.with(this@ProfileDetailActivity).load(url).into(binding.imgLogo)
                     }
                 }
 
                 override fun onError(requestId: String?, error: ErrorInfo?) {
-                    Toast.makeText(this@ProfileDetalActivity, "Lỗi upload: ${error?.description}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProfileDetailActivity, "Lỗi upload: ${error?.description}", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onReschedule(requestId: String?, error: ErrorInfo?) {}

@@ -3,7 +3,9 @@ package com.example.clothingstoreapp.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.clothingstoreapp.Model.CartItem
+import com.example.clothingstoreapp.R
 import com.example.clothingstoreapp.databinding.CartItemLayoutBinding
 
 class CartItemAdapter(
@@ -26,7 +28,10 @@ class CartItemAdapter(
                 item.isSelected = isChecked // Cập nhật trạng thái khi checkbox thay đổi
                 onCheckboxChanged(item) // Gọi callback để thông báo cho Fragment
             }
-
+            Glide.with(binding.root.context)
+                .load(item.imageUrl)
+                .error(R.drawable.img_item_wishlist)
+                .into(binding.imageProduct)
             // Lắng nghe sự kiện tăng số lượng
             binding.btnIncrease.setOnClickListener {
                 item.quantity++

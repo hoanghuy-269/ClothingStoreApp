@@ -1,16 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
     <style name="Base.Theme.ClothingStoreApp" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Trắng cho status bar -->
-        <item name="android:statusBarColor">@color/nav</item>
 
-        <!-- Trắng cho navigation bar -->
-        <item name="android:navigationBarColor">@android:color/white</item>
-
-        <item name="android:windowLightNavigationBar">true</item>
-
-        <!-- Icon màu tối trên thanh status bar (nếu dùng nền trắng) -->
-        <item name="android:windowLightStatusBar">true</item>
     </style>
-
-    <style name="Theme.ClothingStoreApp" parent="Base.Theme.ClothingStoreApp" />
 </resources>

@@ -6,14 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center_vertical">
+    >
 
     <!-- Tỉnh / Thành phố -->
+
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:background="@drawable/circle_bg"
+
+        android:src="@drawable/ic_back" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Chọn Tỉnh/Thành phố"
         android:textSize="18sp"
+        android:layout_marginTop="20dp"
         android:textColor="@android:color/black"
         android:paddingTop="8dp"
         android:paddingBottom="4dp" />

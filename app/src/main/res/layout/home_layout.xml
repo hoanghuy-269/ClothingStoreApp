@@ -134,9 +134,8 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="270dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Category"
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -146,7 +145,7 @@
                     android:id="@+id/txtSeeAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="see all"
+                    android:text="See All"
                     android:textColor="@color/brown"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -164,13 +163,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- Example Category Item -->
+                    <!-- Category Item 1 -->
                     <LinearLayout
+                        android:id="@+id/btnTShirt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:background="@drawable/category_item_background"
+                        android:padding="8dp">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -183,79 +185,121 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="T-Shirt"
-                            android:textSize="12sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-medium" />
                     </LinearLayout>
 
-                    <!-- Category Item 2 -->
                     <LinearLayout
+                        android:id="@+id/btnShirt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_marginEnd="16dp">
+                        android:background="@drawable/category_item_background"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_tshirt" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Shirt"
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                    <!-- Category Item 2 -->
+                    <LinearLayout
+                        android:id="@+id/btnPant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/category_item_background"
+                        android:padding="8dp">
 
                         <ImageView
                             android:id="@+id/imgPant"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/ic_pant"
-                            android:padding="12dp" />
+                            android:padding="12dp"
+                            android:src="@drawable/ic_pant" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
                             android:text="Pant"
-                            android:textSize="12sp"
-                            android:layout_marginTop="6dp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-medium" />
                     </LinearLayout>
 
                     <!-- Category Item 3 -->
                     <LinearLayout
+                        android:id="@+id/btnDress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_marginEnd="16dp">
+                        android:background="@drawable/category_item_background"
+                        android:padding="8dp">
 
                         <ImageView
                             android:id="@+id/imgDress"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/ic_dress"
-                            android:padding="12dp" />
+                            android:padding="12dp"
+                            android:src="@drawable/ic_dress" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
                             android:text="Dress"
-                            android:textSize="12sp"
-                            android:layout_marginTop="6dp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-medium" />
                     </LinearLayout>
 
                     <!-- Category Item 4 -->
                     <LinearLayout
+                        android:id="@+id/btnJacket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_marginEnd="16dp">
+                        android:background="@drawable/category_item_background"
+                        android:padding="8dp">
 
                         <ImageView
                             android:id="@+id/imgJacket"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/ic_jacket"
-                            android:padding="12dp" />
+                            android:padding="12dp"
+                            android:src="@drawable/ic_jacket" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="Jacket"
-                            android:textSize="12sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-medium" />
                     </LinearLayout>
                 </LinearLayout>
             </HorizontalScrollView>
-
             <!-- Flash Sale Title -->
             <LinearLayout
                 android:layout_width="match_parent"

@@ -59,6 +59,10 @@ class AddressActivity : AppCompatActivity() {
          setResult(Activity.RESULT_OK,ketqua)
          finish()
      }
+        binding.imgBack.setOnClickListener {
+            intent = Intent(this,OrderActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 

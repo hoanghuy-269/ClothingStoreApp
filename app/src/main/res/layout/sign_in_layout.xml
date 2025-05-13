@@ -51,6 +51,7 @@
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
         <ProgressBar
@@ -73,12 +74,15 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             style="@style/RoundedTextInput"
+            android:textColor="@color/black"
+            app:endIconTint="@color/brown"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 

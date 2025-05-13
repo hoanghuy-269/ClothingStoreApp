@@ -30,7 +30,6 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var binding: OrderLayoutBinding
     private lateinit var selectedItems: MutableList<CartItem>
     private val db = FirebaseFirestore.getInstance()
-    private val ADDRESS_REQUEST_CODE = 999
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,6 +161,7 @@ class OrderActivity : AppCompatActivity() {
             )
         }
     }
+
 
     private fun loadProfile()
     {

@@ -20,12 +20,7 @@ class SignInActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        // Kiểm tra nếu người dùng đã đăng nhập
-        if (mAuth.currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-            return
-        }
+
         intent.getStringExtra("email")?.let {
             binding.edtEmail.setText(it)
         }

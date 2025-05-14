@@ -21,16 +21,14 @@ class VerityCodeActivity : AppCompatActivity() {
     private lateinit var binding: VerifyCodeLayoutBinding
     private val database = FirebaseDatabase.getInstance().reference
     private val client = OkHttpClient()
-    private val apiKey = ""
+    private val apiKey = "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"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = VerifyCodeLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         ramDomOTP()
-
     }
     private fun ramDomOTP()
     {
@@ -41,7 +39,6 @@ class VerityCodeActivity : AppCompatActivity() {
             saveOtp(email, otp)
             sendOtpToEmail(email, otp)
         }
-
         binding.btnVerify.setOnClickListener {
             val enteredOtp = getOtpInput()
             if (enteredOtp == null) {
@@ -51,17 +48,15 @@ class VerityCodeActivity : AppCompatActivity() {
             verifyOtp(email, enteredOtp)
         }
     }
-
     private fun saveOtp(email: String, otp: String) {
         val userId = email.replace(".", "_")
         database.child("otps").child(userId)
             .setValue(mapOf("otp" to otp, "timestamp" to System.currentTimeMillis()))
     }
-
     private fun verifyOtp(email: String, otpInput: String) {
         val userId = email.replace(".", "_")
-        database.child("otps").child(userId).get().addOnSuccessListener { snapshot ->
-            val storedOtp = snapshot.child("otp").getValue(String::class.java)
+        database.child("otps").child(userId).get().addOnSuccessListener { item ->
+            val storedOtp = item.child("otp").getValue(String::class.java)
             if (otpInput == storedOtp) {
                 sendResetEmail(email)
             } else {

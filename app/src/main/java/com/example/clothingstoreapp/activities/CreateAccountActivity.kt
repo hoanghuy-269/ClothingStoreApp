@@ -73,6 +73,7 @@ class CreateAccountActivity : AppCompatActivity() {
         return true
     }
     private fun luuNguoiDungVaoFireBase(name: String,phone: String,email: String){
+
         val uid = auth.currentUser?.uid ?: return
 
         val user = User(

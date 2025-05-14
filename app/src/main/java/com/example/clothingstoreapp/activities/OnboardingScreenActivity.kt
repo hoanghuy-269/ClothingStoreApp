@@ -7,21 +7,24 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clothingstoreapp.adapter.SlideAdapter
 import com.example.clothingstoreapp.models.Slides
 
 import com.example.clothingstoreapp.R
+import com.example.clothingstoreapp.adapter.SlideAdapter
 import com.example.clothingstoreapp.databinding.OnboardingScreenLayoutBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class OnboardingScreenActivity : AppCompatActivity() {
 
     private lateinit var binding : OnboardingScreenLayoutBinding
     private lateinit var layoutManager: LinearLayoutManager
+
     private val slides = listOf(
         Slides(R.drawable.img_modelcart,"Welcome to ClothingStore" ,"Shop fashion easily, quickly, and hassle-free"),
         Slides(R.drawable.img_welcome_home,"Your Fashion Wishlist ","Save your favorite items and never miss a trend!"),
         Slides(R.drawable.img_shoppingonline,"Fast & Reliable Delivery","One-tap checkout, doorstep delivery!")
     )
+
 
     private var currentIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {

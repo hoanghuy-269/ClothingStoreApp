@@ -50,7 +50,7 @@ class SignInActivity : AppCompatActivity() {
                             val role = document.getString("role")
 
                             if(role == "admin"){
-//                                startActivity(this)
+                                startActivity(Intent(this,SucessOrderActivity::class.java))
                             }
                             else{
                                 startActivity(Intent(this,MainActivity::class.java))

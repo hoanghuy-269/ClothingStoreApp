@@ -6,12 +6,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingstoreapp.databinding.SignInLayoutBinding
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: SignInLayoutBinding
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var db:FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,13 +23,7 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
-
-        // Kiểm tra nếu người dùng đã đăng nhập
-        if (mAuth.currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-            return
-        }
+        db = FirebaseFirestore.getInstance()
         intent.getStringExtra("email")?.let {
             binding.edtEmail.setText(it)
         }
@@ -44,15 +42,28 @@ class SignInActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             showLoading(true)
-
             mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    val uid = mAuth.currentUser?.uid?: return@addOnSuccessListener
+                    db.collection("users").document(uid).get()
+                        .addOnSuccessListener { document->
+                            val role = document.getString("role")
+
+                            if(role == "admin"){
+//                                startActivity(this)
+                            }
+                            else{
+                                startActivity(Intent(this,MainActivity::class.java))
+                            }
+                            finish()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "không tuy cập quyê người dùng", Toast.LENGTH_SHORT).show()
+                        }
+
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Sai Tài khoản hoặc mật khẩu",Toast.LENGTH_SHORT).show()
                 }
                 .addOnCompleteListener {
                     showLoading(false)

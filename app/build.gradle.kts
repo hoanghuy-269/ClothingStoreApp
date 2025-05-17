@@ -80,6 +80,8 @@ dependencies {
 
     implementation ("com.google.firebase:firebase-database:21.0.0")
 
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+
 
 
 

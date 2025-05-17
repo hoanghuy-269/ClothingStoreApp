@@ -7,6 +7,6 @@ data class User(
     val email: String = "",
     val gender: String ?= null,
     val avatarURI: String? = null,
-    val address:String = ""
-
+    val address:String = "",
+    val role:String = "user",
 )

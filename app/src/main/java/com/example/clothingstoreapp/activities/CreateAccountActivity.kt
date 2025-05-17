@@ -49,8 +49,6 @@ class CreateAccountActivity : AppCompatActivity() {
                 showLoading(false)
                 showToast("Đăng kí thất bại :{${exception.message}}")
             }
-
-
     }
     private fun kiemTra(name:String ,phone:String , email:String , password:String) : Boolean{
         if(name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()){
@@ -74,6 +72,7 @@ class CreateAccountActivity : AppCompatActivity() {
         return true
     }
     private fun luuNguoiDungVaoFireBase(name: String,phone: String,email: String){
+
         val uid = auth.currentUser?.uid ?: return
 
         val user = User(
@@ -83,7 +82,8 @@ class CreateAccountActivity : AppCompatActivity() {
             email = email,
             gender = null,
             avatarURI = null,
-            address = ""
+            address = "",
+            role = ""
         )
         db.collection(USER_COLLECTION).document(uid).set(user)
             .addOnSuccessListener {

@@ -131,13 +131,11 @@ class ProfileDetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Lỗi xử lý ảnh: ${e.message}", Toast.LENGTH_SHORT).show()
             return
         }
-
         MediaManager.get().upload(file.path)
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String?) {
                     Toast.makeText(this@ProfileDetailActivity, "Đang tải ảnh lên...", Toast.LENGTH_SHORT).show()
                 }
-
                 override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {}
 
                 override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {

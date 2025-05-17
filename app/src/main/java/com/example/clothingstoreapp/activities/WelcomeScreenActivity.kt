@@ -23,6 +23,15 @@ class WelcomeScreenActivity : AppCompatActivity() {
             return
         }
         setContentView(binding.root)
+
+
+        mAuth = FirebaseAuth.getInstance()
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (mAuth.currentUser != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
         setEvent()
     }
     private fun setEvent()

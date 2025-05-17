@@ -5,13 +5,23 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingstoreapp.databinding.WelcomeLayoutBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class WelcomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: WelcomeLayoutBinding
+    private lateinit var mAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = WelcomeLayoutBinding.inflate(layoutInflater)
+        mAuth = FirebaseAuth.getInstance()
+
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (mAuth.currentUser != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
         setContentView(binding.root)
         setEvent()
     }

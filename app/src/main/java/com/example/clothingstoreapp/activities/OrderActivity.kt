@@ -102,7 +102,7 @@ class OrderActivity : AppCompatActivity() {
                 price = cartItem.price,
                 selectedSize = cartItem.selectedSize,
                 quantity = cartItem.quantity,
-                status = "Trong đơn hàng" // Hoặc trạng thái khác nếu cần
+                status = "Pending"
             )
         }
     }

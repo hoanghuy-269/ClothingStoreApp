@@ -69,6 +69,7 @@ class CreateAccountActivity : AppCompatActivity() {
         if(!phone.matches(Regex("\\d{10}")))
         {
             showToast(" Số Điện thoại không hợp lệ (10 kí tự )")
+            return false
         }
         return true
     }

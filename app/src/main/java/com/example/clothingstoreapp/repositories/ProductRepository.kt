@@ -9,7 +9,7 @@ object ProductRepository {
 
     // Phương thức thêm sản phẩm vào Firestore
     fun addProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        val docRef = db.collection("products").document() // tạo document có id
+        val docRef = db.collection("products").document()
         val productData = mapOf(
             "id" to docRef.id,  // gán id vào document
             "name" to product.name,

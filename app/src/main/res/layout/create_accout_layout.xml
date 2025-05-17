@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:textColor="@color/black"
-                android:text="+84 " />
+                android:hint="Phone" />
         </com.google.android.material.textfield.TextInputLayout>
         <ProgressBar
             android:id="@+id/progressBar"

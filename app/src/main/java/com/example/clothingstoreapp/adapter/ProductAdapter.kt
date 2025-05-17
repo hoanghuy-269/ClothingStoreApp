@@ -25,7 +25,7 @@ class ProductAdapter(
 
         fun bind(product: Product) {
             binding.txtName.text = product.name
-            binding.txtPrice.text = "${product.price} đ"
+            binding.txtPrice.text = "$${product.price}"
             binding.txtRating.text = "${product.rating}"
             Log.d("ProductAdapter", "Image URL: ${product.images}")
             Glide.with(binding.root.context)

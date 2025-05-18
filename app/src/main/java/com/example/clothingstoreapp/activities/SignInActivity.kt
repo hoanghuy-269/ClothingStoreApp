@@ -48,9 +48,13 @@ class SignInActivity : AppCompatActivity() {
                     db.collection("users").document(uid).get()
                         .addOnSuccessListener { document->
                             val role = document.getString("role")
-
                             if(role == "admin"){
-//                                startActivity(this)
+//                              startActivity(Intent(this,MainActivity::class.java))
+                            }
+                            else if(role == "shipper")
+                            {
+                                startActivity(Intent(this,ShipperActivity::class.java))
+                                finish()
                             }
                             else{
                                 startActivity(Intent(this,MainActivity::class.java))

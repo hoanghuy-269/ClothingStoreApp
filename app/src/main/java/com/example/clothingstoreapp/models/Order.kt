@@ -5,11 +5,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Order(
-    val orderId: String,
-    val userId: String,
-    val items: List<OrderItem>,
-    val totalPrice: Double,
-    val orderDate: Long,
-    var status: String,
-    var address : String
+    var orderId: String = "",
+    var userId: String = "",
+    val items: List<OrderItem> = listOf(),
+    val totalPrice: Double = 0.0,
+    val orderDate: Long = 0L,
+    var status: String = "",
+    var address : String = ""
 ) : Parcelable

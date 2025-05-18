@@ -50,8 +50,8 @@ class OrderdetailsActivity : AppCompatActivity() {
         filteredOrdersList.clear()
         filteredOrdersList.addAll(
             when (status) {
-                "Pending" -> allOrdersList.filter { it.status == "Pending" }
-                "Shipping" -> allOrdersList.filter { it.status == "Shipping" }
+                "Pending"  -> allOrdersList.filter { it.status == "Pending" }
+                "Shipping"  -> allOrdersList.filter { it.status == "Shipping" }
                 "Completed" -> allOrdersList.filter { it.status == "Completed" }
                 "Cancelled" -> allOrdersList.filter { it.status == "Cancelled" }
                 else -> allOrdersList

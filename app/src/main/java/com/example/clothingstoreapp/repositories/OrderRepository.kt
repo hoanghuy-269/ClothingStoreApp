@@ -48,7 +48,30 @@ object OrderRepository {
                 onResult(emptyList())
             }
     }
-
+    fun getOrdersByStatus(status: String, onResult: (List<Order>) -> Unit) {
+        db.collectionGroup("userOrders")
+            .whereEqualTo("status", status)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val orders = querySnapshot.mapNotNull { doc ->
+                    try {
+                        doc.toObject<Order>().copy(orderId = doc.id)
+                    } catch (e: Exception) {
+                        Log.e("OrderRepository", "Error parsing order", e)
+                        null
+                    }
+                }
+                Log.d("OrderRepository", "Tìm đơn theo status: $status")
+                onResult(orders)
+            }
+            .addOnFailureListener { e ->
+                Log.e("OrderRepository", "Error getting orders by status: ${e.message}", e)
+                if (e.message?.contains("index") == true) {
+                    Log.e("OrderRepository", "Index required: ${e.message}")
+                }
+                onResult(emptyList())
+            }
+    }
     fun updateOrderStatus(orderId: String, userId: String, newStatus: String, onResult: (Boolean) -> Unit) {
         ordersCollection.document(userId)
             .collection("userOrders")

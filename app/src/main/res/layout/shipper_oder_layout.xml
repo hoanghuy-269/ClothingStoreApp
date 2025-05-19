@@ -8,21 +8,28 @@
     android:padding="15dp"
     android:orientation="vertical"
     >
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delivery Page"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        />
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#DBD0D0"
-        android:text="Shipping"
-        android:textColor="@color/black" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       >
+       <ImageView
+           android:id="@+id/btnLogout"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:backgroundTint="#DBD0D0"
+           android:src="@drawable/left_brown"
+           android:textColor="@color/black" />
+       <TextView
+           android:id="@+id/textView4"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Delivery Page"
+           android:textSize="30sp"
+           android:layout_gravity="center"
+           android:textAlignment="center"
+           />
+   </LinearLayout>
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +79,6 @@
         android:padding="16dp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lstShipperOder"
-        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

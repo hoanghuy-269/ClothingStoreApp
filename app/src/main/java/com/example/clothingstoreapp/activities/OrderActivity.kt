@@ -152,7 +152,8 @@ class OrderActivity : AppCompatActivity() {
                 totalPrice = totalPrice,
                 orderDate = System.currentTimeMillis(),
                 status = "Đang chờ",
-                address = address
+                address = address,
+                deliveryDate = System.currentTimeMillis()
             )
 
             // Gọi phương thức addOrder

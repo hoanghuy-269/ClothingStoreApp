@@ -50,6 +50,8 @@ class SignInActivity : AppCompatActivity() {
                             val role = document.getString("role")
                             if(role == "admin"){
 
+                                startActivity(Intent(this,AdminActivity::class.java))
+
 ///                             startActivity(Intent(this,MainActivity::class.java))
                             }
                             else if(role == "shipper")

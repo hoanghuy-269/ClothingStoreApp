@@ -48,7 +48,7 @@ class WishListActivity : Fragment() {
 
 
     private fun loadProductDetails(ids: Set<String>) {
-        ProductRepository.getProductsByIds(ids, { productList ->
+        ProductRepository.getProductsById(ids, { productList ->
             wishListAdapter = WishListAdapter(productList,
                 onRemoveFavorite = { productId -> onRemoveFavorite(productId) },
                 onItemClick = { product ->

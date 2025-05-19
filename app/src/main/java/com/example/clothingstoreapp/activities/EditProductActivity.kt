@@ -113,11 +113,6 @@ class EditProductActivity : AppCompatActivity() {
             saveProduct()
         }
 
-        binding.btnSaveProduct.setOnTouchListener { _, event ->
-            Log.d("edit", "Save button touched: ${event.action}")
-            false
-        }
-
         binding.buttonContainer.setOnClickListener {
             Log.d("edit", "Button container clicked")
         }

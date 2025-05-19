@@ -18,9 +18,6 @@ import com.example.clothingstoreapp.adapter.OrderManagerAdapter
 import com.example.clothingstoreapp.databinding.FragmentOderManagerBinding
 import com.example.clothingstoreapp.models.Order
 import com.example.clothingstoreapp.repositories.OrderRepository
-import com.google.firebase.auth.FirebaseAuth
-import java.text.SimpleDateFormat
-import java.util.*
 
 class OrderManagerFragment : Fragment() {
 
@@ -94,11 +91,10 @@ class OrderManagerFragment : Fragment() {
             val statusSpinner: Spinner = dialogView.findViewById(R.id.spinner_status)
 
             val statusOptions = arrayOf(
-                "Chờ xác nhận",
-                "Đang chuẩn bị",
-                "Đang giao hàng",
-                "Đã giao",
-                "Đã hủy"
+                "Pending",
+                "Shipping",
+                "Completed",
+                "Cancelled",
             )
 
             val adapter = ArrayAdapter(
@@ -128,7 +124,7 @@ class OrderManagerFragment : Fragment() {
     }
 
     private fun updateOrderStatus(order: Order, newStatus: String) {
-        showProgressDialog("Đang cập nhật...")
+        showProgressDialog("Updating...")
 
         order.userId?.let {
             OrderRepository.updateOrderStatus(
@@ -139,10 +135,10 @@ class OrderManagerFragment : Fragment() {
                 dismissProgressDialog()
 
                 if (success) {
-                    showToast("Cập nhật trạng thái thành công")
+                    showToast("Status update successful")
                     loadOrders()
                 } else {
-                    showErrorDialog("Cập nhật trạng thái thất bại")
+                    showErrorDialog("Status update fail")
                 }
             }
         }
@@ -150,17 +146,17 @@ class OrderManagerFragment : Fragment() {
 
     private fun showDeleteConfirmationDialog(order: Order) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Xác nhận xóa đơn hàng")
-            .setMessage("Bạn có chắc chắn muốn xóa đơn hàng #${order.orderId}?")
-            .setPositiveButton("Xóa") { _, _ ->
+            .setTitle("Confirm order deletion")
+            .setMessage("Are you sure you want to delete the order #${order.orderId}?")
+            .setPositiveButton("Delete") { _, _ ->
                 deleteOrder(order)
             }
-            .setNegativeButton("Hủy", null)
+            .setNegativeButton("Cancel", null)
             .show()
     }
 
     private fun deleteOrder(order: Order) {
-        showProgressDialog("Đang xóa đơn hàng...")
+        showProgressDialog("Deleting order...")
 
         order.userId?.let {
             OrderRepository.deleteOrder(
@@ -170,7 +166,7 @@ class OrderManagerFragment : Fragment() {
                 dismissProgressDialog()
 
                 if (success) {
-                    showToast("Xóa đơn hàng thành công")
+                    showToast("Order deleted successfully")
                     loadOrders()
                 } else {
                     showErrorDialog("Xóa đơn hàng thất bại")

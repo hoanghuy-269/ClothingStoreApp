@@ -16,6 +16,13 @@
         android:textAlignment="center"
         android:textSize="30sp"
         />
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#DBD0D0"
+        android:text="Shipping"
+        android:textColor="@color/black" />
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,12 +62,20 @@
                 android:textColor="@color/black" />
         </LinearLayout>
     </HorizontalScrollView>
+    <TextView
+        android:id="@+id/emptyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Không có đơn hàng"
+        android:visibility="gone"
+        android:gravity="center"
+        android:padding="16dp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lstShipperOder"
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-  />
+        />
 
 </LinearLayout>

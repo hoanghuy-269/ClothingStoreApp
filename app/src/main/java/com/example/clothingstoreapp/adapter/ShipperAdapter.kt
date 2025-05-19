@@ -2,6 +2,7 @@ package com.example.clothingstoreapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothingstoreapp.databinding.ItemShipperOderLayoutBinding
@@ -10,7 +11,7 @@ import com.example.clothingstoreapp.models.Order
 class ShipperAdapter(
     private val context: Context,
     private val orderList: List<Order>,
-    private val giaHang: (Order) -> Unit
+    private val complete: (Order) -> Unit
 ) : RecyclerView.Adapter<ShipperAdapter.ShipperViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShipperViewHolder {
@@ -33,13 +34,16 @@ class ShipperAdapter(
         fun bind(order: Order) {
             binding.txtMaDon.text = "Mã đơn: ${order.orderId}"
             binding.txtAddress.text = "Địa chỉ: ${order.address}"
-            binding.txttotalPrice.text = "Tổng thanh toán: ${order.totalPrice}đ"
+            binding.txttotalPrice.text = "Tổng thanh toán: $${order.totalPrice}"
             binding.txtTrangThai.text = "Trạng thái: ${order.status}"
 
-            // Nút "Hoàn thành" chỉ bật khi chưa giao
-            binding.btnHoanThanh.isEnabled = order.status != "Đã giao"
+            val isComplete = order.status == "Completed"
+            binding.btnHoanThanh.isEnabled = !isComplete
+            binding.btnHoanThanh.visibility = if (isComplete) View.GONE else View.VISIBLE
+
+            // Sử dụng trực tiếp order thay vì currentOrder
             binding.btnHoanThanh.setOnClickListener {
-                giaHang(order)
+                complete(order)
             }
         }
     }

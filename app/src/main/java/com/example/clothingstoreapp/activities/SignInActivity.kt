@@ -57,9 +57,6 @@ class SignInActivity : AppCompatActivity() {
                             else if(role == "shipper")
                             {
                                 startActivity(Intent(this,ShipperActivity::class.java))
-                                finish()
-
-                                startActivity(Intent(this,SucessOrderActivity::class.java))
 
                             }
                             else{

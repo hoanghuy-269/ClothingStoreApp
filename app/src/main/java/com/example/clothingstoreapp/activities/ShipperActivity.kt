@@ -1,15 +1,21 @@
 package com.example.clothingstoreapp.activities
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothingstoreapp.adapter.ShipperAdapter
 import com.example.clothingstoreapp.models.Order
 import com.example.clothingstoreapp.databinding.ShipperOderLayoutBinding
+import com.example.clothingstoreapp.repositories.OrderRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import kotlin.math.log
 
 class ShipperActivity : AppCompatActivity() {
     private lateinit var binding: ShipperOderLayoutBinding
@@ -30,48 +36,67 @@ class ShipperActivity : AppCompatActivity() {
         binding.lstShipperOder.adapter = adapter
         binding.lstShipperOder.layoutManager = LinearLayoutManager(this)
 
-        val userId = "PD0kQYJ2mIgrYibNa3UJAM4DZ0I3"
-        loadTatCaDonHang(userId) // Gọi phương thức với userId
-
+        setOnClickButtonCategory()
+        loadOrdersByStatus("Shipping")
+        binding.btnLogout.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("LogOut")
+                .setMessage("Nhấn vào CÓ nếu bạn thoát ứng dụng.")
+                .setPositiveButton("CÓ") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
+                    Toast.makeText(this, "Đã thoát ứng dụng thành công", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, SignInActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                .setNegativeButton("Không", null)
+                .show()
+        }
     }
 
-    private fun loadTatCaDonHang(userId: String) {
-        orderList.clear() // Xóa danh sách trước khi tải mới
+    private fun setOnClickButtonCategory() {
+        binding.btncompleted.setOnClickListener {
+            loadOrdersByStatus("Completed")
+        }
+        binding.btnShipping.setOnClickListener {
+            loadOrdersByStatus("Shipping")
+        }
+        binding.btnHistory.setOnClickListener {
+            loadTatCaDonHang()
+        }
+    }
 
-        db.collection("orders")
-            .document(userId)
-            .collection("userOrders")
-            .whereIn("status", listOf("Đang giao", "Chờ xác nhận")) // Lọc theo trạng thái
-            .get()
-            .addOnSuccessListener { userOrderDocs ->
-                if (userOrderDocs.isEmpty) {
-                    Toast.makeText(this, "Không có đơn hàng nào để hiển thị", Toast.LENGTH_SHORT).show()
-                    adapter.notifyDataSetChanged()
-                    return@addOnSuccessListener
-                }
+    private fun loadTatCaDonHang() {
+        OrderRepository.getAllOrders { orders ->
+            updateOrderList(orders)
+        }
+    }
 
-                for (userOrderDoc in userOrderDocs) {
-                    val order = userOrderDoc.toObject<Order>().apply {
-                        orderId = userOrderDoc.id
-                        this.userId = userId // Gán userId từ tham số
-                    }
-                    orderList.add(order)
-                    Log.d("FirestoreDebug", "Đã thêm đơn hàng: ${order.orderId}, userId: ${order.userId}")
-                }
+    private fun loadOrdersByStatus(status: String) {
+        OrderRepository.getOrdersByStatus(status) { orders ->
+            updateOrderList(orders)
+        }
+    }
 
-                adapter.notifyDataSetChanged() // Cập nhật RecyclerView
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Lỗi khi tải đơn hàng: $e", Toast.LENGTH_SHORT).show()
-            }
+    private fun updateOrderList(orders: List<Order>) {
+        if (orders.isEmpty()) {
+            binding.emptyMessage.text = "Chưa có đơn hàng"
+            binding.emptyMessage.visibility = View.VISIBLE
+            binding.lstShipperOder.visibility = View.GONE
+        } else {
+            binding.emptyMessage.visibility = View.GONE
+            binding.lstShipperOder.visibility = View.VISIBLE
+            orderList.clear()
+            orderList.addAll(orders)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun capNhatTrangThai(order: Order) {
         val userId = order.userId
         val orderId = order.orderId
 
-        // Kiểm tra thông tin đơn hàng
-        if (userId.isEmpty() || orderId.isEmpty()) {
+        if (userId.isNullOrEmpty() || orderId.isEmpty()) {
             Toast.makeText(this, "Không tìm thấy thông tin đơn hàng", Toast.LENGTH_SHORT).show()
             return
         }
@@ -85,18 +110,18 @@ class ShipperActivity : AppCompatActivity() {
                 val orderData = document.toObject<Order>()
                 if (orderData != null) {
                     orderData.items?.forEach { item ->
-                        item.status = "Đã giao"
+                        item.status = "Completed"
                     }
-                    orderData.status = "Đã giao"
+                    orderData.status = "Completed"
 
                     db.collection("orders")
                         .document(userId)
                         .collection("userOrders")
                         .document(orderId)
-                        .set(orderData) // Ghi đè toàn bộ tài liệu để đảm bảo dữ liệu nhất quán
+                        .set(orderData)
                         .addOnSuccessListener {
                             Toast.makeText(this, "Cập nhật trạng thái thành công", Toast.LENGTH_SHORT).show()
-                            loadTatCaDonHang(userId) // Tải lại danh sách để làm mới giao diện
+                            loadTatCaDonHang() // Tải lại danh sách mặc định
                         }
                         .addOnFailureListener { e ->
                             Toast.makeText(this, "Lỗi khi cập nhật trạng thái: $e", Toast.LENGTH_SHORT).show()

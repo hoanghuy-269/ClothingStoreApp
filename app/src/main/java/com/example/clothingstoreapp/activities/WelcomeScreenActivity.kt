@@ -26,7 +26,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
         val currentUser = mAuth.currentUser
         if (currentUser != null) {
             val uid = currentUser.uid
-            val db = FirebaseFirestore.getInstance()
+             db = FirebaseFirestore.getInstance()
 
             db.collection("users").document(uid).get()
                 .addOnSuccessListener { document ->
@@ -39,7 +39,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
                             "admin" -> {
 //                                startActivity(Intent(this, MainActivity::class.java))
                             }
-                            else -> {
+                            "user" -> {
                                 startActivity(Intent(this, MainActivity::class.java))
                             }
                         }

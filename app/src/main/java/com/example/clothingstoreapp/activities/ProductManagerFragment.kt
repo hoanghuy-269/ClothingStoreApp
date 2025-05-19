@@ -3,10 +3,9 @@ package com.example.clothingstoreapp.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothingstoreapp.adapter.ProductManagerAdapter
@@ -20,6 +19,16 @@ class ProductManagerFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: ProductManagerAdapter
 
+    // Launcher để nhận kết quả khi chỉnh sửa sản phẩm
+    private val editProductLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            loadProducts()
+            Toast.makeText(requireContext(), "Sản phẩm đã được cập nhật", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,14 +41,19 @@ class ProductManagerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         loadProducts()
-        binding.fabAddProduct.setOnClickListener{
+        binding.fabAddProduct.setOnClickListener {
             startActivity(Intent(requireContext(), AddProductActivity::class.java))
         }
     }
 
     private fun setupRecyclerView() {
         adapter = ProductManagerAdapter(
-            onEditClick = {  },
+            onEditClick = { product ->
+                val intent = Intent(requireContext(), EditProductActivity::class.java).apply {
+                    putExtra(EditProductActivity.EXTRA_PRODUCT_ID, product.id)
+                }
+                editProductLauncher.launch(intent)
+            },
             onDeleteClick = { product ->
                 deleteProduct(product)
             }
@@ -70,14 +84,6 @@ class ProductManagerFragment : Fragment() {
                 Toast.makeText(context, "Lỗi khi xóa sản phẩm: ${e.message}", Toast.LENGTH_LONG).show()
             }
         )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ProductManagerAdapter.REQUEST_CODE_EDIT_PRODUCT && resultCode == Activity.RESULT_OK) {
-            loadProducts()
-            Toast.makeText(context, "Sản phẩm đã được cập nhật", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onDestroyView() {

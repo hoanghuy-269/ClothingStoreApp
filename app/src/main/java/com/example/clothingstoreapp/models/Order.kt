@@ -16,3 +16,11 @@ data class Order(
 ) : Parcelable{
     constructor() : this("", null, emptyList(), 0.0, 0L, null, null, 0L)
 }
+    var orderId: String = "",
+    var userId: String = "",
+    val items: List<OrderItem> = listOf(),
+    val totalPrice: Double = 0.0,
+    val orderDate: Long = 0L,
+    var status: String = "",
+    var address : String = ""
+) : Parcelable

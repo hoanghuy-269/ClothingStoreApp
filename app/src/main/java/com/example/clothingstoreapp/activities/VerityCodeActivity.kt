@@ -21,7 +21,7 @@ class VerityCodeActivity : AppCompatActivity() {
     private lateinit var binding: VerifyCodeLayoutBinding
     private val database = FirebaseDatabase.getInstance().reference
     private val client = OkHttpClient()
-    private val apiKey = "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"
+    private val apiKey = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

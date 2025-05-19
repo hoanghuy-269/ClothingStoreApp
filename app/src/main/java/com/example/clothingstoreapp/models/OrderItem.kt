@@ -16,3 +16,11 @@ data class OrderItem(
     // Constructor không tham số cho Firestore
     constructor() : this(null, null, null, 0.0, null, 0, null)
 }
+    val productId: String = "" ,
+    val image : String = "",
+    val name: String = "" ,
+    val price: Double = 0.0 ,
+    val selectedSize: String = "" ,
+    val quantity: Int = 0,
+    var status: String = ""
+) : Parcelable

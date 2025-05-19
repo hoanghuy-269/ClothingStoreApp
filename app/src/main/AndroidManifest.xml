@@ -31,6 +31,9 @@
             android:theme="@style/Theme.ClothingStoreApp.NoActionBar">
         </activity>
         <activity
+            android:name=".activities.ShipperActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddressActivity"
             android:exported="false" />
         <activity

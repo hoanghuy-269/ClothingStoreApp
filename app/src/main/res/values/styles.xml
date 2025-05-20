@@ -37,6 +37,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">40%</item>
     </style>
+    <style name="NavDrawerText" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#000000</item> <!-- (tuỳ chọn) chỉnh màu -->
+    </style>
 
 
 </resources>

@@ -19,8 +19,25 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+
             android:name=".activities.Track_orderActivity"
             android:exported="true" />
+
+
+            android:name=".activities.EditProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminActivity"
+            android:exported="true"
+            android:label="@string/title_activity_admin"
+            android:theme="@style/Theme.ClothingStoreApp.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activities.ShipperActivity"
+            android:exported="false" />
 
         <activity
             android:name=".activities.AddressActivity"
@@ -42,7 +59,7 @@
             android:exported="true" />
         <activity
             android:name=".activities.WelcomeScreenActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

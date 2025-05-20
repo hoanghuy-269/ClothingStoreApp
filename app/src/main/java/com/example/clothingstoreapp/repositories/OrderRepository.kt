@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.clothingstoreapp.models.Order
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.toObject
 
 object OrderRepository {
 
@@ -13,74 +13,90 @@ object OrderRepository {
 
     fun addOrder(order: Order, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-
         if (userId == null) {
             onFailure(Exception("User not authenticated"))
             return
         }
 
-        val orderRef = FirebaseFirestore.getInstance()
-            .collection("orders")
+        val orderRef = ordersCollection
             .document(userId)
             .collection("userOrders")
             .document(order.orderId)
 
-        // Thêm userId vào order
         val orderWithUserId = order.copy(userId = userId)
-
         orderRef.set(orderWithUserId)
-            .addOnSuccessListener {
-                onSuccess()
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
-            }
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception -> onFailure(exception) }
     }
 
-//    fun getOrder(orderId: String, onResult: (Order?) -> Unit) {
-//        ordersCollection.document(orderId).get()
-//            .addOnSuccessListener { snapshot ->
-//                val order = snapshot.toObject<Order>()?.copy(id = orderId) // Gán ID tài liệu
-//                onResult(order)
-//            }
-//            .addOnFailureListener { e ->
-//                Log.e("OrderRepository", "Lỗi khi lấy hóa đơn: $orderId", e)
-//                onResult(null)
-//            }
-//    }
-
     fun getAllOrders(onResult: (List<Order>) -> Unit) {
-        ordersCollection.get()
-            .addOnSuccessListener { result ->
-                val orders = result.mapNotNull { it.toObject<Order>() }
+        db.collectionGroup("userOrders")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val orders = querySnapshot.mapNotNull { doc ->
+                    try {
+                        doc.toObject<Order>().copy(orderId = doc.id)
+                    } catch (e: Exception) {
+                        Log.e("OrderRepository", "Error parsing order", e)
+                        null
+                    }
+                }
                 onResult(orders)
             }
             .addOnFailureListener { e ->
-                Log.e("OrderRepository", "Lỗi khi lấy danh sách hóa đơn", e)
+                Log.e("OrderRepository", "Error getting orders", e)
                 onResult(emptyList())
             }
     }
-
-    fun updateOrder(orderId: String, updatedOrder: Order, onResult: (Boolean) -> Unit) {
-        ordersCollection.document(orderId).set(updatedOrder)
-            .addOnSuccessListener {
-                Log.d("OrderRepository", "Cập nhật hóa đơn thành công: $orderId")
-                onResult(true)
+    fun getOrdersByStatus(status: String, onResult: (List<Order>) -> Unit) {
+        db.collectionGroup("userOrders")
+            .whereEqualTo("status", status)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val orders = querySnapshot.mapNotNull { doc ->
+                    try {
+                        doc.toObject<Order>().copy(orderId = doc.id)
+                    } catch (e: Exception) {
+                        Log.e("OrderRepository", "Error parsing order", e)
+                        null
+                    }
+                }
+                Log.d("OrderRepository", "Tìm đơn theo status: $status")
+                onResult(orders)
             }
             .addOnFailureListener { e ->
-                Log.e("OrderRepository", "Lỗi khi cập nhật hóa đơn", e)
+                Log.e("OrderRepository", "Error getting orders by status: ${e.message}", e)
+                if (e.message?.contains("index") == true) {
+                    Log.e("OrderRepository", "Index required: ${e.message}")
+                }
+                onResult(emptyList())
+            }
+    }
+    fun updateOrderStatus(orderId: String, userId: String, newStatus: String, onResult: (Boolean) -> Unit) {
+        ordersCollection.document(userId)
+            .collection("userOrders")
+            .document(orderId)
+            .update("status", newStatus)
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { e ->
+                Log.e("OrderRepository", "Error updating status", e)
                 onResult(false)
             }
     }
 
-    fun deleteOrder(orderId: String, onResult: (Boolean) -> Unit) {
-        ordersCollection.document(orderId).delete()
+    // Thống nhất sử dụng orderId đơn giản (không chứa userId)
+    fun deleteOrder(userId: String, orderId: String, onResult: (Boolean) -> Unit) {
+        db.collection("orders")
+            .document(userId)
+            .collection("userOrders")
+            .document(orderId)
+            .delete()
             .addOnSuccessListener {
-                Log.d("OrderRepository", "Xóa hóa đơn thành công: $orderId")
+                Log.d("OrderRepository", "Deleted order $orderId for user $userId")
                 onResult(true)
             }
             .addOnFailureListener { e ->
-                Log.e("OrderRepository", "Lỗi khi xóa hóa đơn", e)
+                Log.e("OrderRepository", "Error deleting order", e)
                 onResult(false)
             }
     }

@@ -61,9 +61,6 @@
         android:layout_marginTop="100dp"
         android:orientation="vertical">
 
-        <!-- Danh mục tab -->
-
-        <!-- Danh sách sản phẩm -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="70dp"

@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingstoreapp.databinding.SignInLayoutBinding
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -48,9 +46,16 @@ class SignInActivity : AppCompatActivity() {
                     db.collection("users").document(uid).get()
                         .addOnSuccessListener { document->
                             val role = document.getString("role")
-
                             if(role == "admin"){
-//                                startActivity(this)
+
+                                startActivity(Intent(this,AdminActivity::class.java))
+
+///                             startActivity(Intent(this,MainActivity::class.java))
+                            }
+                            else if(role == "shipper")
+                            {
+                                startActivity(Intent(this,ShipperActivity::class.java))
+
                             }
                             else{
                                 startActivity(Intent(this,MainActivity::class.java))

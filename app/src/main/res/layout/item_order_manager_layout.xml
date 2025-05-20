@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <!-- Mã đơn hàng -->
+    <TextView
+        android:id="@+id/textOrderId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Đơn: #ORD-4567"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textOrderDate"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <!-- Ngày đặt hàng -->
+    <TextView
+        android:id="@+id/textOrderDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18/05/2025"
+        android:textSize="13sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonOptions"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Nút ba chấm -->
+    <ImageButton
+        android:id="@+id/buttonOptions"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Tùy chọn"
+        android:src="@drawable/ic_more_vert"
+        app:tint="?attr/colorControlNormal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Trạng thái đơn -->
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Trạng thái: Đang giao"
+        app:layout_constraintTop_toBottomOf="@id/textOrderId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="4dp" />
+
+    <!-- Tổng tiền -->
+    <TextView
+        android:id="@+id/textTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tổng tiền: 350.000đ (3 sản phẩm)"
+        app:layout_constraintTop_toBottomOf="@id/textStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"/>
+
+    <!-- View mở rộng -->
+    <LinearLayout
+        android:id="@+id/expandedView"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textTotal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/textProductCodes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã sản phẩm: ..." />
+        <TextView
+            android:id="@+id/textAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ: ..." />
+
+        <TextView
+            android:id="@+id/textDeliveryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ngày giao dự kiến: ..." />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

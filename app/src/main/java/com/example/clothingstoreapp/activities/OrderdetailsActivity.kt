@@ -62,6 +62,7 @@ class OrderdetailsActivity : AppCompatActivity() {
 
     private fun filterOrdersByStatus(status: String) {
         filteredOrdersList.clear()
+
         val filtered = when (status) {
             "Pending" -> allOrdersList.filter { it.status == "Pending" }
             "Shipping" -> allOrdersList.filter { it.status == "Shipping" }
@@ -70,6 +71,17 @@ class OrderdetailsActivity : AppCompatActivity() {
             else -> allOrdersList
         }
         filteredOrdersList.addAll(filtered)
+
+        filteredOrdersList.addAll(
+            when (status) {
+                "Pending"  -> allOrdersList.filter { it.status == "Pending" }
+                "Shipping"  -> allOrdersList.filter { it.status == "Shipping" }
+                "Completed" -> allOrdersList.filter { it.status == "Completed" }
+                "Cancelled" -> allOrdersList.filter { it.status == "Cancelled" }
+                else -> allOrdersList
+            }
+        )
+
         updateRecyclerView()
     }
 

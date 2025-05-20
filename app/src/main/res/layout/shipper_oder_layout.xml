@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:orientation="vertical"
+    >
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       >
+       <ImageView
+           android:id="@+id/btnLogout"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:backgroundTint="#DBD0D0"
+           android:src="@drawable/left_brown"
+           android:textColor="@color/black" />
+       <TextView
+           android:id="@+id/textView4"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Delivery Page"
+           android:textSize="30sp"
+           android:layout_gravity="center"
+           android:textAlignment="center"
+           />
+   </LinearLayout>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/brown"
+        android:fillViewport="true"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/statusTabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#DBD0D0"
+                android:text="Shipping"
+                android:textColor="@color/black" />
+            <Button
+                android:id="@+id/btncompleted"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#DBD0D0"
+                android:text="completed"
+                android:textColor="@color/black" />
+            <Button
+                android:id="@+id/btnHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#DBD0D0"
+                android:text="History"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </HorizontalScrollView>
+    <TextView
+        android:id="@+id/emptyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Không có đơn hàng"
+        android:visibility="gone"
+        android:gravity="center"
+        android:padding="16dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lstShipperOder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>

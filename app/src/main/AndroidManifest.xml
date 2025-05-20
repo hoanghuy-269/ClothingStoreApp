@@ -19,6 +19,11 @@
         android:theme="@style/Theme.ClothingStoreApp"
         tools:targetApi="31">
         <activity
+
+            android:name=".activities.Track_orderActivity"
+            android:exported="true" />
+
+
             android:name=".activities.EditProductActivity"
             android:exported="false" />
         <activity
@@ -33,6 +38,7 @@
         <activity
             android:name=".activities.ShipperActivity"
             android:exported="false" />
+
         <activity
             android:name=".activities.AddressActivity"
             android:exported="false" />

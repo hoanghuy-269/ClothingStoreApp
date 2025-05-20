@@ -1,5 +1,6 @@
 package com.example.clothingstoreapp.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,25 +8,28 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothingstoreapp.adapter.OrderAdapter
-import com.example.clothingstoreapp.models.OrderItem
 import com.example.clothingstoreapp.databinding.ActivityOrderdetailsBinding
+import com.example.clothingstoreapp.models.OrderItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class OrderdetailsActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityOrderdetailsBinding
     private lateinit var firestore: FirebaseFirestore
-    private var allOrdersList = mutableListOf<OrderItem>()
-    private var filteredOrdersList = mutableListOf<OrderItem>()
+    private val allOrdersList = mutableListOf<OrderItem>()
+    private val filteredOrdersList = mutableListOf<OrderItem>()
+    private lateinit var orderAdapter: OrderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderdetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener {
-            super.onBackPressed()
-        }
+        setupRecyclerView()
+        setupStatusButtons()
+        binding.btnBack.setOnClickListener { finish() }
+
         firestore = FirebaseFirestore.getInstance()
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -33,9 +37,19 @@ class OrderdetailsActivity : AppCompatActivity() {
             fetchOrderDetails(userId)
         } else {
             Toast.makeText(this, "Không tìm thấy người dùng.", Toast.LENGTH_SHORT).show()
+            binding.noOrdersMessage.visibility = View.VISIBLE
+            binding.recyclerViewOrders.visibility = View.GONE
         }
+    }
 
-        setupStatusButtons()
+    private fun setupRecyclerView() {
+        orderAdapter = OrderAdapter(mutableListOf()) { clickedOrder ->
+            openOrderDetailActivity(clickedOrder)
+        }
+        binding.recyclerViewOrders.apply {
+            layoutManager = LinearLayoutManager(this@OrderdetailsActivity)
+            adapter = orderAdapter
+        }
     }
 
     private fun setupStatusButtons() {
@@ -48,6 +62,16 @@ class OrderdetailsActivity : AppCompatActivity() {
 
     private fun filterOrdersByStatus(status: String) {
         filteredOrdersList.clear()
+
+        val filtered = when (status) {
+            "Pending" -> allOrdersList.filter { it.status == "Pending" }
+            "Shipping" -> allOrdersList.filter { it.status == "Shipping" }
+            "Completed" -> allOrdersList.filter { it.status == "Completed" }
+            "Cancelled" -> allOrdersList.filter { it.status == "Cancelled" }
+            else -> allOrdersList
+        }
+        filteredOrdersList.addAll(filtered)
+
         filteredOrdersList.addAll(
             when (status) {
                 "Pending"  -> allOrdersList.filter { it.status == "Pending" }
@@ -57,6 +81,7 @@ class OrderdetailsActivity : AppCompatActivity() {
                 else -> allOrdersList
             }
         )
+
         updateRecyclerView()
     }
 
@@ -65,12 +90,18 @@ class OrderdetailsActivity : AppCompatActivity() {
             binding.recyclerViewOrders.visibility = View.GONE
             binding.noOrdersMessage.visibility = View.VISIBLE
         } else {
-            binding.recyclerViewOrders.visibility = View.VISIBLE
             binding.noOrdersMessage.visibility = View.GONE
-            val orderAdapter = OrderAdapter(filteredOrdersList)
-            binding.recyclerViewOrders.layoutManager = LinearLayoutManager(this)
-            binding.recyclerViewOrders.adapter = orderAdapter
+            binding.recyclerViewOrders.visibility = View.VISIBLE
+            orderAdapter.updateData(filteredOrdersList)
         }
+    }
+
+    private fun openOrderDetailActivity(order: OrderItem) {
+        val intent = Intent(this, Track_orderActivity::class.java).apply {
+            putExtra("productId", order.productId)
+            putExtra("status", order.status)
+        }
+        startActivity(intent)
     }
 
     private fun fetchOrderDetails(userId: String) {
@@ -81,7 +112,9 @@ class OrderdetailsActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 allOrdersList.clear()
                 if (documents.isEmpty) {
+                    Log.d("OrderdetailsActivity", "Không có đơn hàng cho userId=$userId")
                     binding.noOrdersMessage.visibility = View.VISIBLE
+                    binding.recyclerViewOrders.visibility = View.GONE
                 } else {
                     for (document in documents) {
                         val orderItems = document.get("items")
@@ -106,9 +139,7 @@ class OrderdetailsActivity : AppCompatActivity() {
                                             quantity = quantity,
                                             status = status
                                         )
-
                                         allOrdersList.add(order)
-                                        Log.d("OrderAdded", order.toString())
                                     } catch (e: Exception) {
                                         Log.e("ParseError", "Lỗi chuyển đổi đơn hàng: ${e.message}")
                                     }
@@ -118,12 +149,15 @@ class OrderdetailsActivity : AppCompatActivity() {
                             Log.e("DataError", "Dữ liệu 'items' không đúng định dạng: $orderItems")
                         }
                     }
-                    filterOrdersByStatus("All") // Hiển thị tất cả khi load xong
+                    Log.d("OrderdetailsActivity", "Lấy được tổng đơn hàng: ${allOrdersList.size}")
+                    filterOrdersByStatus("All")
                 }
             }
             .addOnFailureListener { e ->
                 Log.e("OrderdetailsActivity", "Lỗi khi lấy dữ liệu đơn hàng: ", e)
                 Toast.makeText(this, "Không thể tải đơn hàng.", Toast.LENGTH_SHORT).show()
+                binding.noOrdersMessage.visibility = View.VISIBLE
+                binding.recyclerViewOrders.visibility = View.GONE
             }
     }
 }

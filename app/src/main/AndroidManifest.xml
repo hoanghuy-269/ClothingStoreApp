@@ -23,7 +23,7 @@
             android:name=".activities.Track_orderActivity"
             android:exported="true" />
 
-
+        <activity
             android:name=".activities.EditProductActivity"
             android:exported="false" />
         <activity
@@ -38,7 +38,6 @@
         <activity
             android:name=".activities.ShipperActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.AddressActivity"
             android:exported="false" />
@@ -82,5 +81,4 @@
             android:name=".activities.OnboardingScreenActivity"
             android:exported="false" />
     </application>
-
 </manifest>

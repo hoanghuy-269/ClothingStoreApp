@@ -37,7 +37,7 @@ class HomeActivity : Fragment() {
     private val userFavoriteIds = mutableSetOf<String>()
     private val banners = listOf(
         R.drawable.thonggay,
-        R.drawable.tunggay,
+        R.drawable.img_welcome_home,
         R.drawable.huy
     )
 

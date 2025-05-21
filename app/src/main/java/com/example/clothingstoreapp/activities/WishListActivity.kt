@@ -54,7 +54,6 @@ class WishListActivity : Fragment() {
                 onItemClick = { product ->
                     showToast("Đã chọn: ${product.name}")
                 }
-
             )
             binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
             binding.recyclerView.adapter = wishListAdapter
@@ -69,7 +68,6 @@ class WishListActivity : Fragment() {
     private fun searchFavoriteProduct(){
         binding.edtSearch.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {

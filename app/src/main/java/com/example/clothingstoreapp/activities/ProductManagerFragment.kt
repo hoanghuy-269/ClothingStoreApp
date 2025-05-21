@@ -3,9 +3,12 @@ package com.example.clothingstoreapp.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothingstoreapp.adapter.ProductManagerAdapter
@@ -19,7 +22,6 @@ class ProductManagerFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: ProductManagerAdapter
 
-    // Launcher để nhận kết quả khi chỉnh sửa sản phẩm
     private val editProductLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -46,6 +48,25 @@ class ProductManagerFragment : Fragment() {
         }
     }
 
+    private fun searchProduct() {
+        binding.edtSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().trim()
+                adapter.filter(query)
+            }
+        })
+
+
+    }
+
     private fun setupRecyclerView() {
         adapter = ProductManagerAdapter(
             onEditClick = { product ->
@@ -55,7 +76,7 @@ class ProductManagerFragment : Fragment() {
                 editProductLauncher.launch(intent)
             },
             onDeleteClick = { product ->
-                deleteProduct(product)
+                showDeleteConfirmationDialog(product)
             }
         )
         binding.recyclerViewProducts.layoutManager = LinearLayoutManager(context)
@@ -66,11 +87,27 @@ class ProductManagerFragment : Fragment() {
         ProductRepository.getAllProducts(
             onSuccess = { products ->
                 adapter.submitList(products)
+                searchProduct()
             },
             onFailure = { e ->
-                Toast.makeText(context, "Lỗi khi tải sản phẩm: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Lỗi khi tải sản phẩm: ${e.message}", Toast.LENGTH_LONG)
+                    .show()
             }
         )
+    }
+    private fun showDeleteConfirmationDialog(product: Product) {
+        android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Xác nhận xóa")
+            .setMessage("Bạn có chắc chắn muốn xóa sản phẩm \"${product.name}\" không?")
+            .setPositiveButton("Xóa") { dialog, _ ->
+                deleteProduct(product)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Hủy") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun deleteProduct(product: Product) {
@@ -81,7 +118,8 @@ class ProductManagerFragment : Fragment() {
                 loadProducts()
             },
             onFailure = { e ->
-                Toast.makeText(context, "Lỗi khi xóa sản phẩm: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Lỗi khi xóa sản phẩm: ${e.message}", Toast.LENGTH_LONG)
+                    .show()
             }
         )
     }

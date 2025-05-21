@@ -19,7 +19,7 @@ class OrderManagerAdapter(
     private val onDeleteClick: (Order) -> Unit
 ) : RecyclerView.Adapter<OrderManagerAdapter.OrderManagerViewHolder>() {
 
-    private var orders: List<Order> = emptyList()
+    private var orders: List<Order> = listOf<Order>()
     private var expandedPosition = -1
 
     inner class OrderManagerViewHolder(private val binding: ItemOrderManagerLayoutBinding) :

@@ -26,7 +26,6 @@ class EditProductActivity : AppCompatActivity() {
     private var selectedImageUri: Uri? = null
     private var uploadedImageUrl: String? = null
     private lateinit var product: Product
-    private val TAG = "EditProductActivity"
 
     companion object {
         const val EXTRA_PRODUCT_ID = "extra_product_id"
@@ -35,7 +34,6 @@ class EditProductActivity : AppCompatActivity() {
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
             selectedImageUri = it
-            Log.d(TAG, "Image selected: $it")
             Glide.with(this)
                 .load(it)
                 .centerCrop()
@@ -43,11 +41,9 @@ class EditProductActivity : AppCompatActivity() {
             uploadProductImage(it,
                 onFailure = { error ->
                     Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                    Log.e(TAG, "Upload failed: $error")
                 },
                 onSuccess = { url ->
                     uploadedImageUrl = url
-                    Log.d(TAG, "Upload success: $url")
                 })
         }
     }
@@ -56,7 +52,6 @@ class EditProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = EditProductLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d(TAG, "Binding initialized: btnSaveProduct=${binding.btnSaveProduct}")
         CloudinaryConfig.init(this)
 
         val productId = intent.getStringExtra(EXTRA_PRODUCT_ID)
@@ -79,7 +74,6 @@ class EditProductActivity : AppCompatActivity() {
             },
             onFailure = { e ->
                 Toast.makeText(this, "Lỗi khi tải sản phẩm: ${e.message}", Toast.LENGTH_LONG).show()
-                Log.e(TAG, "Load product failed: ${e.message}")
                 finish()
             }
         )
@@ -109,12 +103,7 @@ class EditProductActivity : AppCompatActivity() {
         }
 
         binding.btnSaveProduct.setOnClickListener {
-            Log.d("edit", "Save button clicked")
             saveProduct()
-        }
-
-        binding.buttonContainer.setOnClickListener {
-            Log.d("edit", "Button container clicked")
         }
 
         binding.btnCancel.setOnClickListener {
@@ -131,7 +120,6 @@ class EditProductActivity : AppCompatActivity() {
         val rating = binding.etRating.text.toString().toFloatOrNull() ?: 0f
         val sizes = binding.etSizes.text.toString().split(",").map { it.trim() }.filter { it.isNotEmpty() }
 
-        Log.d(TAG, "Input: name=$name, price=$price, description=$description, stock=$stock, categoryId=$categoryId, rating=$rating, sizes=$sizes, imageUrl=$uploadedImageUrl")
 
         if (!validateProductInput(name, price, description, stock, categoryId)) {
             return
@@ -154,13 +142,11 @@ class EditProductActivity : AppCompatActivity() {
             product = updatedProduct,
             onSuccess = {
                 Toast.makeText(this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "Product updated successfully")
                 setResult(RESULT_OK)
                 finish()
             },
             onFailure = { e ->
                 Toast.makeText(this, "Lỗi khi cập nhật sản phẩm: ${e.message}", Toast.LENGTH_LONG).show()
-                Log.e(TAG, "Update product failed: ${e.message}")
                 binding.btnSaveProduct.isEnabled = true
             }
         )
@@ -175,27 +161,22 @@ class EditProductActivity : AppCompatActivity() {
     ): Boolean {
         if (name.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập tên sản phẩm", Toast.LENGTH_SHORT).show()
-            Log.w(TAG, "Validation failed: Empty name")
             return false
         }
         if (price <= 0) {
             Toast.makeText(this, "Giá sản phẩm phải lớn hơn 0", Toast.LENGTH_SHORT).show()
-            Log.w(TAG, "Validation failed: Invalid price")
             return false
         }
         if (description.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập mô tả sản phẩm", Toast.LENGTH_SHORT).show()
-            Log.w(TAG, "Validation failed: Empty description")
             return false
         }
         if (stock < 0) {
             Toast.makeText(this, "Số lượng tồn kho không hợp lệ", Toast.LENGTH_SHORT).show()
-            Log.w(TAG, "Validation failed: Invalid stock")
             return false
         }
         if (categoryId.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập danh mục sản phẩm", Toast.LENGTH_SHORT).show()
-            Log.w(TAG, "Validation failed: Empty categoryId")
             return false
         }
         return true
@@ -212,7 +193,6 @@ class EditProductActivity : AppCompatActivity() {
             MediaManager.get().upload(file.path)
                 .callback(object : UploadCallback {
                     override fun onStart(requestId: String?) {
-                        Log.d(TAG, "Upload started: $requestId")
                     }
                     override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {}
                     override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {

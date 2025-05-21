@@ -35,7 +35,6 @@ class AdminActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Hiển thị mặc định ProductManagerFragment
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.mainContent, ProductManagerFragment())

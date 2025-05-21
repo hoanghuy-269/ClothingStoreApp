@@ -48,7 +48,6 @@ class OrderActivity : AppCompatActivity() {
         val selectedSize = intent.getStringExtra("selectedSize") ?: "Không chọn size"
         val quantity = intent.getIntExtra("quantity", 1)
 
-        // Thêm sản phẩm vào danh sách
         if (productId != null && productName != null && selectedSize != null&&productImage!=null) {
             val cartItem = CartItem(
                 productId = productId,
@@ -62,7 +61,6 @@ class OrderActivity : AppCompatActivity() {
 
         }
 
-        // Hiển thị danh sách sản phẩm trong RecyclerView
         displayOrderItems()
         onProcessToCheckout()
         loadAddressFromFirebase()
@@ -84,14 +82,13 @@ class OrderActivity : AppCompatActivity() {
 
         val adapter = OrderItemAdapter(selectedItems,
             updateQuantity = {
-                updateTotalAmount() // Cập nhật tổng khi số lượng thay đổi
+                updateTotalAmount()
             },
             removeQuantity = {
-                updateTotalAmount() // Cập nhật tổng khi sản phẩm bị xóa
+                updateTotalAmount()
             })
         binding.recyclerViewProducts.adapter = adapter
-
-        updateTotalAmount() // Cập nhật ban đầu
+        updateTotalAmount()
     }
     private fun getSelectedOrderItems(): List<OrderItem> {
         return selectedItems.map { cartItem ->
@@ -106,27 +103,24 @@ class OrderActivity : AppCompatActivity() {
             )
         }
     }
+
     private fun clearCart(selectedOrderItems: List<OrderItem>) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             val db = FirebaseFirestore.getInstance()
             val orderRef = db.collection("carts").document(userId)
 
-            // Lấy giỏ hàng hiện tại
             orderRef.get().addOnSuccessListener { snapshot ->
                 if (snapshot.exists()) {
                     val existingCart = snapshot.toObject(Cart::class.java)
                     val items = existingCart?.items?.toMutableList() ?: mutableListOf()
 
-                    // Chuyển đổi OrderItem thành CartItem và xóa
                     selectedOrderItems.forEach { orderItem ->
                         items.removeIf { it.productId == orderItem.productId }
                     }
 
-                    // Cập nhật giỏ hàng mới
                     orderRef.update("items", items)
                         .addOnSuccessListener {
-                            // Có thể thêm thông báo thành công nếu cần
                         }
                         .addOnFailureListener { e ->
                             Log.e("CartActivity", "Error updating cart: ${e.message}")
@@ -155,7 +149,6 @@ class OrderActivity : AppCompatActivity() {
                 address = address
             )
 
-            // Gọi phương thức addOrder
             OrderRepository.addOrder(newOrder,
                 onSuccess = {
                     Toast.makeText(this, "Đơn hàng đã được xác nhận!", Toast.LENGTH_SHORT).show()
@@ -189,7 +182,6 @@ class OrderActivity : AppCompatActivity() {
                 Toast.makeText(this, "Không thể tải dữ liệu: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
-    // 1. Khai báo launcher ở đầu class
     private val addressLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result-> if (result.resultCode ==Activity.RESULT_OK){
         val fullAddress = result.data?.getStringExtra("selectedAddress")
@@ -219,7 +211,6 @@ class OrderActivity : AppCompatActivity() {
         }
     }
     }
-    // 2. Gọi mở màn hình địa chỉ
     private fun openAddressScreen() {
         val intent = Intent(this, AddressActivity::class.java)
         addressLauncher.launch(intent)
@@ -232,7 +223,6 @@ class OrderActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         val address = document.getString("address")
-                        // Hiển thị địa chỉ lên giao diện
                         binding.txtAddress.text = address ?: "Chưa có địa chỉ"
                     } else {
                         binding.txtAddress.text = "Chưa có địa chỉ"

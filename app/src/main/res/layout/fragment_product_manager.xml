@@ -48,67 +48,6 @@
                         android:paddingStart="8dp"
                         android:textColor="#000" />
                 </LinearLayout>
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:backgroundTint="@color/brown"
-                    android:fillViewport="true"
-                    android:padding="8dp">
-
-                    <LinearLayout
-                        android:id="@+id/categoryTabs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btnAll"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="#DBD0D0"
-                            android:text="All"
-                            android:textColor="@color/black" />
-
-                        <Button
-                            android:id="@+id/btnJacket"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:backgroundTint="#DBD0D0"
-                            android:text="Jacket"
-                            android:textColor="@color/black" />
-
-                        <Button
-                            android:id="@+id/btnShirt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:backgroundTint="#DBD0D0"
-                            android:text="Shirt"
-                            android:textColor="@color/black" />
-
-                        <Button
-                            android:id="@+id/btnPant"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:backgroundTint="#DBD0D0"
-                            android:text="Pant"
-                            android:textColor="@color/black" />
-
-                        <Button
-                            android:id="@+id/btnTShirt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:backgroundTint="#DBD0D0"
-                            android:text="T-Shirt"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
-                </HorizontalScrollView>
             </LinearLayout>
 
             <!-- RecyclerView -->

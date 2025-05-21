@@ -1,7 +1,5 @@
 package com.example.clothingstoreapp.adapter
 
-import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +7,6 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clothingstoreapp.R
-import com.example.clothingstoreapp.activities.EditProductActivity
 import com.example.clothingstoreapp.databinding.ItemProductManagerBinding
 import com.example.clothingstoreapp.models.Product
 
@@ -18,7 +15,8 @@ class ProductManagerAdapter(
     private val onDeleteClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductManagerAdapter.ProductViewHolder>() {
 
-    private var products = listOf<Product>()
+    private var originalList: List<Product> = emptyList()
+    private var products: MutableList<Product> = mutableListOf()
     private var expandedPosition = -1
 
     inner class ProductViewHolder(private val binding: ItemProductManagerBinding) :
@@ -37,7 +35,6 @@ class ProductManagerAdapter(
             binding.textProductName.text = product.name
             binding.textProductPrice.text = "Giá: ${product.price}đ"
             binding.textProductStock.text = "SL: ${product.stock}"
-
             binding.textProductDescription.text = product.description
             binding.textProductSizes.text = "Kích thước: ${product.sizes.joinToString()}"
             binding.ratingProduct.text = "${product.rating}"
@@ -53,10 +50,14 @@ class ProductManagerAdapter(
 
         private fun setupClickListeners(isExpanded: Boolean) {
             binding.compactView.setOnClickListener {
-                val position = adapterPosition
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     notifyItemChanged(expandedPosition)
-                    expandedPosition = if (isExpanded) -1 else position
+                    if (isExpanded) {
+                        expandedPosition = -1
+                    } else {
+                        expandedPosition = position
+                    }
                     notifyItemChanged(position)
                 }
             }
@@ -101,11 +102,23 @@ class ProductManagerAdapter(
     override fun getItemCount() = products.size
 
     fun submitList(newList: List<Product>) {
-        products = newList
+        originalList = newList
+        products = newList.toMutableList()
         notifyDataSetChanged()
     }
 
-    companion object {
-        const val REQUEST_CODE_EDIT_PRODUCT = 1001
+    fun filter(query: String) {
+        products.clear()
+        if (query.isEmpty()) {
+            products.addAll(originalList)
+        } else {
+            val filteredList = originalList.filter {
+                it.name.contains(query, ignoreCase = true)
+            }
+            products.addAll(filteredList)
+        }
+        notifyDataSetChanged()
     }
+
+
 }

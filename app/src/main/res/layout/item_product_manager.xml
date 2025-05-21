@@ -68,7 +68,6 @@
             android:src="@drawable/ic_more_vert" />
     </RelativeLayout>
 
-    <!-- Expanded View (Initially hidden) -->
     <LinearLayout
         android:id="@+id/expandedView"
         android:layout_width="match_parent"

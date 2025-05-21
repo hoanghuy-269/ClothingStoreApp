@@ -33,13 +33,11 @@ class ProductAdapter(
                 .error(R.drawable.img_item_wishlist)
                 .into(binding.imgProduct)
 
-            // Kiểm tra trạng thái yêu thích
             val isFavorite = favoriteIds.contains(product.id)
             binding.imgFavorite.setImageResource(
                 if (isFavorite) R.drawable.ic_heart_red else R.drawable.ic_heart
             )
 
-            // Xử lý khi click vào trái tim
             binding.imgFavorite.setOnClickListener {
                 val newFavoriteStatus = !isFavorite
                 if (newFavoriteStatus) {
@@ -49,8 +47,7 @@ class ProductAdapter(
                     onRemoveFavorite(product.id)
                     favoriteIds.remove(product.id)
                 }
-                // Cập nhật lại icon
-                notifyItemChanged(adapterPosition)
+                notifyItemChanged(bindingAdapterPosition)
             }
 
             binding.root.setOnClickListener {
@@ -72,15 +69,18 @@ class ProductAdapter(
     override fun getItemCount(): Int = filteredList.size
 
     fun filter(query: String) {
-        filteredList = when {
-            query.isEmpty() -> originalList.toMutableList()
-            else -> originalList.filter {
+        filteredList.clear()
+        if (query.isEmpty()) {
+            filteredList.addAll(originalList)
+        } else {
+            val filtered = originalList.filter {
                 it.name.contains(query, ignoreCase = true)
-            }.toMutableList()
+            }
+            filteredList.addAll(filtered)
         }
-
         notifyDataSetChanged()
     }
+
     fun updateProductList(newList: List<Product>) {
         filteredList.clear()
         filteredList.addAll(newList)

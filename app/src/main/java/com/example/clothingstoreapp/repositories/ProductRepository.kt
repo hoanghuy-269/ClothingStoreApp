@@ -88,7 +88,6 @@ object ProductRepository {
     }
 
 
-    // Cập nhật sản phẩm
     fun updateProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         val productWithSizes = product.copy(sizes = product.sizes.ifEmpty { defaultSizes })
 
@@ -116,7 +115,6 @@ object ProductRepository {
 
     }
 
-    // Xóa sản phẩm
     fun deleteProduct(productId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         db.collection("products").document(productId)
             .delete()
